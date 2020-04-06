@@ -10,6 +10,7 @@ import SwiftUI
 
 struct WishRow: View {
     var wish: Wish
+    
     var body: some View {
         HStack {
             wish.image

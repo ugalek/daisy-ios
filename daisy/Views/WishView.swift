@@ -64,13 +64,13 @@ struct WishView: View {
             Spacer()
         }
         .background(Color("backgroundColor"))
-        .navigationBarTitle(Text(wish.title), displayMode: .inline)
     }
 }
 
 struct WishView_Previews: PreviewProvider {
     static var previews: some View {
         let userData = UserData()
-        return WishView(wish: wishData[0]).environmentObject(userData)
+        return WishView(wish: userData.wishes[0])
+            .environmentObject(userData)
     }
 }

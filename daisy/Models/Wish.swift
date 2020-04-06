@@ -13,10 +13,16 @@ struct Wish: Hashable, Codable, Identifiable {
     var title: String
     fileprivate var imageName: String
     var path: String
+    var category: Category
     var price: String
     var description: String
     var isTaken: Bool
     var isReserved: Bool
+    
+    enum Category: String, CaseIterable, Codable, Hashable {
+        case featured = "Party"
+        case lakes = "Day J"
+    }
 }
 
 extension Wish {
