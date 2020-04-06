@@ -9,7 +9,13 @@
 import SwiftUI
 
 struct WishView: View {
+    @EnvironmentObject var userData: UserData
     var wish: Wish
+
+    var wishIndex: Int {
+        userData.wishes.firstIndex(where: { $0.id == wish.id })!
+    }
+    
     var body: some View {
         VStack {
             ZStack {
@@ -19,12 +25,43 @@ struct WishView: View {
               //  .offset(y: 60)
             }
             .edgesIgnoringSafeArea(.top)
-            WishDetail(
-                title: wish.title,
-                path: wish.path,
-                price: wish.price,
-                description: wish.description)
-             Spacer()
+            VStack(alignment: .leading) {
+                HStack {
+                    Text(wish.title)
+                        .font(.title)
+                        .fontWeight(.thin)
+                    Spacer()
+                    Button(action: {
+                        self.userData.wishes[self.wishIndex]
+                            .isReserved.toggle()
+                    }) {
+                        if self.userData.wishes[self.wishIndex]
+                            .isReserved {
+                            Image(systemName: "bag.badge.minus.fill")
+                                .foregroundColor(.orange)
+                        } else {
+                            Image(systemName: "bag.badge.plus")
+                                .foregroundColor(.gray)
+                        }
+                    }
+                }
+                HStack(alignment: .top) {
+                    Text(wish.path)
+                        .font(.subheadline)
+                    Spacer()
+                    Text(wish.price)
+                        .font(.subheadline)
+                }
+                Divider()
+                HStack {
+                    ScrollView {
+                        Text(wish.description)
+                        .font(.subheadline)
+                    }
+                }
+            }
+            .padding()
+            Spacer()
         }
         .background(Color("backgroundColor"))
         .navigationBarTitle(Text(wish.title), displayMode: .inline)
@@ -33,45 +70,7 @@ struct WishView: View {
 
 struct WishView_Previews: PreviewProvider {
     static var previews: some View {
-        WishView(wish: wishData[0])
-    }
-}
-
-struct WishDetail: View {
-    let title: String
-    let path: String
-    let price: String
-    let description: String
-    var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Text(title)
-                    .font(.title)
-                    .fontWeight(.thin)
-                Spacer()
-                Button(action: {
-                    print("Edit tapped!")
-                }) {
-                    Image(systemName: "pencil")
-                        .font(.title)
-                        .foregroundColor(Color("buttonColor"))
-                }
-            }
-            HStack(alignment: .top) {
-                Text(path)
-                    .font(.subheadline)
-                Spacer()
-                Text(price)
-                    .font(.subheadline)
-            }
-            Divider()
-            HStack {
-                ScrollView {
-                    Text(description)
-                    .font(.subheadline)
-                }
-            }
-        }
-        .padding()
+        let userData = UserData()
+        return WishView(wish: wishData[0]).environmentObject(userData)
     }
 }

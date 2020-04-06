@@ -15,6 +15,8 @@ struct Wish: Hashable, Codable, Identifiable {
     var path: String
     var price: String
     var description: String
+    var isTaken: Bool
+    var isReserved: Bool
 }
 
 extension Wish {
