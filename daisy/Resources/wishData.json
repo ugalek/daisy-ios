@@ -18,8 +18,8 @@
         "description": "Alaska",
         "id": "1002",
         "imageName": "silversalmoncreek",
-        "isTaken": false,
-        "isReserved": true
+        "isTaken": true,
+        "isReserved": false
     },
     {
         "title": "My 3 wish",

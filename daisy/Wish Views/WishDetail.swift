@@ -1,5 +1,5 @@
 //
-//  WishView.swift
+//  WishDetail.swift
 //  daisy
 //
 //  Created by Galina on 01/04/2020.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct WishView: View {
+struct WishDetail: View {
     @EnvironmentObject var userData: UserData
     var wish: Wish
 
@@ -67,10 +67,10 @@ struct WishView: View {
     }
 }
 
-struct WishView_Previews: PreviewProvider {
+struct WishDetail_Previews: PreviewProvider {
     static var previews: some View {
         let userData = UserData()
-        return WishView(wish: userData.wishes[0])
+        return WishDetail(wish: userData.wishes[0])
             .environmentObject(userData)
     }
 }

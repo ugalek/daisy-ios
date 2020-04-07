@@ -23,7 +23,7 @@ struct CategoryRow: View {
                 HStack(alignment: .top, spacing: 0) {
                     ForEach(self.items) { wish in
                         NavigationLink(
-                            destination: WishView(wish: wish)
+                            destination: WishDetail(wish: wish)
                         ) {
                             CategoryItem(wish: wish)
                         }

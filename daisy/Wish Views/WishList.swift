@@ -1,5 +1,5 @@
 //
-//  WishListView.swift
+//  WishList.swift
 //  daisy
 //
 //  Created by Galina on 01/04/2020.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct WishListView: View {
+struct WishList: View {
     @EnvironmentObject private var userData: UserData
     
      var body: some View {
@@ -19,7 +19,7 @@ struct WishListView: View {
             ForEach(userData.wishes) { wish in
                 if !self.userData.showReservedOnly || wish.isReserved {
                     NavigationLink(
-                        destination: WishView(wish: wish)
+                        destination: WishDetail(wish: wish)
                             .environmentObject(self.userData)
                     ) {
                         WishRow(wish: wish)
@@ -31,10 +31,10 @@ struct WishListView: View {
     }
 }
 
-struct WishListView_Previews: PreviewProvider {
+struct WishList_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            WishListView()
+            WishList()
         }
         .environmentObject(UserData())
     }

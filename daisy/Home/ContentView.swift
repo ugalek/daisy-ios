@@ -34,10 +34,8 @@ struct ContentView: View {
         NavigationView {
             List {
                 if taken.count != 0 {
-                    TakenWishes(wishes: taken)
-                        .scaledToFill()
-                        .frame(height: 200)
-                        .clipped()
+                    PageView(taken.map { TakenCard(wish: $0) })
+                               .aspectRatio(3/2, contentMode: .fit)
                         .listRowInsets(EdgeInsets())
                 }
                 ForEach(categories.keys.sorted(), id: \.self) { key in
@@ -45,7 +43,7 @@ struct ContentView: View {
                 }
                 .listRowInsets(EdgeInsets())
                 
-                NavigationLink(destination: WishListView()) {
+                NavigationLink(destination: WishList()) {
                     Text("See all")
                 }
             }

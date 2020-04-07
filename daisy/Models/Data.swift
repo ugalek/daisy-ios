@@ -10,6 +10,7 @@ import UIKit
 import SwiftUI
 
 let wishData: [Wish] = load("wishData.json")
+let taken = wishData.filter { $0.isTaken }
 
 func load<T: Decodable>(_ filename: String) -> T {
     let data: Data

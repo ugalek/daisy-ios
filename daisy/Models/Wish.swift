@@ -19,6 +19,15 @@ struct Wish: Hashable, Codable, Identifiable {
     var isTaken: Bool
     var isReserved: Bool
     
+    var takenImage: Image? {
+        guard isTaken else { return nil }
+        
+        return Image(
+            ImageStore.loadImage(name: "\(imageName)_taken"),
+            scale: 2,
+            label: Text(title))
+    }
+    
     enum Category: String, CaseIterable, Codable, Hashable {
         case featured = "Party"
         case lakes = "Day J"
