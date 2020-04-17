@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		051166472448596C00FF0E79 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051166462448596C00FF0E79 /* NetworkManager.swift */; };
+		0511664B244861A200FF0E79 /* ItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0511664A244861A200FF0E79 /* ItemData.swift */; };
+		0511664D2448743500FF0E79 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0511664C2448743500FF0E79 /* ItemView.swift */; };
 		051A80AA2436338E00A5032A /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A80A92436338E00A5032A /* UserData.swift */; };
+		053BB3BF24489C54008E16F2 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053BB3BE24489C54008E16F2 /* Auth.swift */; };
 		0544C771243CBADE004BD840 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544C770243CBADE004BD840 /* PageControl.swift */; };
 		0544C773243CBBD9004BD840 /* silversalmoncreek_taken.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0544C772243CBBD9004BD840 /* silversalmoncreek_taken.jpg */; };
 		055BC679243B7D52006DE7B3 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055BC678243B7D52006DE7B3 /* PageViewController.swift */; };
@@ -55,7 +59,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		051166462448596C00FF0E79 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		0511664A244861A200FF0E79 /* ItemData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemData.swift; sourceTree = "<group>"; };
+		0511664C2448743500FF0E79 /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
 		051A80A92436338E00A5032A /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		053BB3BE24489C54008E16F2 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		0544C770243CBADE004BD840 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		0544C772243CBBD9004BD840 /* silversalmoncreek_taken.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = silversalmoncreek_taken.jpg; sourceTree = "<group>"; };
 		055BC678243B7D52006DE7B3 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
@@ -151,7 +159,10 @@
 			children = (
 				055ECFAA2434F711006BBD5D /* Wish.swift */,
 				055ECFAC2434F85E006BBD5D /* Data.swift */,
+				0511664A244861A200FF0E79 /* ItemData.swift */,
 				051A80A92436338E00A5032A /* UserData.swift */,
+				051166462448596C00FF0E79 /* NetworkManager.swift */,
+				053BB3BE24489C54008E16F2 /* Auth.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -236,6 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				05DECB9D243337A70088B58D /* ContentView.swift */,
+				0511664C2448743500FF0E79 /* ItemView.swift */,
 				058FA41E243B603400A76A6D /* CategoryRow.swift */,
 				055BC678243B7D52006DE7B3 /* PageViewController.swift */,
 				0544C770243CBADE004BD840 /* PageControl.swift */,
@@ -380,9 +392,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				051166472448596C00FF0E79 /* NetworkManager.swift in Sources */,
 				055ECFA52434A0B6006BBD5D /* WishImage.swift in Sources */,
 				055BC67B243B7DA3006DE7B3 /* PageView.swift in Sources */,
 				0544C771243CBADE004BD840 /* PageControl.swift in Sources */,
+				0511664D2448743500FF0E79 /* ItemView.swift in Sources */,
 				055ECFAD2434F85E006BBD5D /* Data.swift in Sources */,
 				051A80AA2436338E00A5032A /* UserData.swift in Sources */,
 				05DECB9A243337A70088B58D /* AppDelegate.swift in Sources */,
@@ -393,7 +407,9 @@
 				055ECFAB2434F711006BBD5D /* Wish.swift in Sources */,
 				05DECB9C243337A70088B58D /* SceneDelegate.swift in Sources */,
 				055ECFAF2434F904006BBD5D /* WishList.swift in Sources */,
+				0511664B244861A200FF0E79 /* ItemData.swift in Sources */,
 				055ECFA324349FA8006BBD5D /* TopGradient.swift in Sources */,
+				053BB3BF24489C54008E16F2 /* Auth.swift in Sources */,
 				05DECB9E243337A70088B58D /* ContentView.swift in Sources */,
 				055ECFA124349E9D006BBD5D /* WishDetail.swift in Sources */,
 				055BC67F243B802A006DE7B3 /* TakenCard.swift in Sources */,

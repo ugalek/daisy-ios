@@ -9,62 +9,117 @@
 import SwiftUI
 
 struct ContentView: View {
-    var categories: [String: [Wish]] {
-        Dictionary(
-            grouping: wishData,
-            by: { $0.category.rawValue }
-        )
-    }
-    var taken: [Wish] {
-        wishData.filter { $0.isTaken }
-    }
-    
-    @State var showingProfile = false
-    
-    var profileButton: some View {
-        Button(action: { self.showingProfile.toggle() }) {
-            Image(systemName: "person.crop.circle")
-                .imageScale(.large)
-                .accessibility(label: Text("User Profile"))
-                .padding()
-        }
-    }
+    @ObservedObject var manager = HttpAuth()
     
     var body: some View {
-        NavigationView {
-            List {
-                if taken.count != 0 {
-                    PageView(taken.map { TakenCard(wish: $0) })
-                               .aspectRatio(3/2, contentMode: .fit)
-                        .listRowInsets(EdgeInsets())
-                }
-                ForEach(categories.keys.sorted(), id: \.self) { key in
-                    CategoryRow(categoryName: key, items: self.categories[key]!)
-                }
-                .listRowInsets(EdgeInsets())
-                
-                NavigationLink(destination: WishList()) {
-                    Text("See all")
-                }
+        VStack(alignment: .center, spacing: 10) {
+            welcomeView()
+            if manager.authenticated {
+                Text("You are authenticated")
+            } else {
+                Text("You are not authenticated")
             }
-            .navigationBarTitle(Text("My wishes"))
-            .navigationBarItems(trailing: profileButton)
-            .sheet(isPresented: $showingProfile) {
-                UserView()
-            }
+            loginForm(manager: manager)
+            Divider()
+            Text("or use access to list of items")
+                .font(.caption)
+            magicAccess()
+            Spacer()
+            Text("http://localhost:3000/api/v1")
+                .font(.caption)
+                .foregroundColor(.gray)
         }
-    }
-}
-
-struct TakenWishes: View {
-    var wishes: [Wish]
-    var body: some View {
-        wishes[0].image.resizable()
+    .padding()
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+struct welcomeView: View {
+    var body: some View {
+        VStack {
+            Text("Welcome!")
+                .font(.largeTitle)
+                .fontWeight(.semibold)
+                .padding(.bottom, 20)
+            CircleImage(image: Image("turtlerock"))
+                .frame(width: 150, height: 150)
+                .padding(.bottom, 20)
+        }
+    }
+}
+
+struct loginForm: View {
+    
+    @State private var email: String = "admin@example.com"
+    @State private var password: String = "admin"
+    
+    @ObservedObject var manager: HttpAuth
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Image(systemName: "person")
+                    .foregroundColor(.gray)
+                
+                TextField("Email", text: $email)
+                    .font(.caption)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            }
+            HStack {
+                Image(systemName: "lock")
+                    .foregroundColor(.gray)
+                SecureField("Password", text: $password)
+                    .font(.caption)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            }
+            
+            Button(action: {
+                print("\(self.email) and \(self.password)")
+                self.manager.checkDetails(email: self.email, password: self.password)
+            }
+            ) {
+                Text("Login")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(width: 180, height: 40)
+                    .background(Color.pink)
+                    .cornerRadius(15.0)
+            }
+        }
+    }
+}
+
+struct magicAccess: View {
+    
+    @State private var accessLink: String = ""
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Image(systemName: "wand.and.stars.inverse")
+                    .foregroundColor(.gray)
+                TextField("Your access link", text: $accessLink)
+                    .font(.caption)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            }
+            Button(action: {
+                print("magic link")
+            }
+            ) {
+                Text("Start")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(width: 180, height: 40)
+                    .background(Color.orange)
+                    .cornerRadius(15.0)
+            }
+        }
     }
 }
