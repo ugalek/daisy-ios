@@ -14,14 +14,14 @@ struct ServerMessage: Decodable {
 }
 
 class HttpAuth: ObservableObject {
-    var didChange = PassthroughSubject<HttpAuth, Never>()
+    let didChange = PassthroughSubject<HttpAuth, Never>()
     @Published var authenticated = false {
         didSet {
             didChange.send(self)
         }
     }
     
-    func checkDetails(email: String, password: String) {
+    func login(email: String, password: String) {
         guard let url = URL(string: "http://localhost:3000/api/v1/auth") else { return }
         
         let body: [String: String] = ["email": email, "password": password]

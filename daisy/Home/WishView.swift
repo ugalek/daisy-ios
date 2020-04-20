@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ItemView: View {
+struct WishView: View {
     
 //    @ObservedObject var networkManager = NetworkManager()
 //
@@ -80,6 +80,6 @@ struct TakenWishes: View {
 
 struct ItemView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemView()
+        WishView()
     }
 }
