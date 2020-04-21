@@ -15,7 +15,6 @@ struct TopGradient: View {
         startPoint: .bottom,
         endPoint: .top)
         .frame(height: 300)
-        .edgesIgnoringSafeArea(.top)
     }
 }
 

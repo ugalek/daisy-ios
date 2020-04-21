@@ -41,6 +41,7 @@ struct ConnectionView: View {
                 VStack {
                     ZStack {
                         TopGradient()
+                            .edgesIgnoringSafeArea(.top)
                         welcomeView()
                     }
                     VStack(alignment: .center, spacing: 10) {
@@ -147,71 +148,36 @@ struct settingsView: View {
     @State var apiLink: String
     
     var body: some View {
-        
-         NavigationView {
-            VStack {
-                ZStack {
-                    TopGradient()
-                    VStack {
-                        Text("API address")
-                        FormatedTextField(
-                            placeholder: "http://website.com/api/v1",
-                            iconName: "link.circle",
-                            text: self.$apiLink,
-                            borderColor: ColorPalette.gray)
-                    }
-                    .padding(.horizontal)
+        NavigationView {
+            ZStack {
+                Color("backgroundColor").edgesIgnoringSafeArea(.all)
+                VStack {
+                    Text("API address")
+                    FormatedTextField(
+                        placeholder: "http://website.com/api/v1",
+                        iconName: "link.circle",
+                        text: self.$apiLink,
+                        borderColor: ColorPalette.gray)
+                    Spacer()
                 }
-                //Spacer()
+                .padding()
+                .navigationBarTitle(Text("Settings"), displayMode: .inline)
+                .navigationBarItems(trailing: Button(action: {
+                    UserDefaults.standard.set(self.apiLink, forKey: "apiLink")
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Done").bold()
+                        .foregroundColor(Color(ColorPalette.black))
+                })
+                    .navigationBarColor(UIColor(named: "lightBlueColor"))
             }
-            .navigationBarTitle(Text("Settings"), displayMode: .inline)
-            .navigationBarItems(trailing: Button(action: {
-                self.presentationMode.wrappedValue.dismiss()
-            }) {
-                Text("Done").bold()
-                    .foregroundColor(Color(ColorPalette.black))
-            })
-                .navigationBarColor(UIColor(named: "lightBlueColor"))
         }
-        
-        
-            //        VStack{
-//            ZStack {
-//                TopGradient()
-//                VStack {
-//                    Text("API link")
-//                    FormatedTextField(
-//                        placeholder: "http://website.com/api/v1",
-//                        iconName: "link.circle",
-//                        text: self.$apiLink,
-//                        borderColor: ColorPalette.gray)
-//
-//                    Button(action: {
-//                        UserDefaults.standard.set(self.apiLink, forKey: "apiLink")
-//                        self.presentationMode.wrappedValue.dismiss()
-//                    }) {
-//                        Text("OK")
-//                            .font(.headline)
-//                            .foregroundColor(.white)
-//                            .padding()
-//                            .frame(width: 180, height: 40)
-//                            .background(Color.blue)
-//                            .cornerRadius(15.0)
-//                    }
-//                }
-//                .padding(.horizontal)
-//            }
-//            .edgesIgnoringSafeArea(.top)
-//            Spacer()
-//        }
-     //   .background(Color("backgroundColor"))
-        //.edgesIgnoringSafeArea(.bottom)
     }
 }
 
 struct ConnectionView_Previews: PreviewProvider {
     static var previews: some View {
-        settingsView(apiLink: "dd")
+        ConnectionView()
     }
 }
 
