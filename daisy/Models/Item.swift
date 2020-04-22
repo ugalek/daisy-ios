@@ -1,28 +1,31 @@
 //
-//  ListData.swift
+//  Item.swift
 //  daisy
 //
-//  Created by Galina on 21/04/2020.
+//  Created by Galina on 16/04/2020.
 //  Copyright © 2020 Galina FABIO. All rights reserved.
 //
 
 import SwiftUI
 
-struct ListResults: Decodable {
-    let lists: [Listy]
+struct ItemResults: Decodable {
+    let items: [Item]
 }
 
-struct Listy: Decodable, Identifiable {
+struct Item: Decodable, Identifiable {
     let id: String
-    let userID: String?
+    let listID: String?
     let createdAt: Date?
     let updatedAt: Date?
     let title: String
     let image: String
-    let surprise: Bool
+    let url: String?
+    let price: Float64
+    let description: String
+    let status: uint
 }
 
-extension Listy {
+extension Item {
     var imageStored: Image {
         ImageStore.shared.image(name: image)
     }

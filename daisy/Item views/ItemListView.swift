@@ -36,6 +36,6 @@ struct ItemListView: View {
 
 struct ItemListView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemListView(items: [Item](), listID: "01E5Z9PGSW3ZKZ6PHT4FJVYGC3")
+        ItemListView(items: [Item](), listID: "")
     }
 }

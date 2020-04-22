@@ -63,3 +63,9 @@ struct ItemDetail: View {
         .background(Color("backgroundColor"))
     }
 }
+
+struct ItemDetail_Previews: PreviewProvider {
+    static var previews: some View {
+        ItemDetail(item: itemData[0])
+    }
+}

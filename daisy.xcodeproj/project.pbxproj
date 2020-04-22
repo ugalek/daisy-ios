@@ -10,7 +10,7 @@
 		0504140E2449A3CD00AE8835 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0504140D2449A3CD00AE8835 /* ListView.swift */; };
 		050414122449AECF00AE8835 /* FormatedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050414112449AECF00AE8835 /* FormatedTextField.swift */; };
 		051166472448596C00FF0E79 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051166462448596C00FF0E79 /* NetworkManager.swift */; };
-		0511664B244861A200FF0E79 /* ItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0511664A244861A200FF0E79 /* ItemData.swift */; };
+		0511664B244861A200FF0E79 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0511664A244861A200FF0E79 /* Item.swift */; };
 		0511664D2448743500FF0E79 /* WishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0511664C2448743500FF0E79 /* WishView.swift */; };
 		0516A51524508B5600153D9C /* ListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0516A51424508B5600153D9C /* ListRow.swift */; };
 		0516A51824508F0D00153D9C /* ImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0516A51724508F0D00153D9C /* ImageStore.swift */; };
@@ -18,7 +18,7 @@
 		0517A5D5244DFEAA00F85181 /* NavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0517A5D4244DFEAA00F85181 /* NavigationBarModifier.swift */; };
 		051A80AA2436338E00A5032A /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A80A92436338E00A5032A /* UserData.swift */; };
 		051CAB65244F4E7D0014E2DC /* ConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051CAB64244F4E7D0014E2DC /* ConnectionView.swift */; };
-		051CAB67244F54570014E2DC /* ListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051CAB66244F54570014E2DC /* ListData.swift */; };
+		051CAB67244F54570014E2DC /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051CAB66244F54570014E2DC /* List.swift */; };
 		053BB3BF24489C54008E16F2 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053BB3BE24489C54008E16F2 /* Auth.swift */; };
 		0544C771243CBADE004BD840 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544C770243CBADE004BD840 /* PageControl.swift */; };
 		0544C773243CBBD9004BD840 /* silversalmoncreek_taken.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0544C772243CBBD9004BD840 /* silversalmoncreek_taken.jpg */; };
@@ -75,7 +75,7 @@
 		0504140D2449A3CD00AE8835 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		050414112449AECF00AE8835 /* FormatedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatedTextField.swift; sourceTree = "<group>"; };
 		051166462448596C00FF0E79 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		0511664A244861A200FF0E79 /* ItemData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemData.swift; sourceTree = "<group>"; };
+		0511664A244861A200FF0E79 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		0511664C2448743500FF0E79 /* WishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishView.swift; sourceTree = "<group>"; };
 		0516A51424508B5600153D9C /* ListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRow.swift; sourceTree = "<group>"; };
 		0516A51724508F0D00153D9C /* ImageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStore.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 		0517A5D4244DFEAA00F85181 /* NavigationBarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarModifier.swift; sourceTree = "<group>"; };
 		051A80A92436338E00A5032A /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		051CAB64244F4E7D0014E2DC /* ConnectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionView.swift; sourceTree = "<group>"; };
-		051CAB66244F54570014E2DC /* ListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListData.swift; sourceTree = "<group>"; };
+		051CAB66244F54570014E2DC /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		053BB3BE24489C54008E16F2 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		0544C770243CBADE004BD840 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		0544C772243CBBD9004BD840 /* silversalmoncreek_taken.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = silversalmoncreek_taken.jpg; sourceTree = "<group>"; };
@@ -195,8 +195,8 @@
 			isa = PBXGroup;
 			children = (
 				055ECFAA2434F711006BBD5D /* Wish.swift */,
-				0511664A244861A200FF0E79 /* ItemData.swift */,
-				051CAB66244F54570014E2DC /* ListData.swift */,
+				0511664A244861A200FF0E79 /* Item.swift */,
+				051CAB66244F54570014E2DC /* List.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -467,7 +467,7 @@
 				051A80AA2436338E00A5032A /* UserData.swift in Sources */,
 				0504140E2449A3CD00AE8835 /* ListView.swift in Sources */,
 				05DECB9A243337A70088B58D /* AppDelegate.swift in Sources */,
-				051CAB67244F54570014E2DC /* ListData.swift in Sources */,
+				051CAB67244F54570014E2DC /* List.swift in Sources */,
 				051CAB65244F4E7D0014E2DC /* ConnectionView.swift in Sources */,
 				058FA41F243B603400A76A6D /* CategoryRow.swift in Sources */,
 				05DECBCA243343300088B58D /* CircleImage.swift in Sources */,
@@ -479,7 +479,7 @@
 				0591F1EE2450A2C500291913 /* ItemListView.swift in Sources */,
 				05DECB9C243337A70088B58D /* SceneDelegate.swift in Sources */,
 				055ECFAF2434F904006BBD5D /* WishList.swift in Sources */,
-				0511664B244861A200FF0E79 /* ItemData.swift in Sources */,
+				0511664B244861A200FF0E79 /* Item.swift in Sources */,
 				055ECFA324349FA8006BBD5D /* TopGradient.swift in Sources */,
 				053BB3BF24489C54008E16F2 /* Auth.swift in Sources */,
 				05DECB9E243337A70088B58D /* ContentView.swift in Sources */,
