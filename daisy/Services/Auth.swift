@@ -41,9 +41,9 @@ class HttpAuth: ObservableObject {
                     if httpResponse.statusCode == 200 {
                         do {
                             let finalData = try JSONDecoder().decode(ServerMessage.self, from: data)
-                            print(finalData)
                             DispatchQueue.main.async {
                                 self.authenticated = true
+                                UserDefaults.standard.set(finalData.token, forKey: "token")
                             }
                         } catch {
                             print("Cannot decode server message")

@@ -21,10 +21,18 @@ struct ListView: View {
         }
     }
     
+    @State var lists: [Listy]
+
     var body: some View {
         NavigationView {
-            List(networkManager.items) { item in
-                Text(item.title)
+            List {
+                ForEach(lists) { list in
+                    NavigationLink(
+                        destination: ItemListView(listID: list.id)
+                    ) {
+                        ListRow(list: list)
+                    }
+                }
             }
             .navigationBarTitle("Lists")
             .navigationBarItems(trailing: profileButton)
@@ -33,13 +41,15 @@ struct ListView: View {
             }
         }
         .onAppear {
-            self.networkManager.fetchData()
+            self.networkManager.genericFetch(urlString: "lists/") { (lists: ListResults) in
+                self.lists = lists.lists
+            }
         }
     }
 }
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
-        ListView()
+        ListView(lists: [Listy]())
     }
 }

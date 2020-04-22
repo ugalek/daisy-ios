@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct ConnectionView: View {
-    @ObservedObject private var manager = HttpAuth()
+
+    @ObservedObject var manager: HttpAuth
     @State private var apiLink: String = UserDefaults.standard.string(forKey: "apiLink") ?? ""
             
     private var ApiLinkText: some View {
@@ -163,6 +164,9 @@ struct settingsView: View {
                 .padding()
                 .navigationBarTitle(Text("Settings"), displayMode: .inline)
                 .navigationBarItems(trailing: Button(action: {
+                    if self.apiLink.last != "/" {
+                        self.apiLink = self.apiLink + "/"
+                    }
                     UserDefaults.standard.set(self.apiLink, forKey: "apiLink")
                     self.presentationMode.wrappedValue.dismiss()
                 }) {
@@ -172,12 +176,6 @@ struct settingsView: View {
                     .navigationBarColor(UIColor(named: "lightBlueColor"))
             }
         }
-    }
-}
-
-struct ConnectionView_Previews: PreviewProvider {
-    static var previews: some View {
-        ConnectionView()
     }
 }
 

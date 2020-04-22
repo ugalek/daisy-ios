@@ -1,0 +1,30 @@
+[
+    {
+        "id": "1001",
+        "userID": "1",
+        "title": "List 1",
+        "image": "turtlerock",
+        "surprise": true
+    },
+    {
+        "id": "1002",
+        "userID": "1",
+        "title": "List 2",
+        "image": "silversalmoncreek",
+        "surprise": false
+    },
+    {
+        "id": "1003",
+        "userID": "1",
+        "title": "List 3",
+        "image": "turtlerock",
+        "surprise": false
+    },
+    {
+        "id": "1004",
+        "userID": "1",
+        "title": "List 4",
+        "image": "silversalmoncreek",
+        "surprise": false
+    }
+]
