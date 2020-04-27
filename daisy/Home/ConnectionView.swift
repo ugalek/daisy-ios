@@ -178,4 +178,3 @@ struct settingsView: View {
         }
     }
 }
-

@@ -12,7 +12,7 @@ struct ItemResults: Decodable {
     let items: [Item]
 }
 
-struct Item: Decodable, Identifiable {
+struct Item: Decodable, Identifiable, Hashable {
     let id: String
     let listID: String?
     let createdAt: Date?
@@ -20,7 +20,7 @@ struct Item: Decodable, Identifiable {
     let title: String
     let image: String
     let url: String?
-    let price: Float64
+    let price: Float64?
     let description: String
     let status: uint
 }

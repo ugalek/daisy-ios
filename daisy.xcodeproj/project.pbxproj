@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0504140E2449A3CD00AE8835 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0504140D2449A3CD00AE8835 /* ListView.swift */; };
 		050414122449AECF00AE8835 /* FormatedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050414112449AECF00AE8835 /* FormatedTextField.swift */; };
+		050DE3542457162E007CE051 /* ItemPicRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050DE3532457162E007CE051 /* ItemPicRow.swift */; };
 		051166472448596C00FF0E79 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051166462448596C00FF0E79 /* NetworkManager.swift */; };
 		0511664B244861A200FF0E79 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0511664A244861A200FF0E79 /* Item.swift */; };
 		0511664D2448743500FF0E79 /* WishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0511664C2448743500FF0E79 /* WishView.swift */; };
@@ -74,6 +75,7 @@
 /* Begin PBXFileReference section */
 		0504140D2449A3CD00AE8835 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		050414112449AECF00AE8835 /* FormatedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatedTextField.swift; sourceTree = "<group>"; };
+		050DE3532457162E007CE051 /* ItemPicRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPicRow.swift; sourceTree = "<group>"; };
 		051166462448596C00FF0E79 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		0511664A244861A200FF0E79 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		0511664C2448743500FF0E79 /* WishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishView.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				0591F1E924509E0D00291913 /* ItemRow.swift */,
+				050DE3532457162E007CE051 /* ItemPicRow.swift */,
 				0591F1ED2450A2C500291913 /* ItemListView.swift */,
 				0591F1EF2450A78D00291913 /* ItemDetail.swift */,
 			);
@@ -308,8 +311,8 @@
 		05DECBD324338B6E0088B58D /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				05DECB9D243337A70088B58D /* ContentView.swift */,
 				051CAB64244F4E7D0014E2DC /* ConnectionView.swift */,
+				05DECB9D243337A70088B58D /* ContentView.swift */,
 				0511664C2448743500FF0E79 /* WishView.swift */,
 				058FA41E243B603400A76A6D /* CategoryRow.swift */,
 				055BC678243B7D52006DE7B3 /* PageViewController.swift */,
@@ -459,6 +462,7 @@
 			files = (
 				051166472448596C00FF0E79 /* NetworkManager.swift in Sources */,
 				0591F1F02450A78D00291913 /* ItemDetail.swift in Sources */,
+				050DE3542457162E007CE051 /* ItemPicRow.swift in Sources */,
 				055ECFA52434A0B6006BBD5D /* WishImage.swift in Sources */,
 				055BC67B243B7DA3006DE7B3 /* PageView.swift in Sources */,
 				0544C771243CBADE004BD840 /* PageControl.swift in Sources */,

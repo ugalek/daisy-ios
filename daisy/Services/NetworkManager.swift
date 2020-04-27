@@ -26,7 +26,7 @@ class NetworkManager: ObservableObject {
                     guard let httpResponse = response as? HTTPURLResponse,
                         (200...299).contains(httpResponse.statusCode) else {
                             // self.handleServerError(response)
-                          //  print(response)
+                         //   print(response)
                             return
                     }
                     
@@ -38,7 +38,9 @@ class NetworkManager: ObservableObject {
                     if error == nil {
                         if let safeData = data {
                             do {
-                                let model = try JSONDecoder().decode(T.self, from: safeData)
+                                let dec = JSONDecoder()
+                               // dec.keyDecodingStrategy = .convertFromSnakeCase
+                                let model = try dec.decode(T.self, from: safeData)
                                 completion(model)
                             } catch let jsonErr {
                                 print("Failed to decode, \(jsonErr)")

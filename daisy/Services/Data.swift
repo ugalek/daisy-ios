@@ -39,3 +39,52 @@ func load<T: Decodable>(_ filename: String) -> T {
 }
 
 
+func getGridItemData(items: [Item]) -> [[Item]] {
+    var item2D = [[Item]]()
+    var counter = 0
+    var tempItem = [Item]()
+    
+    for item in items {
+        if counter < 2 {
+            tempItem.append(item)
+            counter += 1
+        } else if counter == 2 {
+            counter = 0
+            item2D.append(tempItem)
+            tempItem.removeAll()
+            tempItem.append(item)
+            counter += 1
+        }
+    }
+    if counter != 0 {
+        item2D.append(tempItem)
+    }
+    
+    return item2D
+}
+
+func getGridItemDataByListID(listID: String) -> [[Item]] {
+    var items = [Item]()
+    var item2D = [[Item]]()
+    var counter = 0
+    var tempItem = [Item]()
+    
+    NetworkManager().genericFetch(urlString: "lists/\(listID)/items") { (i: ItemResults) in
+        items = i.items
+    }
+    
+    for item in items {
+        if counter < 2 {
+            tempItem.append(item)
+            counter += 1
+        } else if counter == 2 {
+            item2D.append(tempItem)
+        } else {
+            tempItem.removeAll()
+            counter = 0
+        }
+    }
+    
+    return item2D
+}
+
