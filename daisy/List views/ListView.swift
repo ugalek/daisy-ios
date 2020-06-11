@@ -21,20 +21,20 @@ struct ListView: View {
         }
     }
     
-    @State var lists: [Listy]
+    @State var lists: [UserList]
 
     var body: some View {
         NavigationView {
             List {
                 ForEach(lists) { list in
                     NavigationLink(
-                        destination: ItemListView(listID: list.id)
+                        destination: ItemListView(itemViewModel: ItemsViewModel(list: list), list: list)
                     ) {
                         ListRow(list: list)
                     }
                 }
             }
-            .navigationBarTitle("Lists")
+            .navigationBarTitle("Lists", displayMode: .inline)
             .navigationBarItems(trailing: profileButton)
             .sheet(isPresented: $showingProfile) {
                 UserView()

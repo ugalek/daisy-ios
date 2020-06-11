@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             if manager.authenticated {
-                ListView(lists: [Listy]())
+                ListView(lists: [UserList]())
             } else {
                 ConnectionView(manager: manager)
             }

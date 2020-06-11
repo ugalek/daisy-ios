@@ -9,11 +9,11 @@
 import SwiftUI
 
 struct ListResults: Decodable {
-    let lists: [Listy]
+    let lists: [UserList]
 }
 
-struct Listy: Decodable, Identifiable {
-    let id: String
+public struct UserList: Decodable, Identifiable, Hashable {
+    public let id: String
     let userID: String?
     let createdAt: Date?
     let updatedAt: Date?
@@ -22,7 +22,7 @@ struct Listy: Decodable, Identifiable {
     let surprise: Bool
 }
 
-extension Listy {
+extension UserList {
     var imageStored: Image {
         ImageStore.shared.image(name: image)
     }

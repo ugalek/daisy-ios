@@ -12,8 +12,8 @@ struct ItemResults: Decodable {
     let items: [Item]
 }
 
-struct Item: Decodable, Identifiable, Hashable {
-    let id: String
+public struct Item: Codable, Identifiable, Hashable {
+    public let id: String
     let listID: String?
     let createdAt: Date?
     let updatedAt: Date?
@@ -23,6 +23,20 @@ struct Item: Decodable, Identifiable, Hashable {
     let price: Float64?
     let description: String
     let status: uint
+    
+    init(id: String = "", listID: String = "", createdAt: Date? = nil, updatedAt: Date? = nil,
+         title: String = "", image: String = "", url: String? = nil, price: Float64? = nil, description: String = "", status: uint = 1) {
+        self.id = id
+        self.listID = listID
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+        self.title = title
+        self.image = image
+        self.url = url
+        self.price = price
+        self.description = description
+        self.status = status
+    }
 }
 
 extension Item {

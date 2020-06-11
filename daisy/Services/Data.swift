@@ -10,7 +10,7 @@ import UIKit
 import SwiftUI
 
 let wishData: [Wish] = load("wishData.json")
-let listData: [Listy] = load("listData.json")
+let listData: [UserList] = load("listData.json")
 let itemData: [Item] = load("itemData.json")
 
 let taken = wishData.filter { $0.isTaken }

@@ -3,18 +3,106 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "UserListDetailViewModel.saveItems():UserListDetailViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "list.id">
+            </PersistentString>
+            <PersistentString
+               value = "self.items">
+            </PersistentString>
+            <PersistentString
+               value = "NetworkManager.shared.$publicItems.count()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ItemsViewModel.UpdateItems():ItemsViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "items">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ItemDetailData.init(listID:):ItemDetailData.swift">
+      </ContextState>
+      <ContextState
          contextName = "closure #2 in ItemListView.body.getter:ItemListView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "&quot;lists/\(self.listID))/items&quot;">
+               value = "self.networkManager.items">
+            </PersistentString>
+            <PersistentString
+               value = "self.networkManager.urlString">
+            </PersistentString>
+            <PersistentString
+               value = "self.networkManager.updateItems">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in ItemListView.body.getter:ItemListView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "currentItems">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in NetworkManager.updateItemsFromDB(urlString:):NetworkManager.swift">
       </ContextState>
       <ContextState
          contextName = "getGridItemData(items:):Data.swift">
          <PersistentStrings>
             <PersistentString
                value = "item.title">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ItemsViewModel.UpdateItems():ItemsViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "items">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #3 in ItemsViewModel.init(list:):ItemsViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.items">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ItemsViewModel.init(list:):ItemsViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "NetworkManager.addItem2(listID:title:image:url:price:description:):NetworkManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "items">
+            </PersistentString>
+            <PersistentString
+               value = "$0">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static DaisyService.fetchItems(listID:):DaisyService.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "ItemContainer">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ItemListView.currentItems.getter:ItemListView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "currentItems">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
