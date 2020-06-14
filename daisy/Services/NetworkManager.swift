@@ -67,7 +67,6 @@ class NetworkManager: ObservableObject {
                 
                 var request = URLRequest(url: url)
                 request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
-                //print(token)
                 let task = session.dataTask(with: request) { (data, response, error) in
                     guard let httpResponse = response as? HTTPURLResponse,
                         (200...299).contains(httpResponse.statusCode) else {
@@ -109,31 +108,20 @@ class NetworkManager: ObservableObject {
             "price": Double(price) ?? 0,
             "description": description,
             "status": 1]
-        let it = DaisyService.postRequestItem(endpoint: .items(id: listID), body: body)
         
-        it.sink(receiveCompletion: { error in
-            guard case .finished = error else {
-                print("Error: \(error)")
-                return
-            }
-        }) { (result) in
-            print(result)
-        }.store(in: &self.disposables)
+        let it = DaisyService.postRequestItem(endpoint: .items(id: listID), body: body)
+        it
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { print($0) },
+                  receiveValue: { print("Received value \($0)")})
+            .store(in: &disposables)
     }
     
     
-    func addItem(listID: String, title: String, image: String, url: String, price: String, description: String, completion: @escaping (Item) -> ()) {
+    func addItem(listID: String, body: [String: Any], completion: @escaping (Item) -> ()) {
         
         guard let apiURL = URL(string: apiLink + "lists/\(listID)/items") else { return }
-                
-        let body: [String: Any] = [
-            "title": title,
-            "image": image,
-            "url": url,
-            "price": Double(price) ?? 0,
-            "description": description,
-            "status": 1]
-        
+            
         do {
             // make sure this JSON is in the format we expect
             let finalBody = try JSONSerialization.data(withJSONObject: body)

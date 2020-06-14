@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ItemListView: View {   
+struct ItemListView: View {
     @ObservedObject var itemViewModel: ItemsViewModel
     @State private var showSortSheet = false
     @State private var itemRowsDisplayMode: ItemRow.DisplayMode = .compact
@@ -90,7 +90,6 @@ struct ItemListView: View {
                 ForEach(currentItems) { item in
                     NavigationLink(destination: ItemDetail(item: item)) {
                         ItemRow(displayMode: self.itemRowsDisplayMode, item: item)
-                            //  .environmentObject(ItemDetailViewModel(item: item))
                             .listRowBackground(Color.red)
                     }
                 }
@@ -110,6 +109,7 @@ struct ItemListView: View {
             .actionSheet(isPresented: $showSortSheet, content: { self.sortSheet })
             .sheet(isPresented: $showAddItem) {
                 ItemEdit(
+                    itemViewModel: self.itemViewModel,
                     showAddItem: self.$showAddItem,
                     list: self.list
                 )

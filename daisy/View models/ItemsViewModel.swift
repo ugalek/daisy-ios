@@ -62,4 +62,19 @@ class ItemsViewModel: ObservableObject {
             $0.title.lowercased().contains(string.lowercased())
         }
     }
+    
+    func addItemInModel(listID: String, title: String, image: String, url: String, price: String, description: String) {
+        let body: [String: Any] = [
+        "title": title,
+        "image": image,
+        "url": url,
+        "price": Double(price) ?? 0,
+        "description": description,
+        "status": 1]
+        NetworkManager().addItem(listID: listID, body: body) { newItem in
+            DispatchQueue.main.async {
+                self.items.append(newItem)
+            }
+        }
+    }
 }

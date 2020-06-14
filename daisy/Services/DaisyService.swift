@@ -29,8 +29,19 @@ struct DaisyService {
     
     private static let decoder = JSONDecoder()
     
+    enum GameError: Error {
+      case statusCode
+      case decoding
+      case invalidImage
+      case invalidURL
+      case other(Error)
+      
+      static func map(_ error: Error) -> GameError {
+        return (error as? GameError) ?? .other(error)
+      }
+    }
     
-    public static func postRequestItem(endpoint: Endpoint, body: Any) -> AnyPublisher<Item, Error> {
+    public static func postRequestItem(endpoint: Endpoint, body: Any) -> AnyPublisher<Item, APIError> {
         print("Post item to db")
         let apiUrl = URL(string: apiLink)!
         let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
@@ -50,12 +61,28 @@ struct DaisyService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
 
+//        return URLSession.shared.dataTaskPublisher(for: request)
+//            .map { print(String(data: $0.data, encoding: .utf8)!); return $0.data } // $0.data Extract the Data object from response.
+//           // .receive(on: RunLoop.main)
+//            .decode(type: Item.self, decoder: Self.decoder) // Decode Data to a model object using JSONDecoder
+//            .mapError{ APIError.parseError(reason: $0.localizedDescription) }
+//            .eraseToAnyPublisher()
+        
         return URLSession.shared.dataTaskPublisher(for: request)
-            .map { print(String(data: $0.data, encoding: .utf8)!); return $0.data } // $0.data Extract the Data object from response.
-            .receive(on: RunLoop.main)
-            .decode(type: Item.self, decoder: Self.decoder) // Decode Data to a model object using JSONDecoder
-            .mapError{ APIError.parseError(reason: $0.localizedDescription) }
-            .eraseToAnyPublisher()        
+            .tryMap { response -> Data in
+                guard let httpURLResponse = response.response as? HTTPURLResponse,
+                    httpURLResponse.statusCode == 200
+                    else { throw GameError.statusCode }
+                return response.data
+        }
+        .tryMap { data in
+            print(data)
+            return data
+        }
+       // .receive(on: DispatchQueue.main)
+        .decode(type: Item.self, decoder: JSONDecoder())
+        .mapError { APIError.parseError(reason: $0.localizedDescription) }
+        .eraseToAnyPublisher()
     }
   
     public static func postRequest<T: Codable>(endpoint: Endpoint, body: Any) -> AnyPublisher<T, APIError> {

@@ -8,7 +8,8 @@
 
 import SwiftUI
 
-struct ItemEdit: View {    
+struct ItemEdit: View {
+    @ObservedObject var itemViewModel: ItemsViewModel
     @Binding var showAddItem: Bool
     
     @State var title: String = ""
@@ -66,25 +67,17 @@ struct ItemEdit: View {
             .padding()
             .navigationBarTitle(Text("Sheet View"), displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {
-                print("Dismissing sheet view...")
-                DispatchQueue.main.async {
-                   NetworkManager().addItem(
-                        listID: self.list.id,
-                        title: self.title,
-                        image: self.image,
-                        url: self.url,
-                        price: self.price,
-                        description: self.description)
-//                    { (item: Item) in
-//                        self.itemViewModel.items.append(item)
-//                        print(item)
-//                    }
-                    self.showAddItem = false
-                }
+               self.itemViewModel.addItemInModel(
+                    listID: self.list.id,
+                    title: self.title,
+                    image: self.image,
+                    url: self.url,
+                    price: self.price,
+                    description: self.description)
+                self.showAddItem = false
             }) {
                 Text("Done").bold()
             })
-            
         }
     }
 }
