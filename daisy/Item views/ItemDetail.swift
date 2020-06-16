@@ -10,18 +10,7 @@ import SwiftUI
 
 struct ItemDetail: View {
     var item: Item
-
     var body: some View {
-//        guard let url = item.url else {
-//            return AnyView(EmptyView())
-//        }
-//        return AnyView(VStack {
-//            Text(url)
-//        })
-//        guard let price = item.price else {
-//            return AnyView(EmptyView())
-//        }
-        
         VStack {
             VStack(alignment: .leading) {
                 HStack {

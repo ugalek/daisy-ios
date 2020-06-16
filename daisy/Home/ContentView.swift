@@ -9,14 +9,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var manager = HttpAuth()
+    @EnvironmentObject var auth: HttpAuth
     
     var body: some View {
         VStack {
-            if manager.authenticated {
-                ListView(lists: [UserList]())
+            if auth.authenticated {
+                AnyView(ListView(lists: [UserList]()))
             } else {
-                ConnectionView(manager: manager)
+                AnyView(ConnectionView())
             }
         }
     }

@@ -8,13 +8,24 @@
 
 import SwiftUI
 
-struct ListView: View {    
+struct ListView: View {
+    @EnvironmentObject var authManager: HttpAuth
     @State var showingProfile = false
     var profileButton: some View {
         Button(action: { self.showingProfile.toggle() }) {
             Image(systemName: "person.crop.circle")
                 .imageScale(.large)
                 .accessibility(label: Text("User Profile"))
+                .padding()
+        }
+    }
+    var logOutButton: some View {
+        Button(action: {
+            self.authManager.authenticated = false
+        }) {
+            Image(systemName: "arrow.right.circle")
+                .imageScale(.large)
+                .accessibility(label: Text("Logout"))
                 .padding()
         }
     }
@@ -33,7 +44,7 @@ struct ListView: View {
                 }
             }
             .navigationBarTitle("Lists", displayMode: .inline)
-            .navigationBarItems(trailing: profileButton)
+            .navigationBarItems(leading: profileButton, trailing: logOutButton)
             .sheet(isPresented: $showingProfile) {
                 UserView()
             }
@@ -43,11 +54,5 @@ struct ListView: View {
                 self.lists = lists.lists
             }
         }
-    }
-}
-
-struct ListView_Previews: PreviewProvider {
-    static var previews: some View {
-        ListView(lists: listData)
     }
 }

@@ -9,9 +9,7 @@
 import SwiftUI
 
 struct ConnectionView: View {
-
-    @ObservedObject var manager: HttpAuth
-    @State private var apiLink: String = UserDefaults.standard.string(forKey: "apiLink") ?? ""
+    @State private var apiLink = DaisyService.apiUrl.absoluteString
             
     private var ApiLinkText: some View {
         if apiLink != "" {
@@ -46,7 +44,7 @@ struct ConnectionView: View {
                         welcomeView()
                     }
                     VStack(alignment: .center, spacing: 10) {
-                        loginForm(manager: manager)
+                        loginForm()
                         Divider()
                         Text("or use access to list of items")
                             .font(.caption)
@@ -80,11 +78,10 @@ struct welcomeView: View {
 }
 
 struct loginForm: View {
+    @EnvironmentObject var authManager: HttpAuth
     
     @State private var email: String = "admin@example.com"
     @State private var password: String = "admin"
-    
-    @ObservedObject var manager: HttpAuth
     
     var body: some View {
         VStack {
@@ -102,7 +99,7 @@ struct loginForm: View {
             
             Button(action: {
                 print("\(self.email) and \(self.password)")
-                self.manager.login(email: self.email, password: self.password)
+                self.authManager.login(email: self.email, password: self.password)
             }
             ) {
                 Text("Login")

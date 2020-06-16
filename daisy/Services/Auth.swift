@@ -14,15 +14,13 @@ struct ServerMessage: Decodable {
 }
 
 class HttpAuth: ObservableObject {
-    let didChange = PassthroughSubject<HttpAuth, Never>()
-    @Published var authenticated = false {
-        didSet {
-            didChange.send(self)
-        }
-    }
+    @Published var authenticated = false
     
     func login(email: String, password: String) {
-        guard let url = URL(string: "http://localhost:3000/api/v1/auth") else { return }
+        let component = URLComponents(url: DaisyService.apiUrl.appendingPathComponent("auth"),
+                                             resolvingAgainstBaseURL: false)!
+        
+        guard let url = component.url else { return }
         
         let body: [String: String] = ["email": email, "password": password]
         
