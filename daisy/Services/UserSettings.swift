@@ -9,7 +9,6 @@
 import SwiftUI
 import Combine
 
-final class UserData: ObservableObject  {
+final class UserSettings: ObservableObject  {
     @Published var showReservedOnly = false
-    @Published var wishes = wishData
 }
