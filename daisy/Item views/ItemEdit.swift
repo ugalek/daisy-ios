@@ -67,7 +67,7 @@ struct ItemEdit: View {
             .padding()
             .navigationBarTitle(Text("Sheet View"), displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {
-               self.itemViewModel.addItemInModel(
+               self.itemViewModel.addItem(
                     listID: self.list.id,
                     title: self.title,
                     image: self.image,
@@ -81,20 +81,3 @@ struct ItemEdit: View {
         }
     }
 }
-
-
-
-//struct ItemEdit_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ItemEdit(listID: "111")
-//    }
-//}
-
-//iconName.map({Image(systemName: $0)
-//.foregroundColor(!isValid ? .red : Color(borderColor))})
-
-//TextField("Enter username...", text: $username, onEditingChanged: { (changed) in
-//    print("Username onEditingChanged - \(changed)")
-//}) {
-//    print("Username onCommit")
-//}

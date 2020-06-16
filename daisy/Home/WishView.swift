@@ -8,22 +8,7 @@
 
 import SwiftUI
 
-struct WishView: View {
-    
-//    @ObservedObject var networkManager = NetworkManager()
-//
-//    var body: some View {
-//        NavigationView {
-//            List(networkManager.items) { item in
-//                Text(item.title)
-//            }
-//            .navigationBarTitle("Items")
-//        }
-//        .onAppear {
-//            self.networkManager.fetchData()
-//        }
-//    }
-    
+struct WishView: View {    
     var categories: [String: [Wish]] {
         Dictionary(
             grouping: wishData,

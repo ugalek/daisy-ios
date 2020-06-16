@@ -69,7 +69,7 @@ func getGridItemDataByListID(listID: String) -> [[Item]] {
     var counter = 0
     var tempItem = [Item]()
     
-    NetworkManager().genericFetch(urlString: "lists/\(listID)/items") { (i: ItemResults) in
+    DaisyService.genericFetch(endpoint: .items(id: listID)) { (i: ItemResults) in
         items = i.items
     }
     

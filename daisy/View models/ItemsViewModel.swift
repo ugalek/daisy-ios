@@ -17,7 +17,9 @@ class ItemsViewModel: ObservableObject {
     
     public let list: UserList
     
+    // used to store `AnyCancellable`, without keeping this reference alive, the network publisher will terminate immediately
     private var searchCancellable: AnyCancellable?
+    private var disposables = Set<AnyCancellable>()
     
     enum Sort: String, CaseIterable {
         case title, price, status
@@ -52,7 +54,7 @@ class ItemsViewModel: ObservableObject {
                 self?.searchItems = $0
         }
         
-        NetworkManager().genericFetch(urlString: "lists/\(list.id)/items") { (i: ItemResults) in
+        DaisyService.genericFetch(endpoint: .items(id: list.id)) { (i: ItemResults) in
             self.items = i.items
         }
     }
@@ -63,18 +65,21 @@ class ItemsViewModel: ObservableObject {
         }
     }
     
-    func addItemInModel(listID: String, title: String, image: String, url: String, price: String, description: String) {
+    func addItem(listID: String, title: String, image: String, url: String, price: String, description: String) {
         let body: [String: Any] = [
-        "title": title,
-        "image": image,
-        "url": url,
-        "price": Double(price) ?? 0,
-        "description": description,
-        "status": 1]
-        NetworkManager().addItem(listID: listID, body: body) { newItem in
-            DispatchQueue.main.async {
-                self.items.append(newItem)
-            }
-        }
+            "title": title,
+            "image": image,
+            "url": url,
+            "price": Double(price) ?? 0,
+            "description": description,
+            "status": 1]
+        
+        DaisyService.postRequest(endpoint: .items(id: listID), body: body)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in },
+                  receiveValue: {
+                    self.items.append($0)
+                })
+            .store(in: &disposables)
     }
 }

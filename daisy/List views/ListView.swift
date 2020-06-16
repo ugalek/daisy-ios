@@ -8,9 +8,7 @@
 
 import SwiftUI
 
-struct ListView: View {
-    @ObservedObject var networkManager = NetworkManager()
-    
+struct ListView: View {    
     @State var showingProfile = false
     var profileButton: some View {
         Button(action: { self.showingProfile.toggle() }) {
@@ -41,7 +39,7 @@ struct ListView: View {
             }
         }
         .onAppear {
-            self.networkManager.genericFetch(urlString: "lists/") { (lists: ListResults) in
+            DaisyService.genericFetch(endpoint: .lists) { (lists: ListResults) in
                 self.lists = lists.lists
             }
         }

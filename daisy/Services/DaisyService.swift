@@ -10,17 +10,17 @@ import Foundation
 import Combine
 
 struct DaisyService {
-    static let apiLink: String = UserDefaults.standard.string(forKey: "apiLink") ?? ""
+    static let apiUrl: URL = URL(string: UserDefaults.standard.string(forKey: "apiLink") ?? "/")!
     static let token: String = UserDefaults.standard.string(forKey: "token") ?? ""
     
     public enum Endpoint {
-        case list
+        case lists
         case items(id: String)
         
         public func path() -> String {
             switch self {
-            case .list:
-                return "list"
+            case .lists:
+                return "lists/"
             case let .items(id):
                 return "lists/\(id)/items"
             }
@@ -29,64 +29,40 @@ struct DaisyService {
     
     private static let decoder = JSONDecoder()
     
-    enum GameError: Error {
-      case statusCode
-      case decoding
-      case invalidImage
-      case invalidURL
-      case other(Error)
-      
-      static func map(_ error: Error) -> GameError {
-        return (error as? GameError) ?? .other(error)
-      }
-    }
-    
-    public static func postRequestItem(endpoint: Endpoint, body: Any) -> AnyPublisher<Item, APIError> {
-        print("Post item to db")
-        let apiUrl = URL(string: apiLink)!
+    public static func genericFetch<T: Decodable>(endpoint: Endpoint, completion: @escaping (T) -> ()) {
         let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
                                       resolvingAgainstBaseURL: false)!
-        var finalBody: Data?
         
-        // make sure this JSON is in the format we expect
-        do {
-            finalBody = try JSONSerialization.data(withJSONObject: body)
-        } catch let error as NSError {
-            print("Failed to load: \(error.localizedDescription)")
-        }
         
+        let session = URLSession(configuration: .default)
         var request = URLRequest(url: component.url!)
-        request.httpMethod = "POST"
-        request.httpBody = finalBody
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
-
-//        return URLSession.shared.dataTaskPublisher(for: request)
-//            .map { print(String(data: $0.data, encoding: .utf8)!); return $0.data } // $0.data Extract the Data object from response.
-//           // .receive(on: RunLoop.main)
-//            .decode(type: Item.self, decoder: Self.decoder) // Decode Data to a model object using JSONDecoder
-//            .mapError{ APIError.parseError(reason: $0.localizedDescription) }
-//            .eraseToAnyPublisher()
-        
-        return URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap { response -> Data in
-                guard let httpURLResponse = response.response as? HTTPURLResponse,
-                    httpURLResponse.statusCode == 200
-                    else { throw GameError.statusCode }
-                return response.data
+        let task = session.dataTask(with: request) { (data, response, error) in
+            guard let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode) else {
+                    return
+            }
+            guard let mime = response?.mimeType, mime == "application/json" else {
+                print("Wrong MIME type!")
+                return
+            }
+            if error == nil {
+                if let safeData = data {
+                    do {
+                        let dec = JSONDecoder()
+                        // dec.keyDecodingStrategy = .convertFromSnakeCase
+                        let model = try dec.decode(T.self, from: safeData)
+                        completion(model)
+                    } catch let jsonErr {
+                        print("Failed to decode, \(jsonErr)")
+                    }
+                }
+            }
         }
-        .tryMap { data in
-            print(data)
-            return data
-        }
-       // .receive(on: DispatchQueue.main)
-        .decode(type: Item.self, decoder: JSONDecoder())
-        .mapError { APIError.parseError(reason: $0.localizedDescription) }
-        .eraseToAnyPublisher()
+        task.resume()
     }
-  
+    
     public static func postRequest<T: Codable>(endpoint: Endpoint, body: Any) -> AnyPublisher<T, APIError> {
-        let apiUrl = URL(string: apiLink)!
         let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
                                       resolvingAgainstBaseURL: false)!
         var finalBody: Data?
@@ -103,80 +79,11 @@ struct DaisyService {
         request.httpBody = finalBody
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
-    
         
         return URLSession.shared.dataTaskPublisher(for: request)
             .map { $0.data } // Extract the Data object from response.
-            .receive(on: DispatchQueue.main)
             .decode(type: T.self, decoder: Self.decoder) // Decode Data to a model object using JSONDecoder
             .mapError{ APIError.parseError(reason: $0.localizedDescription) }
             .eraseToAnyPublisher()
-        
     }
-    
-    public static func postData<T: Codable>(endpoint: Endpoint, body: Any) -> AnyPublisher<T, APIError> {
-        
-        let apiUrl = URL(string: apiLink)!
-        let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
-                                      resolvingAgainstBaseURL: false)!
-        var finalBody: Data?
-        
-        // make sure this JSON is in the format we expect
-        do {
-            finalBody = try JSONSerialization.data(withJSONObject: body)
-        } catch let error as NSError {
-            print("Failed to load: \(error.localizedDescription)")
-        }
-        
-        var request = URLRequest(url: component.url!)
-        request.httpMethod = "POST"
-        request.httpBody = finalBody
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
-        
-        return URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap{ data, response in
-                let resp =  try APIError.processResponse(data: data, response: response)
-                print(String(data: resp, encoding: .utf8)!);
-                return resp
-               // let rr = try? JSONDecoder().decode(T.self, from: resp)
-              //  print(rr)
-               //return rr
-        }
-        .decode(type: T.self, decoder: Self.decoder)
-        .mapError{ APIError.parseError(reason: $0.localizedDescription) }
-        .map({ result in
-            return result
-        })
-            .receive(on: DispatchQueue.main)
-            .eraseToAnyPublisher()
-    }
-}
-
-public enum APIError: Error {
-    case unknown
-    case message(reason: String), parseError(reason: String), networkError(reason: String)
-
-    static func processResponse(data: Data, response: URLResponse) throws -> Data {
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw APIError.unknown
-        }
-        if (httpResponse.statusCode == 401) {
-            throw APIError.message(reason: "Unauthorized");
-        }
-        if (httpResponse.statusCode == 403) {
-            throw APIError.message(reason: "Resource forbidden");
-        }
-        if (httpResponse.statusCode == 404) {
-            throw APIError.message(reason: "Resource not found");
-        }
-        if (405..<500 ~= httpResponse.statusCode) {
-            throw APIError.message(reason: "Client error");
-        }
-        if (500..<600 ~= httpResponse.statusCode) {
-            throw APIError.message(reason: "server error");
-        }
-        return data
-    }
-
 }
