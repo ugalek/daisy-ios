@@ -37,6 +37,7 @@ struct ListView: View {
             }
             .navigationBarTitle("Lists", displayMode: .inline)
             .navigationBarItems(trailing: profileButton)
+//
         }
         .onAppear {
             DaisyService.genericFetch(endpoint: .lists) { (lists: ListResults) in
