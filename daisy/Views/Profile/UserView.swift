@@ -9,16 +9,37 @@
 import SwiftUI
 
 struct UserView: View {
+    @EnvironmentObject var authManager: HttpAuth
+    
     var body: some View {
-        VStack {
-            TopGradient()
-            CircleImage(image: Image("turtlerock"))
-                .offset(y: -230)
-                .padding(.bottom, -230)
-            UserInfo(userName: "Joe Doe", email: "joe@example.com", city: "California")
-            Spacer()
+        ZStack {
+            Color("backgroundColor").edgesIgnoringSafeArea(.all)
+            VStack {
+                ZStack {
+                    TopGradient()
+                        .edgesIgnoringSafeArea(.top)
+                    CircleImage(image: Image("turtlerock"))
+                        .frame(width: 150, height: 150)
+                        .padding(.bottom, 20)
+                }
+                UserInfo(userName: "Joe Doe", email: "joe@example.com", city: "California")
+                Button(action: {
+                    UserDefaults().removeObject(forKey: "token")
+                    self.authManager.authenticated = false
+                }
+                ) {
+                    Text("Logout")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(width: 180, height: 40)
+                        .background(Color.pink)
+                        .cornerRadius(15.0)
+                }
+                Spacer()
+            }
+            .navigationBarColor(UIColor(named: "lightBlueColor"))
         }
-        .background(Color("backgroundColor"))
     }
 }
 

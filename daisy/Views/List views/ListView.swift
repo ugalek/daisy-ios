@@ -10,24 +10,16 @@ import SwiftUI
 
 struct ListView: View {
     @EnvironmentObject var authManager: HttpAuth
+    
     @State var showingProfile = false
+    @State var loggedOut = false
+    
     var profileButton: some View {
-        Button(action: { self.showingProfile.toggle() }) {
-            Image(systemName: "person.crop.circle")
-                .imageScale(.large)
-                .accessibility(label: Text("User Profile"))
-                .padding()
-        }
-    }
-    var logOutButton: some View {
-        Button(action: {
-            self.authManager.authenticated = false
-        }) {
-            Image(systemName: "arrow.right.circle")
-                .imageScale(.large)
-                .accessibility(label: Text("Logout"))
-                .padding()
-        }
+        NavigationLink(destination: UserView().environmentObject(self.authManager)) {
+           Image(systemName: "person.crop.circle")
+            .imageScale(.large)
+            .accessibility(label: Text("User Profile"))
+        }.buttonStyle(PlainButtonStyle())
     }
     
     @State var lists: [UserList]
@@ -44,10 +36,7 @@ struct ListView: View {
                 }
             }
             .navigationBarTitle("Lists", displayMode: .inline)
-            .navigationBarItems(leading: profileButton, trailing: logOutButton)
-            .sheet(isPresented: $showingProfile) {
-                UserView()
-            }
+            .navigationBarItems(trailing: profileButton)
         }
         .onAppear {
             DaisyService.genericFetch(endpoint: .lists) { (lists: ListResults) in

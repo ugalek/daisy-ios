@@ -170,7 +170,7 @@ struct settingsView: View {
                     Text("Done").bold()
                         .foregroundColor(Color(ColorPalette.black))
                 })
-                    .navigationBarColor(UIColor(named: "lightBlueColor"))
+                    //.navigationBarColor(UIColor(named: "lightBlueColor"))
             }
         }
     }
