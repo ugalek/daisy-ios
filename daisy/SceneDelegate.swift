@@ -24,6 +24,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
+            UINavigationBar.appearance().barTintColor = UIColor(named: "SecondaryBackground")
+            UINavigationBar.appearance().backgroundColor = UIColor(named: "Background")
+            UINavigationBar.appearance().tintColor = UIColor(named: "darkBlueColor")
+            
+            UITableView.appearance().backgroundColor = UIColor(named: "Background")
+            UITableViewCell.appearance().backgroundColor = UIColor(named: "SecondaryBackground")
+            UITableView.appearance().tableFooterView = UIView()
+            
+            UITabBar.appearance().unselectedItemTintColor = UIColor(named: "darkBlueColor")
+            UITabBar.appearance().barTintColor = UIColor(named: "lightBlueColor")
+            UITabBar.appearance().backgroundColor = UIColor(named: "Background")
+            
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(
                 rootView: contentView

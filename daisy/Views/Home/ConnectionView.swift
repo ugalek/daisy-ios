@@ -36,7 +36,7 @@ struct ConnectionView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color("backgroundColor").edgesIgnoringSafeArea(.all)
+                Color("Background").edgesIgnoringSafeArea(.all)
                 VStack {
                     ZStack {
                         TopGradient()
@@ -148,7 +148,7 @@ struct settingsView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color("backgroundColor").edgesIgnoringSafeArea(.all)
+                Color("Background").edgesIgnoringSafeArea(.all)
                 VStack {
                     Text("API address")
                     FormatedTextField(

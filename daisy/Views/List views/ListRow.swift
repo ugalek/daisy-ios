@@ -31,8 +31,8 @@ struct ListRow: View {
 struct ListRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ListRow(list: listData[0])
-            ListRow(list: listData[1])
+            ListRow(list: staticList)
+            ListRow(list: staticList)
         }
         .previewLayout(.fixed(width: 300, height: 70))
     }

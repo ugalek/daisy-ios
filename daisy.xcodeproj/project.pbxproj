@@ -23,6 +23,7 @@
 		0544C771243CBADE004BD840 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544C770243CBADE004BD840 /* PageControl.swift */; };
 		0544C773243CBBD9004BD840 /* silversalmoncreek_taken.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0544C772243CBBD9004BD840 /* silversalmoncreek_taken.jpg */; };
 		054E9A352489881E0045A1D4 /* DaisyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E9A342489881E0045A1D4 /* DaisyService.swift */; };
+		055219D1249A85F3009ACC91 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055219D0249A85F3009ACC91 /* ListViewModel.swift */; };
 		055BC679243B7D52006DE7B3 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055BC678243B7D52006DE7B3 /* PageViewController.swift */; };
 		055BC67B243B7DA3006DE7B3 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055BC67A243B7DA3006DE7B3 /* PageView.swift */; };
 		055BC681243B827A006DE7B3 /* turtlerock.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 055BC680243B827A006DE7B3 /* turtlerock.jpg */; };
@@ -83,6 +84,7 @@
 		0544C770243CBADE004BD840 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		0544C772243CBBD9004BD840 /* silversalmoncreek_taken.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = silversalmoncreek_taken.jpg; sourceTree = "<group>"; };
 		054E9A342489881E0045A1D4 /* DaisyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaisyService.swift; sourceTree = "<group>"; };
+		055219D0249A85F3009ACC91 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		055BC678243B7D52006DE7B3 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		055BC67A243B7DA3006DE7B3 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		055BC680243B827A006DE7B3 /* turtlerock.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = turtlerock.jpg; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				053574B9247FB2FC008F3C98 /* ItemsViewModel.swift */,
+				055219D0249A85F3009ACC91 /* ListViewModel.swift */,
 			);
 			path = "View models";
 			sourceTree = "<group>";
@@ -469,6 +472,7 @@
 				05DECBCC24336CB10088B58D /* UserView.swift in Sources */,
 				0591F1EE2450A2C500291913 /* ItemListView.swift in Sources */,
 				05DECB9C243337A70088B58D /* SceneDelegate.swift in Sources */,
+				055219D1249A85F3009ACC91 /* ListViewModel.swift in Sources */,
 				0511664B244861A200FF0E79 /* Item.swift in Sources */,
 				055ECFA324349FA8006BBD5D /* TopGradient.swift in Sources */,
 				05832F46249772700092A25D /* APIError.swift in Sources */,

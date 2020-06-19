@@ -13,7 +13,7 @@ struct UserView: View {
     
     var body: some View {
         ZStack {
-            Color("backgroundColor").edgesIgnoringSafeArea(.all)
+            Color("Background").edgesIgnoringSafeArea(.all)
             VStack {
                 ZStack {
                     TopGradient()
@@ -38,7 +38,6 @@ struct UserView: View {
                 }
                 Spacer()
             }
-            .navigationBarColor(UIColor(named: "lightBlueColor"))
         }
     }
 }

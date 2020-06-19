@@ -8,10 +8,11 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 struct DaisyService {
-    static let apiUrl: URL = URL(string: UserDefaults.standard.string(forKey: "apiLink") ?? "/")!
-    static let token: String = UserDefaults.standard.string(forKey: "token") ?? ""
+    static let apiUrl = URL(string: UserSettings().apiLink) ?? URL(string: "/")!
+    static let token = UserSettings().token
     
     public enum Endpoint {
         case lists
@@ -29,37 +30,19 @@ struct DaisyService {
     
     private static let decoder = JSONDecoder()
     
-    public static func genericFetch<T: Decodable>(endpoint: Endpoint, completion: @escaping (T) -> ()) {
+    public static func getRequest<T: Codable>(endpoint: Endpoint) -> AnyPublisher<[T], APIError> {
         let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
                                       resolvingAgainstBaseURL: false)!
         
-        
-        let session = URLSession(configuration: .default)
         var request = URLRequest(url: component.url!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
-        let task = session.dataTask(with: request) { (data, response, error) in
-            guard let httpResponse = response as? HTTPURLResponse,
-                (200...299).contains(httpResponse.statusCode) else {
-                    return
-            }
-            guard let mime = response?.mimeType, mime == "application/json" else {
-                print("Wrong MIME type!")
-                return
-            }
-            if error == nil {
-                if let safeData = data {
-                    do {
-                        let dec = JSONDecoder()
-                        // dec.keyDecodingStrategy = .convertFromSnakeCase
-                        let model = try dec.decode(T.self, from: safeData)
-                        completion(model)
-                    } catch let jsonErr {
-                        print("Failed to decode, \(jsonErr)")
-                    }
-                }
-            }
-        }
-        task.resume()
+        
+        return URLSession.shared.dataTaskPublisher(for: request)
+            .map { $0.data } // Extract the Data object from response.
+            .decode(type: [T].self, decoder: Self.decoder) // Decode Data to a model object using JSONDecoder
+            .mapError{ APIError.parseError(reason: $0.localizedDescription) }
+            .eraseToAnyPublisher()
     }
     
     public static func postRequest<T: Codable>(endpoint: Endpoint, body: Any) -> AnyPublisher<T, APIError> {

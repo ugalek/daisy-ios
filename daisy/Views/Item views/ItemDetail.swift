@@ -49,7 +49,7 @@ struct ItemDetail: View {
             .padding()
             Spacer()
         }
-        .background(Color("backgroundColor"))
+        .background(Color("Background"))
     }
 }
 

@@ -18,7 +18,7 @@ struct ItemListView: View {
     var currentItems: [Item] {
         get {
             if !itemViewModel.searchText.isEmpty {
-                return itemViewModel.searchItems
+                return itemViewModel.searchResults
             } else if itemViewModel.sort != nil {
                 return itemViewModel.sortedItems
             } else {

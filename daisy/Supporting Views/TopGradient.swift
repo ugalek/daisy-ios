@@ -11,7 +11,7 @@ import SwiftUI
 struct TopGradient: View {
     var body: some View {
         LinearGradient(
-        gradient: Gradient(colors: [Color("backgroundColor"), Color("lightBlueColor")]),
+        gradient: Gradient(colors: [Color("Background"), Color("lightBlueColor")]),
         startPoint: .bottom,
         endPoint: .top)
         .frame(height: 300)

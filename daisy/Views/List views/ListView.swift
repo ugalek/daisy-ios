@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ListView: View {
     @EnvironmentObject var authManager: HttpAuth
+    @ObservedObject var listViewModel = ListViewModel()
     
     @State var showingProfile = false
     @State var loggedOut = false
@@ -22,27 +23,35 @@ struct ListView: View {
         }.buttonStyle(PlainButtonStyle())
     }
     
-    @State var lists: [UserList]
+    var currentLists: [UserList] {
+        get {
+            if !listViewModel.searchText.isEmpty {
+                return listViewModel.searchResults
+            } else {
+                return listViewModel.lists
+            }
+        }
+    }
 
     var body: some View {
         NavigationView {
             List {
-                ForEach(lists) { list in
-                    NavigationLink(
-                        destination: ItemListView(itemViewModel: ItemsViewModel(list: list), list: list)
-                    ) {
-                        ListRow(list: list)
+                Section(header: SearchField(searchText: $listViewModel.searchText,
+                                            placeholder: "Search a list"))
+                {
+                    ForEach(currentLists) { list in
+                        NavigationLink(
+                            destination: ItemListView(itemViewModel: ItemsViewModel(list: list), list: list)
+                        ) {
+                            ListRow(list: list)
+                        }
                     }
                 }
             }
-            .navigationBarTitle("Lists", displayMode: .inline)
+            .listStyle(GroupedListStyle())
+            .navigationBarTitle("Lists", displayMode: .automatic)
             .navigationBarItems(trailing: profileButton)
-//
-        }
-        .onAppear {
-            DaisyService.genericFetch(endpoint: .lists) { (lists: ListResults) in
-                self.lists = lists.lists
-            }
+            .modifier(DismissingKeyboardOnSwipe())
         }
     }
 }
