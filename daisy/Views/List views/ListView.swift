@@ -20,7 +20,7 @@ struct ListView: View {
            Image(systemName: "person.crop.circle")
             .imageScale(.large)
             .accessibility(label: Text("User Profile"))
-        }.buttonStyle(PlainButtonStyle())
+        }
     }
     
     var currentLists: [UserList] {
@@ -53,5 +53,12 @@ struct ListView: View {
             .navigationBarItems(trailing: profileButton)
             .modifier(DismissingKeyboardOnSwipe())
         }
+    }
+}
+
+struct ListView_Previews: PreviewProvider {
+    static var previews: some View {
+        ListView()
+            .environmentObject(HttpAuth())
     }
 }

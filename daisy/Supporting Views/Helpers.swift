@@ -16,10 +16,3 @@ struct Helpers {
         return predicate.evaluate(with: email)
     }
 }
-
-enum ColorPalette {
-    static let gray = UIColor.systemGray
-    static let gray3 = UIColor.systemGray3
-    static let black = UIColor.black
-    static let orange = UIColor.orange
-}

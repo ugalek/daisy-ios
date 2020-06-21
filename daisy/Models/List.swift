@@ -29,6 +29,14 @@ public let staticList = UserList(id: "0",
                                       title: "Static list",
                                       image: "turtlerock",
                                       surprise: false)
+public let staticSurpriseList = UserList(id: "1",
+                                 userID: "1",
+                                 createdAt: Date(),
+                                 updatedAt: Date(),
+                                 title: "Static surprise list",
+                                 image: "silversalmoncreek",
+                                 surprise: true)
+
 extension UserList {
     var imageStored: Image {
         ImageStore.shared.image(name: image)

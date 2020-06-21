@@ -49,12 +49,12 @@ struct ItemDetail: View {
             .padding()
             Spacer()
         }
-        .background(Color("Background"))
+        .background(Color.dBackground)
     }
 }
 
 struct ItemDetail_Previews: PreviewProvider {
     static var previews: some View {
-        ItemDetail(item: itemData[0])
+        ItemDetail(item: staticItem)
     }
 }

@@ -13,7 +13,6 @@
 		0511664B244861A200FF0E79 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0511664A244861A200FF0E79 /* Item.swift */; };
 		0516A51524508B5600153D9C /* ListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0516A51424508B5600153D9C /* ListRow.swift */; };
 		0516A51824508F0D00153D9C /* ImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0516A51724508F0D00153D9C /* ImageStore.swift */; };
-		0516A51A2450920700153D9C /* listData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0516A5192450920700153D9C /* listData.json */; };
 		051A44F02498C9A900F4667B /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A44EF2498C9A900F4667B /* ViewModifiers.swift */; };
 		051A80AA2436338E00A5032A /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A80A92436338E00A5032A /* UserSettings.swift */; };
 		051CAB65244F4E7D0014E2DC /* ConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051CAB64244F4E7D0014E2DC /* ConnectionView.swift */; };
@@ -28,16 +27,15 @@
 		055BC67B243B7DA3006DE7B3 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055BC67A243B7DA3006DE7B3 /* PageView.swift */; };
 		055BC681243B827A006DE7B3 /* turtlerock.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 055BC680243B827A006DE7B3 /* turtlerock.jpg */; };
 		055BC683243B829B006DE7B3 /* turtlerock_taken.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 055BC682243B829B006DE7B3 /* turtlerock_taken.jpg */; };
-		055ECFA324349FA8006BBD5D /* TopGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055ECFA224349FA8006BBD5D /* TopGradient.swift */; };
-		055ECFAD2434F85E006BBD5D /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055ECFAC2434F85E006BBD5D /* Data.swift */; };
+		055ECFA324349FA8006BBD5D /* GiftImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055ECFA224349FA8006BBD5D /* GiftImage.swift */; };
 		055ECFB52434FBDF006BBD5D /* silversalmoncreek.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 055ECFB42434FBDF006BBD5D /* silversalmoncreek.jpg */; };
 		056812A3244B522A00B1533D /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056812A2244B522A00B1533D /* Helpers.swift */; };
 		05832F46249772700092A25D /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05832F45249772700092A25D /* APIError.swift */; };
 		0591F1EA24509E0D00291913 /* ItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591F1E924509E0D00291913 /* ItemRow.swift */; };
-		0591F1EC24509EFA00291913 /* itemData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0591F1EB24509EFA00291913 /* itemData.json */; };
 		0591F1EE2450A2C500291913 /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591F1ED2450A2C500291913 /* ItemListView.swift */; };
 		0591F1F02450A78D00291913 /* ItemDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591F1EF2450A78D00291913 /* ItemDetail.swift */; };
 		05A8CAD5247D5FAC00443B1F /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A8CAD4247D5FAC00443B1F /* SearchField.swift */; };
+		05D4A430249D449000929375 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D4A42F249D449000929375 /* Color.swift */; };
 		05DECB9A243337A70088B58D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DECB99243337A70088B58D /* AppDelegate.swift */; };
 		05DECB9C243337A70088B58D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DECB9B243337A70088B58D /* SceneDelegate.swift */; };
 		05DECB9E243337A70088B58D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DECB9D243337A70088B58D /* ContentView.swift */; };
@@ -74,7 +72,6 @@
 		0511664A244861A200FF0E79 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		0516A51424508B5600153D9C /* ListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRow.swift; sourceTree = "<group>"; };
 		0516A51724508F0D00153D9C /* ImageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStore.swift; sourceTree = "<group>"; };
-		0516A5192450920700153D9C /* listData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listData.json; sourceTree = "<group>"; };
 		051A44EF2498C9A900F4667B /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		051A80A92436338E00A5032A /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		051CAB64244F4E7D0014E2DC /* ConnectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionView.swift; sourceTree = "<group>"; };
@@ -89,16 +86,15 @@
 		055BC67A243B7DA3006DE7B3 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		055BC680243B827A006DE7B3 /* turtlerock.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = turtlerock.jpg; sourceTree = "<group>"; };
 		055BC682243B829B006DE7B3 /* turtlerock_taken.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = turtlerock_taken.jpg; sourceTree = "<group>"; };
-		055ECFA224349FA8006BBD5D /* TopGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopGradient.swift; sourceTree = "<group>"; };
-		055ECFAC2434F85E006BBD5D /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		055ECFA224349FA8006BBD5D /* GiftImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftImage.swift; sourceTree = "<group>"; };
 		055ECFB42434FBDF006BBD5D /* silversalmoncreek.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = silversalmoncreek.jpg; sourceTree = "<group>"; };
 		056812A2244B522A00B1533D /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		05832F45249772700092A25D /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		0591F1E924509E0D00291913 /* ItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRow.swift; sourceTree = "<group>"; };
-		0591F1EB24509EFA00291913 /* itemData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = itemData.json; sourceTree = "<group>"; };
 		0591F1ED2450A2C500291913 /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
 		0591F1EF2450A78D00291913 /* ItemDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetail.swift; sourceTree = "<group>"; };
 		05A8CAD4247D5FAC00443B1F /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
+		05D4A42F249D449000929375 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		05DECB96243337A70088B58D /* daisy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = daisy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		05DECB99243337A70088B58D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		05DECB9B243337A70088B58D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -175,8 +171,6 @@
 				0544C772243CBBD9004BD840 /* silversalmoncreek_taken.jpg */,
 				055BC682243B829B006DE7B3 /* turtlerock_taken.jpg */,
 				055ECFB42434FBDF006BBD5D /* silversalmoncreek.jpg */,
-				0516A5192450920700153D9C /* listData.json */,
-				0591F1EB24509EFA00291913 /* itemData.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -209,9 +203,16 @@
 				05832F45249772700092A25D /* APIError.swift */,
 				051A80A92436338E00A5032A /* UserSettings.swift */,
 				0516A51724508F0D00153D9C /* ImageStore.swift */,
-				055ECFAC2434F85E006BBD5D /* Data.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		05D4A431249D44A200929375 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				05D4A42F249D449000929375 /* Color.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		05D8775C24994B7E007F6893 /* Views */ = {
@@ -255,6 +256,7 @@
 				053574B8247FB2B5008F3C98 /* View models */,
 				05D8775C24994B7E007F6893 /* Views */,
 				05DECBD224338B2D0088B58D /* Supporting Views */,
+				05D4A431249D44A200929375 /* Extensions */,
 				055ECFA62434F4ED006BBD5D /* Resources */,
 				05DECB9F243337A80088B58D /* Assets.xcassets */,
 				05DECBA4243337A80088B58D /* LaunchScreen.storyboard */,
@@ -296,7 +298,7 @@
 				051A44EF2498C9A900F4667B /* ViewModifiers.swift */,
 				05A8CAD4247D5FAC00443B1F /* SearchField.swift */,
 				05DECBC9243343300088B58D /* CircleImage.swift */,
-				055ECFA224349FA8006BBD5D /* TopGradient.swift */,
+				055ECFA224349FA8006BBD5D /* GiftImage.swift */,
 				050414112449AECF00AE8835 /* FormatedTextField.swift */,
 				056812A2244B522A00B1533D /* Helpers.swift */,
 			);
@@ -422,11 +424,9 @@
 				05DECBA6243337A80088B58D /* LaunchScreen.storyboard in Resources */,
 				055BC683243B829B006DE7B3 /* turtlerock_taken.jpg in Resources */,
 				05DECBA3243337A80088B58D /* Preview Assets.xcassets in Resources */,
-				0516A51A2450920700153D9C /* listData.json in Resources */,
 				055BC681243B827A006DE7B3 /* turtlerock.jpg in Resources */,
 				0544C773243CBBD9004BD840 /* silversalmoncreek_taken.jpg in Resources */,
 				055ECFB52434FBDF006BBD5D /* silversalmoncreek.jpg in Resources */,
-				0591F1EC24509EFA00291913 /* itemData.json in Resources */,
 				05DECBA0243337A80088B58D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,7 +458,6 @@
 				053574BA247FB2FC008F3C98 /* ItemsViewModel.swift in Sources */,
 				055BC67B243B7DA3006DE7B3 /* PageView.swift in Sources */,
 				0544C771243CBADE004BD840 /* PageControl.swift in Sources */,
-				055ECFAD2434F85E006BBD5D /* Data.swift in Sources */,
 				054E9A352489881E0045A1D4 /* DaisyService.swift in Sources */,
 				051A80AA2436338E00A5032A /* UserSettings.swift in Sources */,
 				0504140E2449A3CD00AE8835 /* ListView.swift in Sources */,
@@ -471,10 +470,11 @@
 				055BC679243B7D52006DE7B3 /* PageViewController.swift in Sources */,
 				05DECBCC24336CB10088B58D /* UserView.swift in Sources */,
 				0591F1EE2450A2C500291913 /* ItemListView.swift in Sources */,
+				05D4A430249D449000929375 /* Color.swift in Sources */,
 				05DECB9C243337A70088B58D /* SceneDelegate.swift in Sources */,
 				055219D1249A85F3009ACC91 /* ListViewModel.swift in Sources */,
 				0511664B244861A200FF0E79 /* Item.swift in Sources */,
-				055ECFA324349FA8006BBD5D /* TopGradient.swift in Sources */,
+				055ECFA324349FA8006BBD5D /* GiftImage.swift in Sources */,
 				05832F46249772700092A25D /* APIError.swift in Sources */,
 				053BB3BF24489C54008E16F2 /* Auth.swift in Sources */,
 				05DECB9E243337A70088B58D /* ContentView.swift in Sources */,

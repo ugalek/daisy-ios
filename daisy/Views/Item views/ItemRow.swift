@@ -20,39 +20,68 @@ struct ItemRow: View {
         HStack {
             if displayMode == .compact {
                 HStack {
-                    item.imageStored
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                    if item.status == 3 {
+                    if item.status == 1 {
+                        item.imageStored
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(8)
                         Text(item.title)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.black)
+                        Spacer()
+                        Text(String(item.price ?? 0) + " $")
+                    } else if item.status == 2 {
+                        GiftImage(item: item)
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(item.title)
+                                .foregroundColor(.black)
+                            Text("Reserved")
+                                .font(.footnote)
+                                .foregroundColor(.gray)
+                        }
+                        Spacer()
+                        Text(String(item.price ?? 0) + " $")
                     } else {
-                        Text(item.title)
-                    }
-                    Spacer()
-                    
-                    if item.status == 2 {
-                        // reserved
-                        Image(systemName: "gift")
-                            .imageScale(.medium)
-                            .foregroundColor(.purple)
-                    } else if item.status == 3 {
-                        // taken
-                        Image(systemName: "gift.fill")
-                            .imageScale(.medium)
-                            .foregroundColor(.gray)
+                        GiftImage(item: item)
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(item.title)
+                                .foregroundColor(.gray)
+                            Text("Taken")
+                                .font(.footnote)
+                                .foregroundColor(.gray)
+                        }
+                        Spacer()
                     }
                 }
             } else {
-                VStack {
-                    Image(item.image)
-                        .resizable()
-                        .scaledToFit()
-                        .cornerRadius(8)
-                        .overlay(PriceOverlay(item: item))
-                    Text(item.title)
-                        .font(.footnote)
-                        .lineLimit(1)
+                HStack(alignment: .center){
+                    HStack {
+                        Spacer()
+                        VStack {
+                            Image(item.image)
+                                .resizable()
+                                .frame(width: 200, height: 200)
+                                .scaledToFit()
+                                .cornerRadius(8)
+                                .overlay(PriceOverlay(item: item))
+                            HStack {
+                                if item.status == 2 {
+                                    // reserved
+                                    Image(systemName: "gift")
+                                        .imageScale(.medium)
+                                        .foregroundColor(Color.dSecondaryButton)
+                                } else if item.status == 3 {
+                                    // taken
+                                    Image(systemName: "gift.fill")
+                                        .imageScale(.medium)
+                                        .foregroundColor(.gray)
+                                }
+                                Text(item.title)
+                                    .font(.footnote)
+                                    .lineLimit(1)
+                            }
+                        }
+                        Spacer()
+                    }
                 }
             }
         }
@@ -61,11 +90,10 @@ struct ItemRow: View {
 
 struct PriceOverlay: View {
     var item: Item
-    
     var gradient: LinearGradient {
         LinearGradient(
             gradient: Gradient(
-                colors: [Color.black.opacity(0.6), Color.black.opacity(0)]),
+                colors: [Color.black.opacity(0.5), Color.black.opacity(0)]),
             startPoint: .bottom,
             endPoint: .center)
     }
@@ -73,10 +101,24 @@ struct PriceOverlay: View {
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             Rectangle().fill(gradient)
+                .cornerRadius(8)
             HStack {
+                VStack(alignment: .leading) {
+                    if item.status == 2 {
+                        Text("Reserved")
+                            .font(.footnote)
+                    } else if item.status == 3 {
+                        Text("Taken")
+                            .font(.footnote)
+                    }
+                }
+                .padding(.leading)
+                
                 Spacer()
                 VStack(alignment: .leading) {
-                    Text(String(item.price ?? 0))
+                    if item.status != 3 {
+                        Text(String(item.price ?? 0) + " $")
+                    }
                 }
                 .padding()
             }
@@ -87,11 +129,12 @@ struct PriceOverlay: View {
 
 struct ItemRow_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            ItemRow(displayMode: ItemRow.DisplayMode.compact, item: itemData[0])
-            ItemRow(displayMode: ItemRow.DisplayMode.compact, item: itemData[1])
-            ItemRow(displayMode: ItemRow.DisplayMode.compact, item: itemData[2])
+        List {
+            ItemRow(displayMode: ItemRow.DisplayMode.compact, item: staticItem)
+            ItemRow(displayMode: ItemRow.DisplayMode.compact, item: staticReservedItem)
+            ItemRow(displayMode: ItemRow.DisplayMode.compact, item: staticTakentem)
+            ItemRow(displayMode: ItemRow.DisplayMode.large, item: staticReservedItem)
+            ItemRow(displayMode: ItemRow.DisplayMode.large, item: staticTakentem)
         }
-        .previewLayout(.fixed(width: 300, height: 70))
     }
 }

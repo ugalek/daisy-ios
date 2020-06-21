@@ -29,34 +29,28 @@ struct ConnectionView: View {
             Image(systemName: "gear")
                 .imageScale(.large)
                 .accessibility(label: Text("App settings"))
-                .foregroundColor(Color(ColorPalette.gray))
+                .foregroundColor(Color.gray)
         }
     }
     
     var body: some View {
         NavigationView {
             ZStack {
-                Color("Background").edgesIgnoringSafeArea(.all)
+                Color.dBackground.edgesIgnoringSafeArea(.all)
                 VStack {
-                    ZStack {
-                        TopGradient()
-                            .edgesIgnoringSafeArea(.top)
-                        welcomeView()
-                    }
-                    VStack(alignment: .center, spacing: 10) {
-                        loginForm()
-                        Divider()
-                        Text("or use access to list of items")
-                            .font(.caption)
-                        magicAccess()
-                        Spacer()
-                        ApiLinkText
-                    }
-                    .padding(.horizontal)
-                    .navigationBarItems(trailing: settingsButton)
-                    .sheet(isPresented: $showingSettings) {
-                        settingsView(apiLink: self.apiLink)
-                    }
+                    welcomeView()
+                    loginForm()
+                    Divider()
+                    Text("or use access to list of items")
+                        .font(.caption)
+                    magicAccess()
+                    Spacer()
+                    ApiLinkText
+                }
+                .padding(.horizontal)
+                .navigationBarItems(trailing: settingsButton)
+                .sheet(isPresented: $showingSettings) {
+                    settingsView(apiLink: self.apiLink)
                 }
             }
         }
@@ -107,7 +101,7 @@ struct loginForm: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(width: 180, height: 40)
-                    .background(Color.pink)
+                    .background(Color.dPrimaryButton)
                     .cornerRadius(15.0)
             }
         }
@@ -134,7 +128,7 @@ struct magicAccess: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(width: 180, height: 40)
-                    .background(Color.orange)
+                    .background(Color.dSecondaryButton)
                     .cornerRadius(15.0)
             }
         }
@@ -148,14 +142,13 @@ struct settingsView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color("Background").edgesIgnoringSafeArea(.all)
+                Color.dBackground.edgesIgnoringSafeArea(.all)
                 VStack {
                     Text("API address")
                     FormatedTextField(
                         placeholder: "http://website.com/api/v1",
                         iconName: "link.circle",
-                        text: self.$apiLink,
-                        borderColor: ColorPalette.gray)
+                        text: self.$apiLink)
                     Spacer()
                 }
                 .padding()
@@ -168,10 +161,20 @@ struct settingsView: View {
                     self.presentationMode.wrappedValue.dismiss()
                 }) {
                     Text("Done").bold()
-                        .foregroundColor(Color(ColorPalette.black))
+                        .foregroundColor(Color.black)
                 })
-                    //.navigationBarColor(UIColor(named: "lightBlueColor"))
             }
+        }
+    }
+}
+
+struct ConnectionView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            ConnectionView()
+                .environment(\.colorScheme, .dark)
+            ConnectionView()
+                .environment(\.colorScheme, .light)
         }
     }
 }

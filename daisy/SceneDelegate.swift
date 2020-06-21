@@ -24,17 +24,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
-            UINavigationBar.appearance().barTintColor = UIColor(named: "SecondaryBackground")
-            UINavigationBar.appearance().backgroundColor = UIColor(named: "Background")
+            UINavigationBar.appearance().backgroundColor = UIColor(named: "dBackground")
+            UINavigationBar.appearance().barTintColor = UIColor(named: "dSecondaryBackground")
             UINavigationBar.appearance().tintColor = UIColor(named: "darkBlueColor")
-            
-            UITableView.appearance().backgroundColor = UIColor(named: "Background")
-            UITableViewCell.appearance().backgroundColor = UIColor(named: "SecondaryBackground")
+
+            UITableView.appearance().backgroundColor = UIColor(named: "dBackground")
+            UITableViewCell.appearance().backgroundColor = UIColor(named: "dSecondaryBackground")
             UITableView.appearance().tableFooterView = UIView()
-            
-            UITabBar.appearance().unselectedItemTintColor = UIColor(named: "darkBlueColor")
-            UITabBar.appearance().barTintColor = UIColor(named: "lightBlueColor")
-            UITabBar.appearance().backgroundColor = UIColor(named: "Background")
+
+//            UITabBar.appearance().unselectedItemTintColor = UIColor(named: "darkBlueColor")
+//            UITabBar.appearance().barTintColor = UIColor(named: "lightBlueColor")
+//            UITabBar.appearance().backgroundColor = UIColor(named: "dBackground")
             
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(

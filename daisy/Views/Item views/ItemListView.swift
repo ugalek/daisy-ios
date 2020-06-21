@@ -50,7 +50,7 @@ struct ItemListView: View {
         Button(action: {
             self.itemRowsDisplayMode = self.itemRowsDisplayMode == .compact ? .large : .compact
         }) {
-            Image(systemName: itemRowsDisplayMode == .large ? "rectangle.grid.1x2" : "list.dash")
+            Image(systemName: itemRowsDisplayMode == .large ? "list.dash" : "rectangle.grid.1x2")
                 .imageScale(.large)
         }
     }
@@ -90,7 +90,7 @@ struct ItemListView: View {
                 ForEach(currentItems) { item in
                     NavigationLink(destination: ItemDetail(item: item)) {
                         ItemRow(displayMode: self.itemRowsDisplayMode, item: item)
-                            .listRowBackground(Color.red)
+                            .listRowBackground(Color.dSecondaryBackground)
                     }
                 }
             }
@@ -117,3 +117,9 @@ struct ItemListView: View {
     }    
 }
 
+
+struct ItemListView_Previews: PreviewProvider {
+    static var previews: some View {
+        ItemListView(itemViewModel: ItemsViewModel(list: staticList), list: staticList)
+    }
+}
