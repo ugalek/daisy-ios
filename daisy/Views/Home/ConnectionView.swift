@@ -83,7 +83,7 @@ struct loginForm: View {
                 placeholder: "Email",
                 iconName: "envelope",
                 text: $email,
-                isValid: Helpers().isValid(email: email))
+                isValid: Validators.emailIsValid(email: email))
             
             FormatedTextField(
                 placeholder: "Password",

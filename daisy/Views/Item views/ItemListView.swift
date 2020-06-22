@@ -117,9 +117,12 @@ struct ItemListView: View {
     }    
 }
 
-
+#if DEBUG
 struct ItemListView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemListView(itemViewModel: ItemsViewModel(list: staticList), list: staticList)
+        NavigationView {
+            ItemListView(itemViewModel: ItemsViewModel(list: staticList), list: staticList)
+        }
     }
 }
+#endif
