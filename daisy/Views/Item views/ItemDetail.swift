@@ -10,51 +10,94 @@ import SwiftUI
 
 struct ItemDetail: View {
     var item: Item
+    var reserveButton: some View {
+        Button(action: {
+            print("reserve")
+        }) {
+            HStack{
+                Text("Reserve")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .background(Color.dSecondaryButton)
+                    .cornerRadius(15.0)
+            }
+        }
+    }
+    
+    var takeButton: some View {
+        Button(action: {
+            print("taken")
+        }) {
+            HStack{
+                Text("Take it!")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .background(Color.dPrimaryButton)
+                    .cornerRadius(15.0)
+            }
+        }
+    }
+    
+    var seeButton: some View {
+        Button(action: {
+            print("See")
+        }) {
+            HStack{
+                Text(item.url ?? "")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .background(Color.dPrimaryButton)
+                    .cornerRadius(15.0)
+            }
+        }
+    }
+    
     var body: some View {
-        VStack {
-            VStack(alignment: .leading) {
+        ZStack {
+            Color.dBackground.edgesIgnoringSafeArea(.all)
+            VStack {
                 HStack {
-                    Text(item.title)
-                        .font(.title)
-                        .fontWeight(.thin)
                     Spacer()
-                    Button(action: {
-                        //isReserved.toggle()
-                        print("reserve")
-                    }) {
-                        if item.status == 2 {
-                            Image(systemName: "bag.badge.minus.fill")
-                                .foregroundColor(.orange)
-                        } else {
-                            Image(systemName: "bag.badge.plus")
-                                .foregroundColor(.gray)
-                        }
-                    }
+                    Image(item.image)
+                        .resizable()
+                        .frame(width: 200, height: 200)
+                        .scaledToFit()
+                        .cornerRadius(8)
+                    Spacer()
                 }
-                HStack(alignment: .top) {
-                    Text("url")
-                        .font(.subheadline)
-                    Spacer()
-                    Text("price")
-                        .font(.subheadline)
+                HStack(spacing: 2) {
+                    Image(systemName: "dollarsign.circle")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 20, height: 20)
+                    Text(String(item.price ?? 0))
+                        .foregroundColor(.black)
                 }
                 Divider()
+                ScrollView {
+                    Text(item.description)
+                        .font(.subheadline)
+                }
                 HStack {
-                    ScrollView {
-                        Text(item.description)
-                            .font(.subheadline)
-                    }
+                    reserveButton
+                    seeButton
+                    takeButton
                 }
             }
             .padding()
-            Spacer()
         }
-        .background(Color.dBackground)
+        .listStyle(GroupedListStyle())
+        .navigationBarTitle(Text(item.title), displayMode: .inline)
+        .modifier(DismissingKeyboardOnSwipe())
     }
 }
 
+#if DEBUG
 struct ItemDetail_Previews: PreviewProvider {
     static var previews: some View {
-        ItemDetail(item: staticItem)
+       NavigationView {
+            ItemDetail(item: staticItem)
+        }
     }
 }
+#endif
