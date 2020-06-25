@@ -11,21 +11,22 @@ import SwiftUI
 struct ItemListView: View {
     @ObservedObject var itemViewModel: ItemsViewModel
     @State private var showSortSheet = false
-    @State private var itemRowsDisplayMode: ItemRow.DisplayMode = .compact
+    @State private var itemRowsDisplayMode: ItemsViewModel.DisplayMode = .compact
     
     var list: UserList
         
-    var currentItems: [Item] {
-        get {
-            if !itemViewModel.searchText.isEmpty {
-                return itemViewModel.searchResults
-            } else if itemViewModel.sort != nil {
-                return itemViewModel.sortedItems
-            } else {
-                return itemViewModel.items
-            }
-        }
-    }
+    var currentItems: [Item] = [staticItem, staticTakentem, staticReservedItem]
+//    var currentItems: [Item] {
+//        get {
+//            if !itemViewModel.searchText.isEmpty {
+//                return itemViewModel.searchResults
+//            } else if itemViewModel.sort != nil {
+//                return itemViewModel.sortedItems
+//            } else {
+//                return itemViewModel.items
+//            }
+//        }
+//    }
     
     @State var showAddItem = false
     private var addButton: some View {
@@ -84,37 +85,70 @@ struct ItemListView: View {
         return ActionSheet(title: title, buttons: buttons)
     }
     
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+    
     var body: some View {
-        List {
+        ScrollView {
             Section(header: SearchField(searchText: $itemViewModel.searchText)) {
-                ForEach(currentItems) { item in
+                switch self.itemRowsDisplayMode {
+                case .compact: ForEach(currentItems) { item in
                     NavigationLink(destination: ItemDetail(item: item)) {
-                        ItemRow(displayMode: self.itemRowsDisplayMode, item: item)
+                        ItemRow(item: item)
                             .listRowBackground(Color.dSecondaryBackground)
                     }
                 }
-            }
-        }
-        .listStyle(GroupedListStyle())
+                case .large: LazyVGrid(columns: columns, spacing: 20) {
+                    ForEach(currentItems, id: \.self) { item in
+                        VStack {
+                            Image(item.image)
+                                .resizable()
+                                .scaledToFit()
+                                .cornerRadius(8)
+                                .overlay(PriceOverlay(item: item))
+                            HStack {
+                                if item.status == 2 {
+                                    // reserved
+                                    Image(systemName: "gift")
+                                        .imageScale(.medium)
+                                        .foregroundColor(Color.dSecondaryButton)
+                                } else if item.status == 3 {
+                                    // taken
+                                    Image(systemName: "gift.fill")
+                                        .imageScale(.medium)
+                                        .foregroundColor(.gray)
+                                }
+                                Text(item.title)
+                                    .font(.footnote)
+                                    .lineLimit(1)
+                            }
+                        }
+                    } // ForEach
+                } // case large
+                } // switch
+            } // Section
+        } //ScrollView
+        .padding(.horizontal)
         .id(itemViewModel.sort)
         .modifier(DismissingKeyboardOnSwipe())
-        .navigationBarTitle(Text(itemViewModel.list.title),
-                            displayMode: .automatic)
-            .navigationBarItems(trailing:
-                HStack(spacing: 12) {
-                    addButton
-                    sortButton
-                    layoutButton
-            })
-            .actionSheet(isPresented: $showSortSheet, content: { self.sortSheet })
-            .sheet(isPresented: $showAddItem) {
-                ItemEdit(
-                    itemViewModel: self.itemViewModel,
-                    showAddItem: self.$showAddItem,
-                    list: self.list
-                )
+        .navigationBarTitle(Text(itemViewModel.list.title), displayMode: .automatic)
+        .navigationBarItems(trailing:
+                                HStack(spacing: 12) {
+                                    addButton
+                                    sortButton
+                                    layoutButton
+                                })
+        .actionSheet(isPresented: $showSortSheet, content: { self.sortSheet })
+        .sheet(isPresented: $showAddItem) {
+            ItemEdit(
+                itemViewModel: self.itemViewModel,
+                showAddItem: self.$showAddItem,
+                list: self.list
+            )
         }
-    }    
+    }
 }
 
 #if DEBUG

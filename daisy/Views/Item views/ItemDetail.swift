@@ -80,7 +80,7 @@ struct ItemDetail: View {
                 }
                 HStack {
                     reserveButton
-                    seeButton
+                    Link("See", destination: URL(string: item.url ?? "/")!)
                     takeButton
                 }
             }
