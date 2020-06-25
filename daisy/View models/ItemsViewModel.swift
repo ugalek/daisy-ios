@@ -12,7 +12,7 @@ import Combine
 class ItemsViewModel: ObservableObject {
     @Published var items: [Item] = []
     @Published var sortedItems: [Item] = []
-    @Published var searchItems: [Item] = []
+    @Published var searchResults: [Item] = []
     @Published var searchText = ""
     
     public let list: UserList
@@ -51,12 +51,22 @@ class ItemsViewModel: ObservableObject {
             .filter { !$0.isEmpty }
             .map(items(with:))
             .sink{ [weak self] in
-                self?.searchItems = $0
+                self?.searchResults = $0
         }
         
-        DaisyService.genericFetch(endpoint: .items(id: list.id)) { (i: ItemResults) in
-            self.items = i.items
+        if items.isEmpty {
+            fetchData()
         }
+    }
+    
+    private func fetchData() {
+        DaisyService.getRequest(endpoint: .items(id: list.id))
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in },
+                  receiveValue: { response in
+                    self.items.append(contentsOf: response)
+            })
+            .store(in: &disposables)
     }
     
     private func items(with string: String) -> [Item] {

@@ -27,16 +27,16 @@ struct SearchField: View {
                 }) {
                     Image(systemName: "xmark.circle")
                         .font(.headline)
-                        .foregroundColor(.red)
+                        .foregroundColor(Color.dSecondaryButton)
                         .imageScale(.large)
                 }.buttonStyle(BorderlessButtonStyle())
             }
         }
         .padding(8)
-        .background(Color.red)
-        .mask(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .background(Color.dSecondaryBackground)
+        .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.dBorderColor, lineWidth: 1))
         .padding(2)
-        .listRowBackground(Color.yellow)
+        .listRowBackground(Color.dBackground)
     }
 }
 
@@ -52,7 +52,7 @@ struct SearchField_Previews: PreviewProvider {
                                 placeholder: "Placeholder")
                     SearchField(searchText: .constant("Editing"),
                                 placeholder: "test")
-                    Text("An item")
+                    Text("Item")
                                                             
                 }
                 

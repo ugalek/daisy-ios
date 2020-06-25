@@ -12,7 +12,7 @@ struct ListResults: Decodable {
     let lists: [UserList]
 }
 
-public struct UserList: Decodable, Identifiable, Hashable {
+public struct UserList: Codable, Identifiable, Hashable {
     public let id: String
     let userID: String?
     let createdAt: Date?
@@ -21,6 +21,21 @@ public struct UserList: Decodable, Identifiable, Hashable {
     let image: String
     let surprise: Bool
 }
+
+public let staticList = UserList(id: "0",
+                                      userID: "1",
+                                      createdAt: Date(),
+                                      updatedAt: Date(),
+                                      title: "Static list",
+                                      image: "turtlerock",
+                                      surprise: false)
+public let staticSurpriseList = UserList(id: "1",
+                                 userID: "1",
+                                 createdAt: Date(),
+                                 updatedAt: Date(),
+                                 title: "Static surprise list",
+                                 image: "silversalmoncreek",
+                                 surprise: true)
 
 extension UserList {
     var imageStored: Image {

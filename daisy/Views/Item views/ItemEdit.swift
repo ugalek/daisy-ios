@@ -6,78 +6,134 @@
 //  Copyright © 2020 Galina FABIO. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 
+class ItemFields: ObservableObject, Codable {
+    enum CodingKeys: String, CodingKey {
+        case title, image
+    }
+    
+    let objectWillChange = PassthroughSubject<Void, Never>()
+    
+    var title: String = "" {
+        didSet {
+            self.titleIsValid = Validators.titleIsValid(title: self.title)
+            update()
+        }
+    }
+    var image: String = "turtlerock" { didSet { update() } }
+    var url: String = "http://ugalek.com" { didSet { update() } }
+    var price: String = "" { didSet { update() } }
+    var description: String = "Description" { didSet { update() } }
+    var titleIsValid: Bool = true { didSet { update() } }
+    
+    var isValid: Bool {
+        if title.isEmpty || url.isEmpty || !titleIsValid {
+            return false
+        }
+        return true
+    }
+    
+    func update() {
+        objectWillChange.send(())
+    }
+}
+
 struct ItemEdit: View {
+    @Environment(\.presentationMode) var presentationMode
+    
     @ObservedObject var itemViewModel: ItemsViewModel
+    @ObservedObject var itemFields = ItemFields()
+
     @Binding var showAddItem: Bool
     
-    @State var title: String = ""
-    @State var image: String = "turtlerock"
-    @State var url: String = "http://ugalek.com"
-    @State var price: String = "5"
-    @State var description: String = "Description"
     let list: UserList
+    
+    private var doneButton: some View {
+        Button(action: { self.doneAction() }) {
+            Text("Done").bold()
+        }
+    }
+    
+    private var cancelButton: some View {
+        Button(action: {
+            self.showAddItem = false
+            self.presentationMode.wrappedValue.dismiss()
+        })
+        { Text("Cancel") }
+    }
     
     var body: some View {
         NavigationView {
-            VStack {
+            Form {
                 Text(list.title)
-                HStack(alignment: .center) {
-                    Text("Title")
-                        .font(.callout)
-                    TextField("", text: $title)
+                VStack(alignment: .leading) {
+                    TextField("Title", text: $itemFields.title)
                         .font(.caption)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .overlay(NotValidImage(isValid: self.itemFields.titleIsValid), alignment: .trailing)
+                    if !self.itemFields.titleIsValid {
+                        Text("Title is not valid")
+                            .font(.footnote)
+                            .foregroundColor(.red)
+                    }
                 }
                 
-                HStack(alignment: .center) {
-                    Text("Image")
-                        .font(.callout)
-                    TextField("", text: $image)
-                        .font(.caption)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                
-                HStack(alignment: .center) {
-                    Text("URL")
-                        .font(.callout)
-                    TextField("", text: $url)
-                        .font(.caption)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                
-                HStack(alignment: .center) {
-                    Text("Price")
-                        .font(.callout)
-                    TextField("", text: $price)
-                        .font(.caption)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                
-                HStack(alignment: .center) {
-                    Text("Description")
-                        .font(.callout)
-                    TextField("", text: $description)
-                        .font(.caption)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                Spacer()
+                TextField("Image", text: $itemFields.image)
+                    .font(.caption)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                TextField("URL (http://example.com)", text: $itemFields.url)
+                    .font(.caption)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                TextField("Price", text: $itemFields.price)
+                    .font(.caption)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                TextField("Description", text: $itemFields.description)
+                    .font(.caption)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            } // Form
+                .navigationBarTitle(Text("Add new Item"), displayMode: .inline)
+                .navigationBarItems(leading: cancelButton,
+                                    trailing: doneButton
+                                        .disabled(!itemFields.isValid)
+            )
+        }
+    }
+    
+    func doneAction() {
+        self.itemViewModel.addItem(
+            listID: self.list.id,
+            title: self.itemFields.title,
+            image: self.itemFields.image,
+            url: self.itemFields.url,
+            price: self.itemFields.price,
+            description: self.itemFields.description)
+        self.showAddItem = false
+    }
+}
+
+struct ItemEdit_Previews: PreviewProvider {
+    static var previews: some View {
+        ItemEdit(
+            itemViewModel: ItemsViewModel(list: staticList),
+            showAddItem: .constant(false),
+            list: staticList)
+    }
+}
+
+struct NotValidImage: View {
+    var isValid: Bool
+    
+    var body: some View {
+        HStack {
+            if !isValid {
+                Image(systemName: "exclamationmark.shield")
+                    .foregroundColor(.red)
+                    .padding()
+            } else {
+                EmptyView()
             }
-            .padding()
-            .navigationBarTitle(Text("Sheet View"), displayMode: .inline)
-            .navigationBarItems(trailing: Button(action: {
-               self.itemViewModel.addItem(
-                    listID: self.list.id,
-                    title: self.title,
-                    image: self.image,
-                    url: self.url,
-                    price: self.price,
-                    description: self.description)
-                self.showAddItem = false
-            }) {
-                Text("Done").bold()
-            })
         }
     }
 }

@@ -13,15 +13,12 @@ struct UserView: View {
     
     var body: some View {
         ZStack {
-            Color("backgroundColor").edgesIgnoringSafeArea(.all)
+            Color.dBackground.edgesIgnoringSafeArea(.all)
             VStack {
-                ZStack {
-                    TopGradient()
-                        .edgesIgnoringSafeArea(.top)
-                    CircleImage(image: Image("turtlerock"))
-                        .frame(width: 150, height: 150)
-                        .padding(.bottom, 20)
-                }
+                CircleImage(image: Image("turtlerock"))
+                    .frame(width: 150, height: 150)
+                    .padding(20)
+                
                 UserInfo(userName: "Joe Doe", email: "joe@example.com", city: "California")
                 Button(action: {
                     UserDefaults().removeObject(forKey: "token")
@@ -33,19 +30,23 @@ struct UserView: View {
                         .foregroundColor(.white)
                         .padding()
                         .frame(width: 180, height: 40)
-                        .background(Color.pink)
+                        .background(Color.dSecondaryButton)
                         .cornerRadius(15.0)
                 }
                 Spacer()
             }
-            .navigationBarColor(UIColor(named: "lightBlueColor"))
         }
     }
 }
 
 struct UserView_Previews: PreviewProvider {
     static var previews: some View {
-        UserView()
+        Group {
+            UserView()
+                .environment(\.colorScheme, .dark)
+            UserView()
+                .environment(\.colorScheme, .light)
+        }
     }
 }
 
@@ -65,7 +66,7 @@ struct UserInfo: View {
                 }) {
                     Image(systemName: "pencil")
                         .font(.title)
-                        .foregroundColor(Color("buttonColor"))
+                        .foregroundColor(Color.dPrimaryButton)
                 }
             }
             HStack(alignment: .top) {

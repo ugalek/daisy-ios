@@ -22,7 +22,7 @@ struct ListRow: View {
             if list.surprise {
                 Image(systemName: "sparkles")
                     .imageScale(.medium)
-                    .foregroundColor(.purple)
+                    .foregroundColor(Color.dSurpriseColor)
             }
         }
     }
@@ -31,9 +31,12 @@ struct ListRow: View {
 struct ListRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ListRow(list: listData[0])
-            ListRow(list: listData[1])
+            ListRow(list: staticList)
+            ListRow(list: staticSurpriseList)
+                .environment(\.colorScheme, .light)
+            ListRow(list: staticSurpriseList)
+                .environment(\.colorScheme, .dark)
         }
-        .previewLayout(.fixed(width: 300, height: 70))
+        .previewLayout(.fixed(width: 300, height: 140))
     }
 }

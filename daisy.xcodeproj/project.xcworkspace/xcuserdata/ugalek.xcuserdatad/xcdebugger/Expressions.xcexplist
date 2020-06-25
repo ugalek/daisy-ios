@@ -9,10 +9,18 @@
                value = "list.id">
             </PersistentString>
             <PersistentString
-               value = "self.items">
+               value = "NetworkManager.shared.$publicItems.count()">
             </PersistentString>
             <PersistentString
-               value = "NetworkManager.shared.$publicItems.count()">
+               value = "self.items">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in ListViewModel.fetchData():ListViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.rlists">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

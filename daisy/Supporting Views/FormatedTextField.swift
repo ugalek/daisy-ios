@@ -15,15 +15,13 @@ struct FormatedTextField: View {
     let keyboardType: UIKeyboardType
     let isSecured: Bool
     let isValid: Bool
-    let borderColor: UIColor
     
     init(placeholder: String,
          iconName: String,
          text: Binding<String>,
          keyboardType: UIKeyboardType = UIKeyboardType.default,
          isSecured: Bool = false,
-         isValid: Bool = true,
-         borderColor: UIColor = ColorPalette.gray3) {
+         isValid: Bool = true) {
         
         self.placeholder = placeholder
         self.iconName = iconName
@@ -31,7 +29,6 @@ struct FormatedTextField: View {
         self.keyboardType = keyboardType
         self.isSecured = isSecured
         self.isValid = isValid
-        self.borderColor = borderColor
     }
     
     var body: some View {
@@ -49,10 +46,10 @@ struct FormatedTextField: View {
                         .font(.caption)
                 }
                 Image(systemName: iconName)
-                    .foregroundColor(!isValid ? .red : Color(borderColor))
+                    .foregroundColor(!isValid ? .red : Color.dBorderColor)
             }
             .padding(5)
-            .overlay(RoundedRectangle(cornerRadius: 5).stroke(!isValid ? .red : Color(borderColor), lineWidth: 1))
+            .overlay(RoundedRectangle(cornerRadius: 8).stroke(!isValid ? .red : Color.dBorderColor, lineWidth: 1))
         }
     }
 }
