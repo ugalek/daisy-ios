@@ -88,6 +88,19 @@ struct ItemDetail: View {
         }
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text(item.title), displayMode: .inline)
+        .toolbar {
+            ToolbarItem {
+                Button(action: { print("reserve") }) {
+                    Label("reserve", systemImage: "book.circle")
+                }
+            }
+            
+            ToolbarItem(placement: .bottomBar) {
+                Button(action: { print("Take it") }) {
+                    Label("Take it", systemImage: "dollarsign.circle")
+                }
+            }
+        }
         .modifier(DismissingKeyboardOnSwipe())
     }
 }

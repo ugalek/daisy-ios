@@ -86,8 +86,7 @@ struct ItemListView: View {
     }
     
     let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible())
+        GridItem(.adaptive(minimum: 130), spacing: 10)
     ]
     
     var body: some View {
@@ -148,6 +147,7 @@ struct ItemListView: View {
                 list: self.list
             )
         }
+ //       .listItemTint(.orange)
     }
 }
 

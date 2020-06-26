@@ -79,7 +79,7 @@ struct ItemEdit: View {
                             .foregroundColor(.red)
                     }
                 }
-                
+
                 TextField("Image", text: $itemFields.image)
                     .font(.caption)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -93,10 +93,10 @@ struct ItemEdit: View {
                     .font(.caption)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             } // Form
-                .navigationBarTitle(Text("Add new Item"), displayMode: .inline)
-                .navigationBarItems(leading: cancelButton,
-                                    trailing: doneButton
-                                        .disabled(!itemFields.isValid)
+            .navigationBarTitle(Text("Add new Item"), displayMode: .inline)
+            .navigationBarItems(leading: cancelButton,
+                                trailing: doneButton
+                                    .disabled(!itemFields.isValid)
             )
         }
     }
@@ -113,6 +113,7 @@ struct ItemEdit: View {
     }
 }
 
+#if DEBUG
 struct ItemEdit_Previews: PreviewProvider {
     static var previews: some View {
         ItemEdit(
@@ -121,6 +122,7 @@ struct ItemEdit_Previews: PreviewProvider {
             list: staticList)
     }
 }
+#endif
 
 struct NotValidImage: View {
     var isValid: Bool
