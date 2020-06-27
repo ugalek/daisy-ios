@@ -9,10 +9,10 @@
 import SwiftUI
 
 struct ConnectionView: View {
-    @State private var apiLink = DaisyService.apiUrl.absoluteString
-            
+    @State private var apiLink: String = UserDefaults.standard.string(forKey: "apiLink") ?? ""
+    
     private var ApiLinkText: some View {
-        if apiLink != "" {
+        if apiLink != "/" {
             return Text(apiLink)
                 .font(.caption)
                 .foregroundColor(.gray)
@@ -50,7 +50,7 @@ struct ConnectionView: View {
                 .padding(.horizontal)
                 .navigationBarItems(trailing: settingsButton)
                 .sheet(isPresented: $showingSettings) {
-                    settingsView(apiLink: self.apiLink)
+                    settingsView(apiLink: self.$apiLink)
                 }
             }
         }
@@ -79,11 +79,19 @@ struct loginForm: View {
     
     var body: some View {
         VStack {
-            FormatedTextField(
-                placeholder: "Email",
-                iconName: "envelope",
-                text: $email,
-                isValid: Validators.emailIsValid(email: email))
+            VStack(alignment: .leading) {
+                FormatedTextField(
+                    placeholder: "Email",
+                    iconName: "envelope",
+                    text: $email,
+                    isValid: Validators.emailIsValid(email: email))
+                
+                if !Validators.emailIsValid(email: email) {
+                    Label("Email is not valid", systemImage: "exclamationmark.bubble")
+                        .font(.caption)
+                        .foregroundColor(.red)
+                }
+            }
             
             FormatedTextField(
                 placeholder: "Password",
@@ -137,7 +145,7 @@ struct magicAccess: View {
 
 struct settingsView: View {
     @Environment(\.presentationMode) var presentationMode
-    @State var apiLink: String
+    @Binding var apiLink: String
     
     var body: some View {
         NavigationView {

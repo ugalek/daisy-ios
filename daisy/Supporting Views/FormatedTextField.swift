@@ -32,24 +32,30 @@ struct FormatedTextField: View {
     }
     
     var body: some View {
-        
-        VStack(alignment: .leading) {
-            HStack {
-                if isSecured {
-                    SecureField(placeholder, text: text)
-                        .autocapitalization(.none)
-                        .font(.caption)
-                } else {
-                    TextField(placeholder, text: text)
-                        .keyboardType(keyboardType)
-                        .autocapitalization(.none)
-                        .font(.caption)
-                }
-                Image(systemName: iconName)
-                    .foregroundColor(!isValid ? .red : Color.dBorderColor)
+        VStack {
+            if isSecured {
+                SecureField(placeholder, text: text)
+                    .autocapitalization(.none)
+                    .font(.footnote)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .overlay(
+                        Image(systemName: iconName)
+                            .padding(.horizontal)
+                            .foregroundColor(!isValid ? .red : Color.dBorderColor),
+                        alignment: .trailing)
+            } else {
+                TextField(placeholder, text: text)
+                    .keyboardType(keyboardType)
+                    .autocapitalization(.none)
+                    .font(.footnote)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .foregroundColor(!isValid ? .red : .primary)
+                    .overlay(
+                        Image(systemName: iconName)
+                            .padding(.horizontal)
+                            .foregroundColor(!isValid ? .red : Color.dBorderColor),
+                        alignment: .trailing)
             }
-            .padding(5)
-            .overlay(RoundedRectangle(cornerRadius: 8).stroke(!isValid ? .red : Color.dBorderColor, lineWidth: 1))
         }
     }
 }
