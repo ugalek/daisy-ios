@@ -92,7 +92,7 @@ struct ItemRow_Previews: PreviewProvider {
         List {
             ItemRow(item: staticItem)
             ItemRow(item: staticReservedItem)
-            ItemRow(item: staticTakentem)
+            ItemRow(item: staticTakenItem)
         }
     }
 }

@@ -9,6 +9,10 @@
 import SwiftUI
 
 struct ListView: View {
+    init() {
+            UITableView.appearance().backgroundColor = .green // Uses UIColor
+        }
+    
     @EnvironmentObject var authManager: HttpAuth
     @ObservedObject var listViewModel = ListViewModel()
     
@@ -22,16 +26,16 @@ struct ListView: View {
             .accessibility(label: Text("User Profile"))
         }
     }
-    
-    var currentLists: [UserList] {
-        get {
-            if !listViewModel.searchText.isEmpty {
-                return listViewModel.searchResults
-            } else {
-                return listViewModel.lists
-            }
-        }
-    }
+    var currentLists: [UserList] = [staticList, staticSurpriseList]
+//    var currentLists: [UserList] {
+//        get {
+//            if !listViewModel.searchText.isEmpty {
+//                return listViewModel.searchResults
+//            } else {
+//                return listViewModel.lists
+//            }
+//        }
+//    }
 
     var body: some View {
         NavigationView {
@@ -46,6 +50,7 @@ struct ListView: View {
                             ListRow(list: list)
                         }
                     }
+                    .listRowBackground(Color.dBackground)
                 }
             }
             .listStyle(GroupedListStyle())
