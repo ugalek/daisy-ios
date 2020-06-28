@@ -67,7 +67,7 @@ struct ItemEdit: View {
     var body: some View {
         NavigationView {
             Form {
-                Text(list.title)
+                Text(list.title).listRowBackground(Color.dBackground)
                 VStack(alignment: .leading) {
                     TextField("Title", text: $itemFields.title)
                         .font(.caption)
@@ -78,20 +78,22 @@ struct ItemEdit: View {
                             .font(.footnote)
                             .foregroundColor(.red)
                     }
-                }
+                }.listRowBackground(Color.dBackground)
 
-                TextField("Image", text: $itemFields.image)
-                    .font(.caption)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                TextField("URL (http://example.com)", text: $itemFields.url)
-                    .font(.caption)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                TextField("Price", text: $itemFields.price)
-                    .font(.caption)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                TextField("Description", text: $itemFields.description)
-                    .font(.caption)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                VStack(alignment: .leading) {
+                    TextField("Image", text: $itemFields.image)
+                        .font(.caption)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    TextField("URL (http://example.com)", text: $itemFields.url)
+                        .font(.caption)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    TextField("Price", text: $itemFields.price)
+                        .font(.caption)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    TextField("Description", text: $itemFields.description)
+                        .font(.caption)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                }.listRowBackground(Color.dBackground)
             } // Form
             .navigationBarTitle(Text("Add new Item"), displayMode: .inline)
             .navigationBarItems(leading: cancelButton,

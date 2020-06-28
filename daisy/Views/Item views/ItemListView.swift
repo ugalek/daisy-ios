@@ -15,61 +15,21 @@ struct ItemListView: View {
     
     var list: UserList
     
-    var currentItems: [Item] = [staticItem,
-                                staticTakenItem,
-                                staticReservedItem,
-                                Item(id: "2001",
-                                     listID: "1",
-                                     createdAt: Date(),
-                                     updatedAt: Date(),
-                                     title: "My static Item with long and long title",
-                                     image: "turtlerock",
-                                     url: "http://ugalek.com",
-                                     price: 10,
-                                     description: "Mi, tellus fermentum class. Molestie id eget sem neque et condimentum pharetra penatibus luctus morbi et parturient. Purus imperdiet libero penatibus vivamus est lacinia montes nam tincidunt convallis? Maecenas nec placerat gravida bibendum ultricies nisi, lobortis lacinia. Venenatis ad leo potenti vel, molestie elementum. Penatibus purus cras auctor dolor etiam natoque tristique bibendum magnis. Viverra natoque. Eros hac quis tempor dolor mi. Morbi porttitor sit natoque enim facilisi! Cursus, elementum gravida metus luctus auctor justo. Nostra vel aptent vel risus iaculis felis consectetur bibendum duis. Tellus in tellus neque tristique eget cubilia ultricies nostra. Mattis nascetur pharetra imperdiet. Placerat dapibus sapien himenaeos ultrices, euismod dui mattis eros lorem. Natoque tempus in parturient. Leo at quis facilisi dapibus convallis primis est ultrices sit?",
-                                     status: 1),
-                                Item(id: "2002",
-                                     listID: "1",
-                                     createdAt: Date(),
-                                     updatedAt: Date(),
-                                     title: "My static Item with long and long title",
-                                     image: "turtlerock",
-                                     url: "http://ugalek.com",
-                                     price: 10,
-                                     description: "Mi, tellus fermentum class. Molestie id eget sem neque et condimentum pharetra penatibus luctus morbi et parturient. Purus imperdiet libero penatibus vivamus est lacinia montes nam tincidunt convallis? Maecenas nec placerat gravida bibendum ultricies nisi, lobortis lacinia. Venenatis ad leo potenti vel, molestie elementum. Penatibus purus cras auctor dolor etiam natoque tristique bibendum magnis. Viverra natoque. Eros hac quis tempor dolor mi. Morbi porttitor sit natoque enim facilisi! Cursus, elementum gravida metus luctus auctor justo. Nostra vel aptent vel risus iaculis felis consectetur bibendum duis. Tellus in tellus neque tristique eget cubilia ultricies nostra. Mattis nascetur pharetra imperdiet. Placerat dapibus sapien himenaeos ultrices, euismod dui mattis eros lorem. Natoque tempus in parturient. Leo at quis facilisi dapibus convallis primis est ultrices sit?",
-                                     status: 1),
-                                Item(id: "2003",
-                                     listID: "1",
-                                     createdAt: Date(),
-                                     updatedAt: Date(),
-                                     title: "My static Item with long and long title",
-                                     image: "turtlerock",
-                                     url: "http://ugalek.com",
-                                     price: 10,
-                                     description: "Mi, tellus fermentum class. Molestie id eget sem neque et condimentum pharetra penatibus luctus morbi et parturient. Purus imperdiet libero penatibus vivamus est lacinia montes nam tincidunt convallis? Maecenas nec placerat gravida bibendum ultricies nisi, lobortis lacinia. Venenatis ad leo potenti vel, molestie elementum. Penatibus purus cras auctor dolor etiam natoque tristique bibendum magnis. Viverra natoque. Eros hac quis tempor dolor mi. Morbi porttitor sit natoque enim facilisi! Cursus, elementum gravida metus luctus auctor justo. Nostra vel aptent vel risus iaculis felis consectetur bibendum duis. Tellus in tellus neque tristique eget cubilia ultricies nostra. Mattis nascetur pharetra imperdiet. Placerat dapibus sapien himenaeos ultrices, euismod dui mattis eros lorem. Natoque tempus in parturient. Leo at quis facilisi dapibus convallis primis est ultrices sit?",
-                                     status: 1),
-                                Item(id: "2004",
-                                     listID: "1",
-                                     createdAt: Date(),
-                                     updatedAt: Date(),
-                                     title: "My static Item with long and long title",
-                                     image: "turtlerock",
-                                     url: "http://ugalek.com",
-                                     price: 10,
-                                     description: "Mi, tellus fermentum class. Molestie id eget sem neque et condimentum pharetra penatibus luctus morbi et parturient. Purus imperdiet libero penatibus vivamus est lacinia montes nam tincidunt convallis? Maecenas nec placerat gravida bibendum ultricies nisi, lobortis lacinia. Venenatis ad leo potenti vel, molestie elementum. Penatibus purus cras auctor dolor etiam natoque tristique bibendum magnis. Viverra natoque. Eros hac quis tempor dolor mi. Morbi porttitor sit natoque enim facilisi! Cursus, elementum gravida metus luctus auctor justo. Nostra vel aptent vel risus iaculis felis consectetur bibendum duis. Tellus in tellus neque tristique eget cubilia ultricies nostra. Mattis nascetur pharetra imperdiet. Placerat dapibus sapien himenaeos ultrices, euismod dui mattis eros lorem. Natoque tempus in parturient. Leo at quis facilisi dapibus convallis primis est ultrices sit?",
-                                     status: 1)]
-//    var currentItems: [Item] {
-//        get {
-//            if !itemViewModel.searchText.isEmpty {
-//                return itemViewModel.searchResults
-//            } else if itemViewModel.sort != nil {
-//                return itemViewModel.sortedItems
-//            } else {
-//                return itemViewModel.items
-//            }
-//        }
-//    }
-    
+//    var currentItems: [Item] = [staticItem,
+//                                staticTakenItem,
+//                                staticReservedItem]
+    var currentItems: [Item] {
+        get {
+            if !itemViewModel.searchText.isEmpty {
+                return itemViewModel.searchResults
+            } else if itemViewModel.sort != nil {
+                return itemViewModel.sortedItems
+            } else {
+                return itemViewModel.items
+            }
+        }
+    }
+
     @State var showAddItem = false
     private var addButton: some View {
         Button(action: { self.showAddItem.toggle() }) {
@@ -153,7 +113,7 @@ struct ItemListView: View {
                         HStack {
                             if item.status == 2 {
                                 // reserved
-                                Image(systemName: "gift")
+                                Image(systemName: "gift.fill")
                                     .imageScale(.medium)
                                     .foregroundColor(Color.dSecondaryButton)
                             } else if item.status == 3 {
@@ -171,6 +131,7 @@ struct ItemListView: View {
             }
         }
         .padding(.horizontal)
+        .listRowBackground(Color.dBackground)
     }
     
     var body: some View {
@@ -207,8 +168,15 @@ struct ItemListView: View {
 #if DEBUG
 struct ItemListView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            ItemListView(itemViewModel: ItemsViewModel(list: staticList), list: staticList)
+        Group {
+            NavigationView {
+                ItemListView(itemViewModel: ItemsViewModel(list: staticList), list: staticList)
+            }
+            .environment(\.colorScheme, .dark)
+            NavigationView {
+                ItemListView(itemViewModel: ItemsViewModel(list: staticList), list: staticList)
+            }
+            .environment(\.colorScheme, .light)
         }
     }
 }

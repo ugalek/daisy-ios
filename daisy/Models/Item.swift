@@ -76,4 +76,22 @@ extension Item {
     var imageStored: Image {
         ImageStore.shared.image(name: image)
     }
+    
+    static func getRawStatus(status: uint) -> String {
+        switch status {
+        case 2:
+            return "Reserved"
+        case 3:
+            return "Taken"
+        default:
+            return ""
+        }
+    }
+    
+    static func getPriceString(price: Float64?) -> String {
+        if let price = price {
+            return String(format: "%.2f", price)
+        }
+        return "0.00"
+    }
 }

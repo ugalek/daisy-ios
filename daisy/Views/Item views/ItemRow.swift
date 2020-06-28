@@ -19,71 +19,43 @@ struct ItemRow: View {
                     .frame(width: 50, height: 50)
                     .cornerRadius(8)
                 Text(item.title)
-                    .foregroundColor(.black)
                 Spacer()
-                Text(String(item.price ?? 0) + " $")
+                HStack(spacing: 2) {
+                    Text(Item.getPriceString(price: item.price) + " ")
+                    Image(systemName: "dollarsign.circle")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 18, height: 18)
+                    
+                }
             } else if item.status == 2 {
                 GiftImage(item: item)
                 VStack(alignment: .leading, spacing: 6) {
                     Text(item.title)
-                        .foregroundColor(.black)
-                    Text("Reserved")
+                    Text(Item.getRawStatus(status: item.status))
                         .font(.footnote)
                         .foregroundColor(.gray)
                 }
                 Spacer()
-                Text(String(item.price ?? 0) + " $")
+                HStack(spacing: 2) {
+                    Text(Item.getPriceString(price: item.price) + " ")
+                    Image(systemName: "dollarsign.circle")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 18, height: 18)
+                }
             } else {
                 GiftImage(item: item)
                 VStack(alignment: .leading, spacing: 6) {
                     Text(item.title)
                         .foregroundColor(.gray)
-                    Text("Taken")
+                    Text(Item.getRawStatus(status: item.status))
                         .font(.footnote)
                         .foregroundColor(.gray)
                 }
                 Spacer()
             }
         }
-    }
-}
-
-struct PriceOverlay: View {
-    var item: Item
-    var gradient: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(
-                colors: [Color.black.opacity(0.5), Color.black.opacity(0)]),
-            startPoint: .bottom,
-            endPoint: .center)
-    }
-    
-    var body: some View {
-        ZStack(alignment: .bottomLeading) {
-            Rectangle().fill(gradient)
-                .cornerRadius(8)
-            HStack {
-                VStack(alignment: .leading) {
-                    if item.status == 2 {
-                        Text("Reserved")
-                            .font(.footnote)
-                    } else if item.status == 3 {
-                        Text("Taken")
-                            .font(.footnote)
-                    }
-                }
-                .padding(.leading)
-                
-                Spacer()
-                VStack(alignment: .leading) {
-                    if item.status != 3 {
-                        Text(String(item.price ?? 0) + " $")
-                    }
-                }
-                .padding()
-            }
-        }
-        .foregroundColor(.white)
     }
 }
 

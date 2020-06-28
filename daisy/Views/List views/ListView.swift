@@ -9,10 +9,6 @@
 import SwiftUI
 
 struct ListView: View {
-    init() {
-            UITableView.appearance().backgroundColor = .green // Uses UIColor
-        }
-    
     @EnvironmentObject var authManager: HttpAuth
     @ObservedObject var listViewModel = ListViewModel()
     
@@ -26,16 +22,16 @@ struct ListView: View {
             .accessibility(label: Text("User Profile"))
         }
     }
-    var currentLists: [UserList] = [staticList, staticSurpriseList]
-//    var currentLists: [UserList] {
-//        get {
-//            if !listViewModel.searchText.isEmpty {
-//                return listViewModel.searchResults
-//            } else {
-//                return listViewModel.lists
-//            }
-//        }
-//    }
+    
+    var currentLists: [UserList] {
+        get {
+            if !listViewModel.searchText.isEmpty {
+                return listViewModel.searchResults
+            } else {
+                return listViewModel.lists
+            }
+        }
+    }
 
     var body: some View {
         NavigationView {
@@ -63,7 +59,13 @@ struct ListView: View {
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
-        ListView()
-            .environmentObject(HttpAuth())
+        Group {
+            ListView()
+                .environmentObject(HttpAuth())
+                .environment(\.colorScheme, .dark)
+            ListView()
+                .environmentObject(HttpAuth())
+                .environment(\.colorScheme, .light)
+        }
     }
 }
