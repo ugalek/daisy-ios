@@ -17,7 +17,8 @@ class HttpAuth: ObservableObject {
     @Published var authenticated = false
     
     func login(email: String, password: String) {
-        let component = URLComponents(url: DaisyService.apiUrl.appendingPathComponent("auth"),
+        let apiUrl = URL(string: UserDefaults.standard.string(forKey: "apiLink") ?? "/")!
+        let component = URLComponents(url: apiUrl.appendingPathComponent("auth"),
                                              resolvingAgainstBaseURL: false)!
         
         guard let url = component.url else { return }

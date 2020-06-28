@@ -19,14 +19,14 @@ struct SearchField: View {
                 .imageScale(.large)
             TextField(placeholder, text: $searchText)
                 .foregroundColor(Color.black)
-                .font(.headline)
+                .font(.subheadline)
                 .accentColor(.blue)
             if !searchText.isEmpty {
                 Button(action: {
                     self.searchText = ""
                 }) {
                     Image(systemName: "xmark.circle")
-                        .font(.headline)
+                        .font(.subheadline)
                         .foregroundColor(Color.dSecondaryButton)
                         .imageScale(.large)
                 }.buttonStyle(BorderlessButtonStyle())
@@ -34,6 +34,7 @@ struct SearchField: View {
         }
         .padding(8)
         .background(Color.dSecondaryBackground)
+        .cornerRadius(8)
         .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.dBorderColor, lineWidth: 1))
         .padding(2)
         .listRowBackground(Color.dBackground)
@@ -42,21 +43,42 @@ struct SearchField: View {
 
 struct SearchField_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            List {
-                Section(header:
-                    SearchField(searchText: .constant("Editing"),
-                                placeholder: "test"))
-                {
-                    SearchField(searchText: .constant(""),
-                                placeholder: "Placeholder")
-                    SearchField(searchText: .constant("Editing"),
-                                placeholder: "test")
-                    Text("Item")
-                                                            
-                }
-                
-            }.listStyle(GroupedListStyle())
+        Group {
+            NavigationView {
+                List {
+                    Section(header:
+                        SearchField(searchText: .constant("Editing"),
+                                    placeholder: "test"))
+                    {
+                        SearchField(searchText: .constant(""),
+                                    placeholder: "Placeholder")
+                        SearchField(searchText: .constant("Editing"),
+                                    placeholder: "test")
+                        Text("Item")
+                                                                
+                    }
+                    
+                }.listStyle(GroupedListStyle())
+            }
+            .environment(\.colorScheme, .dark)
+            
+            NavigationView {
+                List {
+                    Section(header:
+                        SearchField(searchText: .constant("Editing"),
+                                    placeholder: "test"))
+                    {
+                        SearchField(searchText: .constant(""),
+                                    placeholder: "Placeholder")
+                        SearchField(searchText: .constant("Editing"),
+                                    placeholder: "test")
+                        Text("Item")
+                                                                
+                    }
+                    
+                }.listStyle(GroupedListStyle())
+            }
+            .environment(\.colorScheme, .light)
         }
     }
 }

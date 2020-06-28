@@ -11,10 +11,13 @@ import SwiftUI
 struct ItemListView: View {
     @ObservedObject var itemViewModel: ItemsViewModel
     @State private var showSortSheet = false
-    @State private var itemRowsDisplayMode: ItemRow.DisplayMode = .compact
+    @State private var itemRowsDisplayMode: ItemsViewModel.DisplayMode = .compact
     
     var list: UserList
-        
+    
+//    var currentItems: [Item] = [staticItem,
+//                                staticTakenItem,
+//                                staticReservedItem]
     var currentItems: [Item] {
         get {
             if !itemViewModel.searchText.isEmpty {
@@ -26,7 +29,7 @@ struct ItemListView: View {
             }
         }
     }
-    
+
     @State var showAddItem = false
     private var addButton: some View {
         Button(action: { self.showAddItem.toggle() }) {
@@ -84,44 +87,96 @@ struct ItemListView: View {
         return ActionSheet(title: title, buttons: buttons)
     }
     
+    private let columns = [
+        GridItem(.adaptive(minimum: 130), spacing: 10)
+    ]
+    
+    private var compactView: some View {
+        ForEach(currentItems) { item in
+            NavigationLink(destination: ItemDetail(item: item)) {
+                ItemRow(item: item)
+            }
+        }
+        .listRowBackground(Color.dBackground)
+    }
+    
+    private var largeView: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 20) {
+                ForEach(currentItems, id: \.self) { item in
+                    VStack {
+                        Image(item.image)
+                            .resizable()
+                            .scaledToFit()
+                            .cornerRadius(8)
+                            .overlay(PriceOverlay(item: item))
+                        HStack {
+                            if item.status == 2 {
+                                // reserved
+                                Image(systemName: "gift.fill")
+                                    .imageScale(.medium)
+                                    .foregroundColor(Color.dSecondaryButton)
+                            } else if item.status == 3 {
+                                // taken
+                                Image(systemName: "gift.fill")
+                                    .imageScale(.medium)
+                                    .foregroundColor(.gray)
+                            }
+                            Text(item.title)
+                                .font(.footnote)
+                                .lineLimit(1)
+                        }
+                    }
+                } // ForEach
+            }
+        }
+        .padding(.horizontal)
+        .listRowBackground(Color.dBackground)
+    }
+    
     var body: some View {
         List {
-            Section(header: SearchField(searchText: $itemViewModel.searchText)) {
-                ForEach(currentItems) { item in
-                    NavigationLink(destination: ItemDetail(item: item)) {
-                        ItemRow(displayMode: self.itemRowsDisplayMode, item: item)
-                            .listRowBackground(Color.dSecondaryBackground)
-                    }
+            Section(header: SearchField(searchText: $itemViewModel.searchText,
+                                        placeholder: "Search a item"))
+            {
+                switch self.itemRowsDisplayMode {
+                case .compact: compactView
+                case .large: largeView
                 }
             }
         }
-        .listStyle(GroupedListStyle())
         .id(itemViewModel.sort)
+        .listStyle(GroupedListStyle())
+        .navigationBarTitle(Text(itemViewModel.list.title), displayMode: .automatic)
+        .navigationBarItems(trailing: HStack(spacing: 12) {
+            addButton
+            sortButton
+            layoutButton
+        })
         .modifier(DismissingKeyboardOnSwipe())
-        .navigationBarTitle(Text(itemViewModel.list.title),
-                            displayMode: .automatic)
-            .navigationBarItems(trailing:
-                HStack(spacing: 12) {
-                    addButton
-                    sortButton
-                    layoutButton
-            })
-            .actionSheet(isPresented: $showSortSheet, content: { self.sortSheet })
-            .sheet(isPresented: $showAddItem) {
-                ItemEdit(
-                    itemViewModel: self.itemViewModel,
-                    showAddItem: self.$showAddItem,
-                    list: self.list
-                )
+        .actionSheet(isPresented: $showSortSheet, content: { self.sortSheet })
+        .sheet(isPresented: $showAddItem) {
+            ItemEdit(
+                itemViewModel: self.itemViewModel,
+                showAddItem: self.$showAddItem,
+                list: self.list
+            )
         }
-    }    
+    }
 }
 
 #if DEBUG
 struct ItemListView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            ItemListView(itemViewModel: ItemsViewModel(list: staticList), list: staticList)
+        Group {
+            NavigationView {
+                ItemListView(itemViewModel: ItemsViewModel(list: staticList), list: staticList)
+            }
+            .environment(\.colorScheme, .dark)
+            NavigationView {
+                ItemListView(itemViewModel: ItemsViewModel(list: staticList), list: staticList)
+            }
+            .environment(\.colorScheme, .light)
         }
     }
 }

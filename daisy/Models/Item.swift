@@ -61,7 +61,7 @@ public let staticReservedItem = Item(id: "1002",
                                      description: "Mi, tellus fermentum class. Molestie id eget sem neque et condimentum pharetra penatibus luctus morbi et parturient. Purus imperdiet libero penatibus vivamus est lacinia montes nam tincidunt convallis? Maecenas nec placerat gravida bibendum ultricies nisi, lobortis lacinia. Venenatis ad leo potenti vel, molestie elementum. Penatibus purus cras auctor dolor etiam natoque tristique bibendum magnis. Viverra natoque. Eros hac quis tempor dolor mi. Morbi porttitor sit natoque enim facilisi! Cursus, elementum gravida metus luctus auctor justo. Nostra vel aptent vel risus iaculis felis consectetur bibendum duis. Tellus in tellus neque tristique eget cubilia ultricies nostra. Mattis nascetur pharetra imperdiet. Placerat dapibus sapien himenaeos ultrices, euismod dui mattis eros lorem. Natoque tempus in parturient. Leo at quis facilisi dapibus convallis primis est ultrices sit?",
                                      status: 2)
 
-public let staticTakentem = Item(id: "1003",
+public let staticTakenItem = Item(id: "1003",
                                  listID: "1",
                                  createdAt: Date(),
                                  updatedAt: Date(),
@@ -75,5 +75,23 @@ public let staticTakentem = Item(id: "1003",
 extension Item {
     var imageStored: Image {
         ImageStore.shared.image(name: image)
+    }
+    
+    static func getRawStatus(status: uint) -> String {
+        switch status {
+        case 2:
+            return "Reserved"
+        case 3:
+            return "Taken"
+        default:
+            return ""
+        }
+    }
+    
+    static func getPriceString(price: Float64?) -> String {
+        if let price = price {
+            return String(format: "%.2f", price)
+        }
+        return "0.00"
     }
 }

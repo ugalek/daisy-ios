@@ -46,6 +46,7 @@ struct ListView: View {
                             ListRow(list: list)
                         }
                     }
+                    .listRowBackground(Color.dBackground)
                 }
             }
             .listStyle(GroupedListStyle())
@@ -58,7 +59,13 @@ struct ListView: View {
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
-        ListView()
-            .environmentObject(HttpAuth())
+        Group {
+            ListView()
+                .environmentObject(HttpAuth())
+                .environment(\.colorScheme, .dark)
+            ListView()
+                .environmentObject(HttpAuth())
+                .environment(\.colorScheme, .light)
+        }
     }
 }

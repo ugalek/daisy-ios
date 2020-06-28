@@ -58,36 +58,71 @@ struct ItemDetail: View {
             VStack {
                 HStack {
                     Spacer()
-                    Image(item.image)
-                        .resizable()
-                        .frame(width: 200, height: 200)
-                        .scaledToFit()
-                        .cornerRadius(8)
+                    ZStack(alignment: .top) {
+                        Image(item.image)
+                            .resizable()
+                            .frame(width: 200, height: 200)
+                            .scaledToFit()
+                            .cornerRadius(8)
+                        if item.status != 1 {
+                            Rectangle()
+                                .trim(from: 0, to: 1)
+                                .foregroundColor(Color.dBackground)
+                                .frame(height: 50, alignment: .center)
+                                .opacity(0.2)
+                            Text(Item.getRawStatus(status: item.status))
+                                .font(.headline)
+                                .padding()
+                        }
+                    }
                     Spacer()
                 }
                 HStack(spacing: 2) {
+                    Text(Item.getPriceString(price: item.price) + " ")
                     Image(systemName: "dollarsign.circle")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 20, height: 20)
-                    Text(String(item.price ?? 0))
-                        .foregroundColor(.black)
                 }
                 Divider()
+                HStack(spacing: 2) {
+                    Image(systemName: "link")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 15, height: 15)
+                    Link(item.url ?? "/", destination: URL(string: item.url ?? "/")!)
+                        .font(.footnote)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                }
+                .foregroundColor(.dDarkBlueColor)
                 ScrollView {
                     Text(item.description)
                         .font(.subheadline)
-                }
-                HStack {
-                    reserveButton
-                    seeButton
-                    takeButton
                 }
             }
             .padding()
         }
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text(item.title), displayMode: .inline)
+        .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+                HStack(spacing: 2) {
+                    Button(action: { print("reserve") }) {
+                        Image(systemName: "hourglass")
+                            .foregroundColor(.dDarkBlueColor)
+                        Text("Reserve")
+                    }
+                    Spacer()
+                    Button(action: { print("Take it") }) {
+                        Image(systemName: "cart.badge.plus")
+                            .foregroundColor(.dDarkBlueColor)
+                        Text("Buy")
+                    }
+                }
+                .foregroundColor(.dDarkBlueColor)
+            }
+        }
         .modifier(DismissingKeyboardOnSwipe())
     }
 }
@@ -95,8 +130,16 @@ struct ItemDetail: View {
 #if DEBUG
 struct ItemDetail_Previews: PreviewProvider {
     static var previews: some View {
-       NavigationView {
-            ItemDetail(item: staticItem)
+        Group {
+            NavigationView {
+                ItemDetail(item: staticTakenItem)
+            }
+            .environment(\.colorScheme, .light)
+            
+            NavigationView {
+                ItemDetail(item: staticTakenItem)
+            }
+            .environment(\.colorScheme, .dark)
         }
     }
 }

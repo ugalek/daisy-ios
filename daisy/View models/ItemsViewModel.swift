@@ -24,6 +24,9 @@ class ItemsViewModel: ObservableObject {
     enum Sort: String, CaseIterable {
         case title, price, status
     }
+    enum DisplayMode {
+        case compact, large
+    }
     
     var sort: Sort? {
         didSet {

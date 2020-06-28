@@ -11,8 +11,10 @@ import Combine
 import SwiftUI
 
 struct DaisyService {
-    static let apiUrl = URL(string: UserSettings().apiLink) ?? URL(string: "/")!
-    static let token = UserSettings().token
+    static let apiUrl = URL(string: UserDefaults.standard.string(forKey: "apiLink") ?? "/")!
+    static let token: String = UserDefaults.standard.string(forKey: "token") ?? ""
+    //    private static let apiUrl = URL(string: UserSettings().apiLink) ?? URL(string: "/")!
+//    private static let token = UserSettings().token
     
     public enum Endpoint {
         case lists
