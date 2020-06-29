@@ -63,7 +63,7 @@ class ItemsViewModel: ObservableObject {
     }
     
     private func fetchData() {
-        DaisyService.getRequest(endpoint: .items(id: list.id))
+        DaisyService.getRequest(endpoint: .items(listID: list.id))
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in },
                   receiveValue: { response in
@@ -87,12 +87,20 @@ class ItemsViewModel: ObservableObject {
             "description": description,
             "status": 1]
         
-        DaisyService.postRequest(endpoint: .items(id: listID), body: body)
+        DaisyService.postRequest(endpoint: .items(listID: listID), body: body)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in },
                   receiveValue: {
                     self.items.append($0)
                 })
             .store(in: &disposables)
+    }
+    
+    func deleteItem(listID: String, at index: Int) {
+        DaisyService.deleteRequest(endpoint: .item(listID: listID, id: items[index].id)) { result in
+            if result {
+                self.items.remove(at: index)
+            }
+        }
     }
 }

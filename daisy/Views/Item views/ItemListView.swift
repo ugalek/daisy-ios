@@ -15,20 +15,20 @@ struct ItemListView: View {
     
     var list: UserList
     
-//    var currentItems: [Item] = [staticItem,
-//                                staticTakenItem,
-//                                staticReservedItem]
-    var currentItems: [Item] {
-        get {
-            if !itemViewModel.searchText.isEmpty {
-                return itemViewModel.searchResults
-            } else if itemViewModel.sort != nil {
-                return itemViewModel.sortedItems
-            } else {
-                return itemViewModel.items
-            }
-        }
-    }
+    var currentItems: [Item] = [staticItem,
+                                staticTakenItem,
+                                staticReservedItem]
+//    var currentItems: [Item] {
+//        get {
+//            if !itemViewModel.searchText.isEmpty {
+//                return itemViewModel.searchResults
+//            } else if itemViewModel.sort != nil {
+//                return itemViewModel.sortedItems
+//            } else {
+//                return itemViewModel.items
+//            }
+//        }
+//    }
 
     @State var showAddItem = false
     private var addButton: some View {
@@ -97,6 +97,7 @@ struct ItemListView: View {
                 ItemRow(item: item)
             }
         }
+        .onDelete(perform: deleteItems)
         .listRowBackground(Color.dBackground)
     }
     
@@ -127,7 +128,7 @@ struct ItemListView: View {
                                 .lineLimit(1)
                         }
                     }
-                } // ForEach
+                }.onDelete(perform: deleteItems) // ForEach
             }
         }
         .padding(.horizontal)
@@ -162,6 +163,13 @@ struct ItemListView: View {
                 list: self.list
             )
         }
+    }
+    
+    func deleteItems(at offsets: IndexSet) {
+        if let first = offsets.first {
+            itemViewModel.deleteItem(listID: list.id, at: first)
+        }
+        
     }
 }
 
