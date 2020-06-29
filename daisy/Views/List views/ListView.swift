@@ -14,6 +14,8 @@ struct ListView: View {
     
     @State var showingProfile = false
     @State var loggedOut = false
+    @State private var showingDeleteAlert = false
+    @State var offsets: IndexSet?
     
     var profileButton: some View {
         NavigationLink(destination: UserView().environmentObject(self.authManager)) {
@@ -46,14 +48,26 @@ struct ListView: View {
                             ListRow(list: list)
                         }
                     }
+                    .onDelete(perform: deleteList)
                     .listRowBackground(Color.dBackground)
                 }
             }
             .listStyle(GroupedListStyle())
             .navigationBarTitle("Lists", displayMode: .automatic)
             .navigationBarItems(trailing: profileButton)
+            .alert(isPresented: self.$showingDeleteAlert) {
+                Alert(title: Text("Delete list"), message: Text("Delete list and all items inside?"), primaryButton: .destructive(Text("Delete")) {
+                    if let first = self.offsets?.first {
+                        listViewModel.deleteList(at: first)
+                    }
+                }, secondaryButton: .cancel())}
             .modifier(DismissingKeyboardOnSwipe())
         }
+    }
+    
+    func deleteList(at offsets: IndexSet) {
+        self.showingDeleteAlert = true
+        self.offsets = offsets
     }
 }
 

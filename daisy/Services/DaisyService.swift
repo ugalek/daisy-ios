@@ -13,19 +13,23 @@ import SwiftUI
 struct DaisyService {
     static let apiUrl = URL(string: UserDefaults.standard.string(forKey: "apiLink") ?? "/")!
     static let token: String = UserDefaults.standard.string(forKey: "token") ?? ""
-    //    private static let apiUrl = URL(string: UserSettings().apiLink) ?? URL(string: "/")!
-//    private static let token = UserSettings().token
     
     public enum Endpoint {
         case lists
-        case items(id: String)
+        case list(id: String)
+        case items(listID: String)
+        case item(listID: String, id: String)
         
         public func path() -> String {
             switch self {
             case .lists:
                 return "lists/"
-            case let .items(id):
-                return "lists/\(id)/items"
+            case let .list(id):
+                return "lists/\(id)"
+            case let .items(listID):
+                return "lists/\(listID)/items"
+            case let .item(listID, id):
+                return "lists/\(listID)/items/\(id)"
             }
         }
     }
@@ -70,5 +74,31 @@ struct DaisyService {
             .decode(type: T.self, decoder: Self.decoder) // Decode Data to a model object using JSONDecoder
             .mapError{ APIError.parseError(reason: $0.localizedDescription) }
             .eraseToAnyPublisher()
+    }
+    
+    public static func deleteRequest(endpoint: Endpoint, completion: @escaping (Bool) -> Void) {
+        let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
+                                      resolvingAgainstBaseURL: false)!
+        
+        var request = URLRequest(url: component.url!)
+        request.httpMethod = "DELETE"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: request) { (_, response, error) in
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    DispatchQueue.main.async {
+                        completion(true)
+                    }
+                } else {
+                    print("Delete error with statusCode: \(httpResponse.statusCode)")
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
+                }
+                
+            }
+        }.resume()
     }
 }

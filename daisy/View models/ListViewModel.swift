@@ -47,4 +47,12 @@ class ListViewModel: ObservableObject {
             $0.title.lowercased().contains(string.lowercased())
         }
     }
+    
+    func deleteList(at index: Int) {
+        DaisyService.deleteRequest(endpoint: .list(id: lists[index].id)) { result in
+            if result {
+                self.lists.remove(at: index)
+            }
+        }
+    }
 }
