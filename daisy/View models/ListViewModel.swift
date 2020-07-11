@@ -48,6 +48,20 @@ class ListViewModel: ObservableObject {
         }
     }
     
+    func addList(title: String) {
+        let body: [String: Any] = [
+            "user_id": "1",
+            "title": title]
+        
+        DaisyService.postRequest(endpoint: .lists, body: body)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in },
+                  receiveValue: {
+                    self.lists.append($0)
+                })
+            .store(in: &disposables)
+    }
+    
     func deleteList(at index: Int) {
         DaisyService.deleteRequest(endpoint: .list(id: lists[index].id)) { result in
             if result {
