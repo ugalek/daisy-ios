@@ -12,31 +12,42 @@ struct ItemListView: View {
     @ObservedObject var itemViewModel: ItemsViewModel
     @State private var showSortSheet = false
     @State private var itemRowsDisplayMode: ItemsViewModel.DisplayMode = .compact
+    @State private var editMode: EditMode = .inactive
     
     var list: UserList
     
-    var currentItems: [Item] = [staticItem,
-                                staticTakenItem,
-                                staticReservedItem]
-//    var currentItems: [Item] {
-//        get {
-//            if !itemViewModel.searchText.isEmpty {
-//                return itemViewModel.searchResults
-//            } else if itemViewModel.sort != nil {
-//                return itemViewModel.sortedItems
-//            } else {
-//                return itemViewModel.items
-//            }
-//        }
-//    }
+//    var currentItems: [Item] = [staticItem,
+//                                staticTakenItem,
+//                                staticReservedItem]
+    var currentItems: [Item] {
+        get {
+            if !itemViewModel.searchText.isEmpty {
+                return itemViewModel.searchResults
+            } else if itemViewModel.sort != nil {
+                return itemViewModel.sortedItems
+            } else {
+                return itemViewModel.items
+            }
+        }
+    }
 
+    private var editButton: some View {
+        HStack {
+            if itemRowsDisplayMode == .compact {
+                EditButton()
+                    .modifier(makeCircle(editMode: editMode, cornerRadius: 12))
+            } else {
+                EmptyView()
+            }
+        }
+    }
+    
     @State var showAddItem = false
     private var addButton: some View {
         Button(action: { self.showAddItem.toggle() }) {
             Image(systemName: "plus")
                 .imageScale(.large)
                 .accessibility(label: Text("Add new"))
-                .padding()
         }
     }
     
@@ -93,7 +104,8 @@ struct ItemListView: View {
     
     private var compactView: some View {
         ForEach(currentItems) { item in
-            NavigationLink(destination: ItemDetail(item: item)) {
+            NavigationLink(destination: ItemDetail(list: list, item: item)
+                            .environmentObject(itemViewModel)) {
                 ItemRow(item: item)
             }
         }
@@ -108,8 +120,9 @@ struct ItemListView: View {
                     VStack {
                         Image(item.image)
                             .resizable()
-                            .scaledToFit()
+                            .scaledToFill()
                             .cornerRadius(8)
+                            .clipped()
                             .overlay(PriceOverlay(item: item))
                         HStack {
                             if item.status == 2 {
@@ -149,12 +162,15 @@ struct ItemListView: View {
         .id(itemViewModel.sort)
         .listStyle(GroupedListStyle())
         .navigationBarTitle(Text(itemViewModel.list.title), displayMode: .automatic)
-        .navigationBarItems(trailing: HStack(spacing: 12) {
-            addButton
-            sortButton
-            layoutButton
-        })
+        .navigationBarItems(trailing:
+                                HStack(spacing: 15){
+                                    editButton
+                                    addButton
+                                    sortButton
+                                    layoutButton
+                                }.foregroundColor(.dDarkBlueColor))
         .modifier(DismissingKeyboardOnSwipe())
+        .environment(\.editMode, $editMode)
         .actionSheet(isPresented: $showSortSheet, content: { self.sortSheet })
         .sheet(isPresented: $showAddItem) {
             ItemEdit(
@@ -170,6 +186,43 @@ struct ItemListView: View {
             itemViewModel.deleteItem(listID: list.id, at: first)
         }
         
+    }
+}
+
+struct makeCircle: ViewModifier {
+    var editMode: EditMode
+    var cornerRadius: CGFloat = 16
+    
+    private var trash: some View {
+        HStack {
+            if editMode != .active {
+                Image(systemName: "trash")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 22, height: 22)
+                            .foregroundColor(.dDarkBlueColor)
+            } else {
+                EmptyView()
+            }
+        }
+    }
+    
+    func colorForEditMode(_ editMode: EditMode) -> Color {
+        switch editMode {
+        case .active:
+            return .dDarkBlueColor
+        case .inactive:
+            return .dBackground
+        default:
+            return .dBackground
+        }
+    }
+
+    func body(content: Content) -> some View {
+        content
+            .padding(.all, 6)
+            .foregroundColor(colorForEditMode(editMode))
+            .overlay(trash)
     }
 }
 

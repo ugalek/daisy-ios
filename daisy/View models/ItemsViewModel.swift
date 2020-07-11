@@ -78,12 +78,12 @@ class ItemsViewModel: ObservableObject {
         }
     }
     
-    func addItem(listID: String, title: String, image: String, url: String, price: String, description: String) {
+    func addItem(listID: String, title: String, image: String, url: String, price: Float64, description: String) {
         let body: [String: Any] = [
             "title": title,
-            "image": image,
+           // "image": image,
             "url": url,
-            "price": Double(price) ?? 0,
+            "price": price,
             "description": description,
             "status": 1]
         

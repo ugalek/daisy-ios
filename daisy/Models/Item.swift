@@ -19,19 +19,21 @@ public struct Item: Codable, Identifiable, Hashable {
     let updatedAt: Date?
     let title: String
     let image: String
+    let imageID: String?
     let url: String?
     let price: Float64?
     let description: String
     let status: uint
     
     init(id: String = "", listID: String = "", createdAt: Date? = nil, updatedAt: Date? = nil,
-         title: String = "", image: String = "", url: String? = nil, price: Float64? = nil, description: String = "", status: uint = 1) {
+         title: String = "", image: String = "", imageID: String? = "", url: String? = nil, price: Float64? = nil, description: String = "", status: uint = 1) {
         self.id = id
         self.listID = listID
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.title = title
         self.image = image
+        self.imageID = image
         self.url = url
         self.price = price
         self.description = description
@@ -45,8 +47,9 @@ public let staticItem = Item(id: "1001",
                              updatedAt: Date(),
                              title: "My static Item with long and long title",
                              image: "turtlerock",
+                             imageID: "turtlerock",
                              url: "http://ugalek.com",
-                             price: 10,
+                             price: 10.1,
                              description: "Mi, tellus fermentum class. Molestie id eget sem neque et condimentum pharetra penatibus luctus morbi et parturient. Purus imperdiet libero penatibus vivamus est lacinia montes nam tincidunt convallis? Maecenas nec placerat gravida bibendum ultricies nisi, lobortis lacinia. Venenatis ad leo potenti vel, molestie elementum. Penatibus purus cras auctor dolor etiam natoque tristique bibendum magnis. Viverra natoque. Eros hac quis tempor dolor mi. Morbi porttitor sit natoque enim facilisi! Cursus, elementum gravida metus luctus auctor justo. Nostra vel aptent vel risus iaculis felis consectetur bibendum duis. Tellus in tellus neque tristique eget cubilia ultricies nostra. Mattis nascetur pharetra imperdiet. Placerat dapibus sapien himenaeos ultrices, euismod dui mattis eros lorem. Natoque tempus in parturient. Leo at quis facilisi dapibus convallis primis est ultrices sit?",
                              status: 1)
 
@@ -55,9 +58,10 @@ public let staticReservedItem = Item(id: "1002",
                                      createdAt: Date(),
                                      updatedAt: Date(),
                                      title: "My reserved Item with long and long title",
-                                     image: "turtlerock",
+                                     image: "silversalmoncreek",
+                                     imageID: "silversalmoncreek",
                                      url: "http://ugalek.com",
-                                     price: 20,
+                                     price: 20.2,
                                      description: "Mi, tellus fermentum class. Molestie id eget sem neque et condimentum pharetra penatibus luctus morbi et parturient. Purus imperdiet libero penatibus vivamus est lacinia montes nam tincidunt convallis? Maecenas nec placerat gravida bibendum ultricies nisi, lobortis lacinia. Venenatis ad leo potenti vel, molestie elementum. Penatibus purus cras auctor dolor etiam natoque tristique bibendum magnis. Viverra natoque. Eros hac quis tempor dolor mi. Morbi porttitor sit natoque enim facilisi! Cursus, elementum gravida metus luctus auctor justo. Nostra vel aptent vel risus iaculis felis consectetur bibendum duis. Tellus in tellus neque tristique eget cubilia ultricies nostra. Mattis nascetur pharetra imperdiet. Placerat dapibus sapien himenaeos ultrices, euismod dui mattis eros lorem. Natoque tempus in parturient. Leo at quis facilisi dapibus convallis primis est ultrices sit?",
                                      status: 2)
 
@@ -67,8 +71,9 @@ public let staticTakenItem = Item(id: "1003",
                                  updatedAt: Date(),
                                  title: "My taken Item",
                                  image: "turtlerock",
+                                 imageID: "turtlerock",
                                  url: "http://ugalek.com",
-                                 price: 30,
+                                 price: 30.3,
                                  description: "Mi, tellus fermentum class. Molestie id eget sem neque et condimentum pharetra penatibus luctus morbi et parturient. Purus imperdiet libero penatibus vivamus est lacinia montes nam tincidunt convallis? Maecenas nec placerat gravida bibendum ultricies nisi, lobortis lacinia. Venenatis ad leo potenti vel, molestie elementum. Penatibus purus cras auctor dolor etiam natoque tristique bibendum magnis. Viverra natoque. Eros hac quis tempor dolor mi. Morbi porttitor sit natoque enim facilisi! Cursus, elementum gravida metus luctus auctor justo. Nostra vel aptent vel risus iaculis felis consectetur bibendum duis. Tellus in tellus neque tristique eget cubilia ultricies nostra. Mattis nascetur pharetra imperdiet. Placerat dapibus sapien himenaeos ultrices, euismod dui mattis eros lorem. Natoque tempus in parturient. Leo at quis facilisi dapibus convallis primis est ultrices sit?",
                                  status: 3)
 

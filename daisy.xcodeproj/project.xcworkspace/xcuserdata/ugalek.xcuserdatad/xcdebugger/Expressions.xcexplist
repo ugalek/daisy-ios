@@ -69,10 +69,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in ItemsViewModel.UpdateItems():ItemsViewModel.swift">
+         contextName = "closure #3 in ItemDetail.body.getter:ItemDetail.swift">
          <PersistentStrings>
             <PersistentString
-               value = "items">
+               value = "item">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -81,6 +81,14 @@
          <PersistentStrings>
             <PersistentString
                value = "self.items">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ItemsViewModel.UpdateItems():ItemsViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "items">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -111,6 +119,14 @@
          <PersistentStrings>
             <PersistentString
                value = "currentItems">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ItemFields.getPoint(value:):ItemEdit.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "beginning.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
