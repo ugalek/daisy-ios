@@ -15,6 +15,8 @@ struct DaisyService {
     static let token: String = UserDefaults.standard.string(forKey: "token") ?? ""
     
     public enum Endpoint {
+        case image
+        case images(userID: String)
         case lists
         case list(id: String)
         case items(listID: String)
@@ -22,6 +24,10 @@ struct DaisyService {
         
         public func path() -> String {
             switch self {
+            case .image:
+                return "images/"
+            case let .images(userID):
+                return "images/\(userID)"
             case .lists:
                 return "lists/"
             case let .list(id):
@@ -44,8 +50,15 @@ struct DaisyService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
         
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+        
         return URLSession.shared.dataTaskPublisher(for: request)
-            .map { $0.data } // Extract the Data object from response.
+            .map { r in
+//                print(endpoint)
+//                print(String(data: r.data, encoding: .utf8)!);
+//                print(r.response)
+                return r.data
+            } // Extract the Data object from response.
             .decode(type: [T].self, decoder: Self.decoder) // Decode Data to a model object using JSONDecoder
             .mapError{ APIError.parseError(reason: $0.localizedDescription) }
             .eraseToAnyPublisher()
@@ -69,6 +82,38 @@ struct DaisyService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
         
+        return URLSession.shared.dataTaskPublisher(for: request)
+            .map { $0.data } // Extract the Data object from response.
+            .decode(type: T.self, decoder: Self.decoder) // Decode Data to a model object using JSONDecoder
+            .mapError{ APIError.parseError(reason: $0.localizedDescription) }
+            .eraseToAnyPublisher()
+    }
+    
+    public static func uploadImageRequest<T: Codable>(endpoint: Endpoint, image: UIImage) -> AnyPublisher<T, APIError> {
+        let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
+                                      resolvingAgainstBaseURL: false)!
+        
+        let targetSize = CGSize(width: 100, height: 100)
+        let scaledImage = image.scalePreservingAspectRatio(targetSize: targetSize)
+        let boundaryID = UUID().uuidString
+        var request = URLRequest(url: component.url!)
+        var body = Data()
+        
+        request.httpMethod = "POST"
+        request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+        request.setValue("multipart/form-data; boundary=\(boundaryID)", forHTTPHeaderField: "Content-Type")
+        
+        // Add the image data to the raw http request data
+        body.append(Data("--\(boundaryID)\r\n".utf8))
+        body.append(Data("Content-Disposition: form-data; name=\"file\"; filename=\"image.png\"\r\n".utf8))
+        body.append(Data("Content-Type: image/png\r\n".utf8))
+        body.append(Data("\r\n".utf8))
+        body.append(scaledImage.pngData()!)
+        body.append(Data("\r\n".utf8))
+        body.append(Data("--\(boundaryID)--".utf8))
+        
+        request.httpBody = body
+  
         return URLSession.shared.dataTaskPublisher(for: request)
             .map { $0.data } // Extract the Data object from response.
             .decode(type: T.self, decoder: Self.decoder) // Decode Data to a model object using JSONDecoder
@@ -102,3 +147,4 @@ struct DaisyService {
         }.resume()
     }
 }
+

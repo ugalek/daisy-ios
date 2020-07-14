@@ -16,18 +16,20 @@ struct GiftImage: View {
             ZStack(alignment: .bottomLeading) {
                 if item.status == 2 {
                     // reserved
-                    item.imageStored
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(8)
-                        .overlay(ColorOverlay(picColor: Color.dSecondaryButton))
+                    Text("reserved")
+//                    item.image
+//                        .resizable()
+//                        .frame(width: 50, height: 50)
+//                        .cornerRadius(8)
+//                        .overlay(ColorOverlay(picColor: Color.dSecondaryButton))
                 } else if item.status == 3 {
                     // taken
-                    item.imageStored
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(8)
-                        .overlay(ColorOverlay(picColor: Color.gray))
+                    Text("taken")
+//                    item.image
+//                        .resizable()
+//                        .frame(width: 50, height: 50)
+//                        .cornerRadius(8)
+//                        .overlay(ColorOverlay(picColor: Color.gray))
                 }
             }
         }

@@ -60,63 +60,64 @@ struct ItemDetail: View {
         ZStack {
             Color.dBackground.edgesIgnoringSafeArea(.all)
             VStack {
-                HStack {
-                    Spacer()
-                    ZStack(alignment: .top) {
-                        Image(item.image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 200, height: 200)
-                            .cornerRadius(8)
-                            .clipped()
-                        if item.status == 2 {
-                            Rectangle()
-                                .trim(from: 0, to: 1)
-                                .foregroundColor(Color("Reserved"))
-                                .frame(width: 200, height: 50, alignment: .center)
-                                .opacity(0.8)
-                                .cornerRadius(8)
-                        } else if item.status == 3 {
-                            Rectangle()
-                                .trim(from: 0, to: 1)
-                                .foregroundColor(Color("Taken"))
-                                .frame(width: 200, height: 50, alignment: .center)
-                                .opacity(0.8)
-                                .cornerRadius(8)
-                        }
-                        if item.status != 1 {
-                            Text(Item.getRawStatus(status: item.status))
-                                .font(.headline)
-                                .padding()
-                        }
-                    }
-                    Spacer()
-                }
-                HStack(spacing: 2) {
-                    Text(Item.getPriceString(price: item.price) + " ")
-                    Image(systemName: "dollarsign.circle")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 20, height: 20)
-                }
-                Divider()
                 Text(item.title)
-                    .font(.title)
-                HStack(spacing: 2) {
-                    Image(systemName: "link")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 15, height: 15)
-                    Link(item.url ?? "/", destination: URL(string: item.url ?? "/")!)
-                        .font(.footnote)
-                        .lineLimit(1)
-                        .truncationMode(.tail)
-                }
-                .foregroundColor(.dDarkBlueColor)
-                ScrollView {
-                    Text(item.description)
-                        .font(.subheadline)
-                }
+//                HStack {
+//                    Spacer()
+//                    ZStack(alignment: .top) {
+//                        Image(item.image)
+//                            .resizable()
+//                            .scaledToFill()
+//                            .frame(width: 200, height: 200)
+//                            .cornerRadius(8)
+//                            .clipped()
+//                        if item.status == 2 {
+//                            Rectangle()
+//                                .trim(from: 0, to: 1)
+//                                .foregroundColor(Color("Reserved"))
+//                                .frame(width: 200, height: 50, alignment: .center)
+//                                .opacity(0.8)
+//                                .cornerRadius(8)
+//                        } else if item.status == 3 {
+//                            Rectangle()
+//                                .trim(from: 0, to: 1)
+//                                .foregroundColor(Color("Taken"))
+//                                .frame(width: 200, height: 50, alignment: .center)
+//                                .opacity(0.8)
+//                                .cornerRadius(8)
+//                        }
+//                        if item.status != 1 {
+//                            Text(Item.getRawStatus(status: item.status))
+//                                .font(.headline)
+//                                .padding()
+//                        }
+//                    }
+//                    Spacer()
+//                }
+//                HStack(spacing: 2) {
+//                    Text(Item.getPriceString(price: item.price) + " ")
+//                    Image(systemName: "dollarsign.circle")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: 20, height: 20)
+//                }
+//                Divider()
+//                Text(item.title)
+//                    .font(.title)
+//                HStack(spacing: 2) {
+//                    Image(systemName: "link")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: 15, height: 15)
+//                    Link(item.url ?? "/", destination: URL(string: item.url ?? "/")!)
+//                        .font(.footnote)
+//                        .lineLimit(1)
+//                        .truncationMode(.tail)
+//                }
+//                .foregroundColor(.dDarkBlueColor)
+//                ScrollView {
+//                    Text(item.description)
+//                        .font(.subheadline)
+//                }
             }
             .padding()
         }

@@ -11,7 +11,7 @@ import SwiftUI
 
 class ItemFields: ObservableObject, Codable {
     enum CodingKeys: String, CodingKey {
-        case title, image
+        case title
     }
     
     let objectWillChange = PassthroughSubject<Void, Never>()
@@ -22,7 +22,7 @@ class ItemFields: ObservableObject, Codable {
             update()
         }
     }
-    var image: String = "turtlerock" { didSet { update() } }
+ //   var image: String = "turtlerock" { didSet { update() } }
     var imageF: Image? = nil { didSet { update() } }
     var url: String = "http://ugalek.com" { didSet { update() } }
     var price: String = "" { didSet {
@@ -54,6 +54,7 @@ struct ItemEdit: View {
     @Environment(\.presentationMode) var presentationMode
     
     @ObservedObject var itemViewModel: ItemsViewModel
+    @ObservedObject var imageViewModel = ImageViewModel()
     @ObservedObject var itemFields = ItemFields()
 
     //@State private var image: Image?
@@ -64,6 +65,16 @@ struct ItemEdit: View {
     
     let list: UserList
     var item: Item?
+    
+    var imageID: String? {
+        get {
+            if imageViewModel.images.count == 0 {
+                return nil
+            } else {
+                return imageViewModel.images[imageViewModel.images.count-1].ID
+            }
+        }
+    }
     
     private var doneButton: some View {
         Button(action: { self.doneAction() }) {
@@ -96,14 +107,6 @@ struct ItemEdit: View {
                 .font(.caption)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .overlay(NotValidImage(isValid: self.itemFields.titleIsValid), alignment: .trailing)
-            
-            Text("Image")
-                .font(.subheadline)
-                .foregroundColor(.dDarkBlueColor)
-
-            TextField("Image", text: $itemFields.image)
-                .font(.caption)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
             
             Text("URL")
                 .font(.subheadline)
@@ -177,7 +180,6 @@ struct ItemEdit: View {
         .onAppear {
             if let itemToEdit = item {
                 self.itemFields.title = itemToEdit.title
-                self.itemFields.image = itemToEdit.image
                 self.itemFields.url = itemToEdit.url ?? "/"
                 self.itemFields.price = String(format: "%.2f", itemToEdit.price ?? "0.00")
                 self.itemFields.description = itemToEdit.description
@@ -186,14 +188,30 @@ struct ItemEdit: View {
     }
     
     func doneAction() {
+        if let imageForUpload = inputImage {
+            self.imageViewModel.uploadImage(image: imageForUpload) { imageUploaded in
+                if imageUploaded {
+                    addItem(withImage: true)
+                    self.showAddItem = false
+                } else {
+                    print("Sorry we cannot upload picture")
+                }
+            }
+        } else {
+            addItem(withImage: false)
+            self.showAddItem = false
+        }
+        
+    }
+    
+    func addItem(withImage: Bool) {
         self.itemViewModel.addItem(
             listID: self.list.id,
             title: self.itemFields.title,
-            image: self.itemFields.image,
+            imageID: withImage ? self.imageID : nil,
             url: self.itemFields.url,
             price: Double(self.itemFields.price) ?? 0,
             description: self.itemFields.description)
-        self.showAddItem = false
     }
     
     func loadImage() {

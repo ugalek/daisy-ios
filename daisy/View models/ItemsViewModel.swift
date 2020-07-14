@@ -78,15 +78,20 @@ class ItemsViewModel: ObservableObject {
         }
     }
     
-    func addItem(listID: String, title: String, image: String, url: String, price: Float64, description: String) {
-        let body: [String: Any] = [
+    func addItem(listID: String, title: String, imageID: String?, url: String, price: Float64, description: String) {
+        var body: [String: Any?] = [
             "title": title,
-           // "image": image,
+            "image_id": nil,
             "url": url,
             "price": price,
             "description": description,
             "status": 1]
         
+        if let image = imageID {
+            body.updateValue(image, forKey: "image_id")
+        }
+        
+
         DaisyService.postRequest(endpoint: .items(listID: listID), body: body)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in },

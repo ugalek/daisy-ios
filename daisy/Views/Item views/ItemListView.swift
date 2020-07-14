@@ -118,12 +118,21 @@ struct ItemListView: View {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(currentItems, id: \.self) { item in
                     VStack {
-                        Image(item.image)
-                            .resizable()
-                            .scaledToFill()
-                            .cornerRadius(8)
-                            .clipped()
-                            .overlay(PriceOverlay(item: item))
+                        if item.imageID != nil {
+                            //                        Image(item.image)
+                            //                            .resizable()
+                            //                            .scaledToFill()
+                            //                            .cornerRadius(8)
+                            //                            .clipped()
+                            //                            .overlay(PriceOverlay(item: item))
+                        } else {
+                            Image("turtlerock")
+                                .resizable()
+                                .scaledToFill()
+                                .cornerRadius(8)
+                                .clipped()
+                                .overlay(PriceOverlay(item: item))
+                        }
                         HStack {
                             if item.status == 2 {
                                 // reserved

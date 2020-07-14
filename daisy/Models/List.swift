@@ -13,6 +13,18 @@ struct ListResults: Decodable {
 }
 
 public struct UserList: Codable, Identifiable, Hashable {
+    enum CodingKeys: String, CodingKey {
+        // Map the JSON keys to the Swift property names
+        case id
+        case userID = "user_id"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case title
+        case image
+        case imageID = "image_id"
+        case surprise
+    }
+    
     public let id: String
     let userID: String?
     let createdAt: Date?
@@ -39,9 +51,3 @@ public let staticSurpriseList = UserList(id: "1",
                                  image: "silversalmoncreek",
                                  imageID: "turtlerock",
                                  surprise: true)
-
-extension UserList {
-    var imageStored: Image {
-        ImageStore.shared.image(name: image ?? "")
-    }
-}

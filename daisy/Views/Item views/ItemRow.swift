@@ -14,10 +14,15 @@ struct ItemRow: View {
     var body: some View {
         HStack {
             if item.status == 1 {
-                item.imageStored
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .cornerRadius(8)
+                if item.imageID != nil {
+       // item image
+                } else {
+                    Image("turtlerock")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(8)
+                }
+
                 Text(item.title)
                 Spacer()
                 HStack(spacing: 2) {

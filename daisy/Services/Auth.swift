@@ -43,6 +43,7 @@ class HttpAuth: ObservableObject {
                             DispatchQueue.main.async {
                                 self.authenticated = true
                                 UserDefaults.standard.set(finalData.token, forKey: "token")
+                                print(finalData.token)
                             }
                         } catch {
                             print("Cannot decode server message")

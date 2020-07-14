@@ -3,13 +3,30 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "static DaisyService.postRequest&lt;A&gt;(endpoint:body:):DaisyService.swift">
+      </ContextState>
+      <ContextState
          contextName = "UserListDetailViewModel.saveItems():UserListDetailViewModel.swift">
          <PersistentStrings>
             <PersistentString
                value = "list.id">
             </PersistentString>
             <PersistentString
+               value = "self.items">
+            </PersistentString>
+            <PersistentString
                value = "NetworkManager.shared.$publicItems.count()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ItemsViewModel.fetchData():ItemsViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "list.id">
+            </PersistentString>
+            <PersistentString
+               value = "response">
             </PersistentString>
             <PersistentString
                value = "self.items">
