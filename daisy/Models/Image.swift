@@ -19,10 +19,10 @@ import SwiftUI
 //    "user_id": "1"
 //}
 
-struct ImageResponse: Codable {
+struct ImageResponse: Codable, Hashable {
     enum CodingKeys: String, CodingKey {
         // Map the JSON keys to the Swift property names
-        case ID = "id"
+        case id = "id"
         case userID = "user_id"
         case ext = "extension"
         case size
@@ -30,7 +30,7 @@ struct ImageResponse: Codable {
         case url
         case createdAt = "created_at"
     }
-    let ID: String
+    let id: String
     let userID: String
     let ext: String
     let size: Int

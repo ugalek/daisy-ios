@@ -13,6 +13,7 @@ struct ItemResults: Decodable {
 }
 
 public struct Item: Codable, Identifiable, Hashable {
+    
     enum CodingKeys: String, CodingKey {
         // Map the JSON keys to the Swift property names
         case id
@@ -21,6 +22,7 @@ public struct Item: Codable, Identifiable, Hashable {
         case updatedAt = "updated_at"
         case title
         case imageID = "image_id"
+        case image
         case url
         case price
         case description
@@ -33,24 +35,42 @@ public struct Item: Codable, Identifiable, Hashable {
     let updatedAt: Date?
     let title: String
     let imageID: String?
+    var image: ImageResponse?
     let url: String?
     let price: Float64?
-    let description: String
+    let description: String?
     let status: uint
     
     init(id: String = "", listID: String = "", createdAt: Date? = nil, updatedAt: Date? = nil,
-         title: String = "", imageID: String? = "", url: String? = nil, price: Float64? = nil, description: String = "", status: uint = 1) {
+         title: String = "", imageID: String? = "", image: ImageResponse? = nil, url: String? = nil, price: Float64? = nil, description: String? = "", status: uint = 1) {
         self.id = id
         self.listID = listID
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.title = title
         self.imageID = imageID
+        self.image = image
         self.url = url
         self.price = price
         self.description = description
         self.status = status
     }
+    
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        id = try values.decode(String.self, forKey: .id)
+        listID = try values.decode(String.self, forKey: .listID)
+        createdAt = try values.decodeIfPresent(Date.self, forKey: .createdAt)
+        updatedAt = try values.decodeIfPresent(Date.self, forKey: .updatedAt)
+        title = try values.decode(String.self, forKey: .title)
+        imageID = try? values.decodeIfPresent(String.self, forKey: .imageID)
+        image = try values.decodeIfPresent(ImageResponse.self, forKey: .image)
+        url = try? values.decodeIfPresent(String.self, forKey: .url)
+        price = try? values.decodeIfPresent(Float64.self, forKey: .price)
+        description = try? values.decodeIfPresent(String.self, forKey: .description)
+        status = try values.decode(uint.self, forKey: .status)
+     }
 }
 
 public let staticItem = Item(id: "1001",
@@ -59,6 +79,7 @@ public let staticItem = Item(id: "1001",
                              updatedAt: Date(),
                              title: "My static Item with long and long title",
                              imageID: "1",
+                             image: nil,
                              url: "http://ugalek.com",
                              price: 10.1,
                              description: "Mi, tellus fermentum class. Molestie id eget sem neque et condimentum pharetra penatibus luctus morbi et parturient. Purus imperdiet libero penatibus vivamus est lacinia montes nam tincidunt convallis? Maecenas nec placerat gravida bibendum ultricies nisi, lobortis lacinia. Venenatis ad leo potenti vel, molestie elementum. Penatibus purus cras auctor dolor etiam natoque tristique bibendum magnis. Viverra natoque. Eros hac quis tempor dolor mi. Morbi porttitor sit natoque enim facilisi! Cursus, elementum gravida metus luctus auctor justo. Nostra vel aptent vel risus iaculis felis consectetur bibendum duis. Tellus in tellus neque tristique eget cubilia ultricies nostra. Mattis nascetur pharetra imperdiet. Placerat dapibus sapien himenaeos ultrices, euismod dui mattis eros lorem. Natoque tempus in parturient. Leo at quis facilisi dapibus convallis primis est ultrices sit?",
@@ -70,6 +91,7 @@ public let staticReservedItem = Item(id: "1002",
                                      updatedAt: Date(),
                                      title: "My reserved Item with long and long title",
                                      imageID: "2",
+                                     image: nil,
                                      url: "http://ugalek.com",
                                      price: 20.2,
                                      description: "Mi, tellus fermentum class. Molestie id eget sem neque et condimentum pharetra penatibus luctus morbi et parturient. Purus imperdiet libero penatibus vivamus est lacinia montes nam tincidunt convallis? Maecenas nec placerat gravida bibendum ultricies nisi, lobortis lacinia. Venenatis ad leo potenti vel, molestie elementum. Penatibus purus cras auctor dolor etiam natoque tristique bibendum magnis. Viverra natoque. Eros hac quis tempor dolor mi. Morbi porttitor sit natoque enim facilisi! Cursus, elementum gravida metus luctus auctor justo. Nostra vel aptent vel risus iaculis felis consectetur bibendum duis. Tellus in tellus neque tristique eget cubilia ultricies nostra. Mattis nascetur pharetra imperdiet. Placerat dapibus sapien himenaeos ultrices, euismod dui mattis eros lorem. Natoque tempus in parturient. Leo at quis facilisi dapibus convallis primis est ultrices sit?",
@@ -81,6 +103,7 @@ public let staticTakenItem = Item(id: "1003",
                                  updatedAt: Date(),
                                  title: "My taken Item",
                                  imageID: "1",
+                                 image: nil,
                                  url: "http://ugalek.com",
                                  price: 30.3,
                                  description: "Mi, tellus fermentum class. Molestie id eget sem neque et condimentum pharetra penatibus luctus morbi et parturient. Purus imperdiet libero penatibus vivamus est lacinia montes nam tincidunt convallis? Maecenas nec placerat gravida bibendum ultricies nisi, lobortis lacinia. Venenatis ad leo potenti vel, molestie elementum. Penatibus purus cras auctor dolor etiam natoque tristique bibendum magnis. Viverra natoque. Eros hac quis tempor dolor mi. Morbi porttitor sit natoque enim facilisi! Cursus, elementum gravida metus luctus auctor justo. Nostra vel aptent vel risus iaculis felis consectetur bibendum duis. Tellus in tellus neque tristique eget cubilia ultricies nostra. Mattis nascetur pharetra imperdiet. Placerat dapibus sapien himenaeos ultrices, euismod dui mattis eros lorem. Natoque tempus in parturient. Leo at quis facilisi dapibus convallis primis est ultrices sit?",

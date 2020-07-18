@@ -10,39 +10,47 @@ import Foundation
 import Combine
 import SwiftUI
 
-struct DaisyService {
-    static let apiUrl = URL(string: UserDefaults.standard.string(forKey: "apiLink") ?? "/")!
-    static let token: String = UserDefaults.standard.string(forKey: "token") ?? ""
+public struct Response<T> {
+    var model: [T]?
+    var isSuccess: Bool = false
+    var errorMsg: String?
+}
+
+public enum Endpoint {
+    case image
+    case images(userID: String)
+    case lists
+    case list(id: String)
+    case items(listID: String)
+    case item(listID: String, id: String)
     
-    public enum Endpoint {
-        case image
-        case images(userID: String)
-        case lists
-        case list(id: String)
-        case items(listID: String)
-        case item(listID: String, id: String)
-        
-        public func path() -> String {
-            switch self {
-            case .image:
-                return "images/"
-            case let .images(userID):
-                return "images/\(userID)"
-            case .lists:
-                return "lists/"
-            case let .list(id):
-                return "lists/\(id)"
-            case let .items(listID):
-                return "lists/\(listID)/items"
-            case let .item(listID, id):
-                return "lists/\(listID)/items/\(id)"
-            }
+    public func path() -> String {
+        switch self {
+        case .image:
+            return "images/"
+        case let .images(userID):
+            return "images/\(userID)"
+        case .lists:
+            return "lists/"
+        case let .list(id):
+            return "lists/\(id)"
+        case let .items(listID):
+            return "lists/\(listID)/items"
+        case let .item(listID, id):
+            return "lists/\(listID)/items/\(id)"
         }
     }
+}
+
+final public class DaisyService {
+    public static let shared: DaisyService = DaisyService()
     
-    private static let decoder = JSONDecoder()
+    let apiUrl = URL(string: UserDefaults.standard.string(forKey: "apiLink") ?? "/")!
+    let token: String = UserDefaults.standard.string(forKey: "token") ?? ""
     
-    public static func getRequest<T: Codable>(endpoint: Endpoint) -> AnyPublisher<[T], APIError> {
+    private let decoder = JSONDecoder()
+    
+    private func getRequest<T: Codable>(type: T.Type, endpoint: Endpoint, completion: @escaping (Response<T>) -> Void) {
         let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
                                       resolvingAgainstBaseURL: false)!
         
@@ -52,6 +60,42 @@ struct DaisyService {
         
         decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
         
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                let response = Response<T>(model: nil, isSuccess: false, errorMsg: error.localizedDescription)
+                completion(response)
+                return
+            }
+            
+            guard let data = data else {
+                let response = Response<T>(model: nil, isSuccess: false, errorMsg: "Unable to unwrap data")
+                completion(response)
+                return
+            }
+            
+            do {
+                let value: [T] = try self.decoder.decode([T].self, from: data)
+                DispatchQueue.main.async {
+                    let response = Response<T>(model: value, isSuccess: true, errorMsg: nil)
+                    completion(response)
+                }
+            } catch {
+                let response = Response<T>(model: nil, isSuccess: false, errorMsg: error.localizedDescription)
+                completion(response)
+            }
+        }.resume()
+    }
+    
+    private func getRequestPublisher<T: Codable>(endpoint: Endpoint) -> AnyPublisher<[T], APIError> {
+        let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
+                                      resolvingAgainstBaseURL: false)!
+
+        var request = URLRequest(url: component.url!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+
         return URLSession.shared.dataTaskPublisher(for: request)
             .map { r in
 //                print(endpoint)
@@ -59,12 +103,12 @@ struct DaisyService {
 //                print(r.response)
                 return r.data
             } // Extract the Data object from response.
-            .decode(type: [T].self, decoder: Self.decoder) // Decode Data to a model object using JSONDecoder
+            .decode(type: [T].self, decoder: self.decoder) // Decode Data to a model object using JSONDecoder
             .mapError{ APIError.parseError(reason: $0.localizedDescription) }
             .eraseToAnyPublisher()
     }
     
-    public static func postRequest<T: Codable>(endpoint: Endpoint, body: Any) -> AnyPublisher<T, APIError> {
+    public func postRequest<T: Codable>(endpoint: Endpoint, body: Any) -> AnyPublisher<T, APIError> {
         let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
                                       resolvingAgainstBaseURL: false)!
         var finalBody: Data?
@@ -84,12 +128,12 @@ struct DaisyService {
         
         return URLSession.shared.dataTaskPublisher(for: request)
             .map { $0.data } // Extract the Data object from response.
-            .decode(type: T.self, decoder: Self.decoder) // Decode Data to a model object using JSONDecoder
+            .decode(type: T.self, decoder: self.decoder) // Decode Data to a model object using JSONDecoder
             .mapError{ APIError.parseError(reason: $0.localizedDescription) }
             .eraseToAnyPublisher()
     }
     
-    public static func uploadImageRequest<T: Codable>(endpoint: Endpoint, image: UIImage) -> AnyPublisher<T, APIError> {
+    public func uploadImageRequest<T: Codable>(endpoint: Endpoint, image: UIImage) -> AnyPublisher<T, APIError> {
         let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
                                       resolvingAgainstBaseURL: false)!
         
@@ -116,12 +160,12 @@ struct DaisyService {
   
         return URLSession.shared.dataTaskPublisher(for: request)
             .map { $0.data } // Extract the Data object from response.
-            .decode(type: T.self, decoder: Self.decoder) // Decode Data to a model object using JSONDecoder
+            .decode(type: T.self, decoder: self.decoder) // Decode Data to a model object using JSONDecoder
             .mapError{ APIError.parseError(reason: $0.localizedDescription) }
             .eraseToAnyPublisher()
     }
     
-    public static func deleteRequest(endpoint: Endpoint, completion: @escaping (Bool) -> Void) {
+    public func deleteRequest(endpoint: Endpoint, completion: @escaping (Bool) -> Void) {
         let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
                                       resolvingAgainstBaseURL: false)!
         
@@ -148,3 +192,12 @@ struct DaisyService {
     }
 }
 
+extension DaisyService {
+    public func searchItems(listID: String, completion: @escaping (Response<Item>) -> Void) {
+        DaisyService.shared.getRequest(type: Item.self, endpoint: .items(listID: listID), completion: completion)
+    }
+    
+    public func searchList(completion: @escaping (Response<UserList>) -> Void) {
+        DaisyService.shared.getRequest(type: UserList.self, endpoint: .lists, completion: completion)
+    }
+}

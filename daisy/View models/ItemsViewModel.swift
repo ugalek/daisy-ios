@@ -63,13 +63,13 @@ class ItemsViewModel: ObservableObject {
     }
     
     private func fetchData() {
-        DaisyService.getRequest(endpoint: .items(listID: list.id))
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in },
-                  receiveValue: { response in
-                    self.items.append(contentsOf: response)
-            })
-            .store(in: &disposables)
+        DaisyService.shared.searchItems(listID: list.id) { response in
+            if response.isSuccess {
+                if let responseItems = response.model {
+                    self.items = responseItems
+                }
+            }
+        }
     }
     
     private func items(with string: String) -> [Item] {
@@ -91,8 +91,7 @@ class ItemsViewModel: ObservableObject {
             body.updateValue(image, forKey: "image_id")
         }
         
-
-        DaisyService.postRequest(endpoint: .items(listID: listID), body: body)
+        DaisyService.shared.postRequest(endpoint: .items(listID: listID), body: body)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in },
                   receiveValue: {
@@ -102,7 +101,7 @@ class ItemsViewModel: ObservableObject {
     }
     
     func deleteItem(listID: String, at index: Int) {
-        DaisyService.deleteRequest(endpoint: .item(listID: listID, id: items[index].id)) { result in
+        DaisyService.shared.deleteRequest(endpoint: .item(listID: listID, id: items[index].id)) { result in
             if result {
                 self.items.remove(at: index)
             }

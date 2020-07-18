@@ -64,7 +64,7 @@ struct ItemDetail: View {
 //                HStack {
 //                    Spacer()
 //                    ZStack(alignment: .top) {
-//                        Image(item.image)
+//                        Image("turtlerock")
 //                            .resizable()
 //                            .scaledToFill()
 //                            .frame(width: 200, height: 200)

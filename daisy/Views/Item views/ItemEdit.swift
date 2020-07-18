@@ -71,7 +71,7 @@ struct ItemEdit: View {
             if imageViewModel.images.count == 0 {
                 return nil
             } else {
-                return imageViewModel.images[imageViewModel.images.count-1].ID
+                return imageViewModel.images[imageViewModel.images.count-1].id
             }
         }
     }
@@ -182,7 +182,7 @@ struct ItemEdit: View {
                 self.itemFields.title = itemToEdit.title
                 self.itemFields.url = itemToEdit.url ?? "/"
                 self.itemFields.price = String(format: "%.2f", itemToEdit.price ?? "0.00")
-                self.itemFields.description = itemToEdit.description
+                self.itemFields.description = itemToEdit.description ?? ""
             }
         }
     }

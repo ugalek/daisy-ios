@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ItemListView: View {
     @ObservedObject var itemViewModel: ItemsViewModel
+    
     @State private var showSortSheet = false
     @State private var itemRowsDisplayMode: ItemsViewModel.DisplayMode = .compact
     @State private var editMode: EditMode = .inactive
@@ -117,39 +118,7 @@ struct ItemListView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(currentItems, id: \.self) { item in
-                    VStack {
-                        if item.imageID != nil {
-                            //                        Image(item.image)
-                            //                            .resizable()
-                            //                            .scaledToFill()
-                            //                            .cornerRadius(8)
-                            //                            .clipped()
-                            //                            .overlay(PriceOverlay(item: item))
-                        } else {
-                            Image("turtlerock")
-                                .resizable()
-                                .scaledToFill()
-                                .cornerRadius(8)
-                                .clipped()
-                                .overlay(PriceOverlay(item: item))
-                        }
-                        HStack {
-                            if item.status == 2 {
-                                // reserved
-                                Image(systemName: "gift.fill")
-                                    .imageScale(.medium)
-                                    .foregroundColor(Color.dSecondaryButton)
-                            } else if item.status == 3 {
-                                // taken
-                                Image(systemName: "gift.fill")
-                                    .imageScale(.medium)
-                                    .foregroundColor(.gray)
-                            }
-                            Text(item.title)
-                                .font(.footnote)
-                                .lineLimit(1)
-                        }
-                    }
+                    itemLargeView(item: item)
                 }.onDelete(perform: deleteItems) // ForEach
             }
         }
@@ -195,6 +164,59 @@ struct ItemListView: View {
             itemViewModel.deleteItem(listID: list.id, at: first)
         }
         
+    }
+}
+
+struct itemLargeView: View {
+    @Environment(\.imageCache) var cache: ImageCache
+    
+    var item: Item
+    
+    var body: some View {
+        VStack {
+            if let imageURL = item.image?.url {
+                AsyncImage(
+                    url: URL(string: imageURL)!,
+                    cache: self.cache,
+                    placeholder: Text("Loading ..."),
+                    configuration: { $0.resizable() }
+                )
+                .scaledToFill()
+                .cornerRadius(8)
+                .clipped()
+                .overlay(PriceOverlay(item: item))
+                
+                //                        Image(item.image)
+                //                            .resizable()
+                //                            .scaledToFill()
+                //                            .cornerRadius(8)
+                //                            .clipped()
+                //                            .overlay(PriceOverlay(item: item))
+            } else {
+                Image("turtlerock")
+                    .resizable()
+                    .scaledToFill()
+                    .cornerRadius(8)
+                    .clipped()
+                    .overlay(PriceOverlay(item: item))
+            }
+            HStack {
+                if item.status == 2 {
+                    // reserved
+                    Image(systemName: "gift.fill")
+                        .imageScale(.medium)
+                        .foregroundColor(Color.dSecondaryButton)
+                } else if item.status == 3 {
+                    // taken
+                    Image(systemName: "gift.fill")
+                        .imageScale(.medium)
+                        .foregroundColor(.gray)
+                }
+                Text(item.title)
+                    .font(.footnote)
+                    .lineLimit(1)
+            }
+        }
     }
 }
 
