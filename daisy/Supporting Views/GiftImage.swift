@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct GiftImage: View {
+    @Environment(\.imageCache) var cache: ImageCache
+    
     var item: Item
     
     var body: some View {
@@ -16,20 +18,50 @@ struct GiftImage: View {
             ZStack(alignment: .bottomLeading) {
                 if item.status == 2 {
                     // reserved
-                    Text("reserved")
-//                    item.image
-//                        .resizable()
-//                        .frame(width: 50, height: 50)
-//                        .cornerRadius(8)
-//                        .overlay(ColorOverlay(picColor: Color.dSecondaryButton))
+                    if let imageURL = item.image?.url {
+                        AsyncImage(
+                            url: URL(string: imageURL)!,
+                            cache: self.cache,
+                            placeholder: Text("Loading ..."),
+                            configuration: { $0.resizable() }
+                        )
+                        .scaledToFill()
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(8)
+                        .clipped()
+                        .overlay(ColorOverlay(picColor: Color.dSecondaryButton))
+                    } else {
+                        Image("NoImage")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(8)
+                            .clipped()
+                            .overlay(ColorOverlay(picColor: Color.dSecondaryButton))
+                    }
                 } else if item.status == 3 {
                     // taken
-                    Text("taken")
-//                    item.image
-//                        .resizable()
-//                        .frame(width: 50, height: 50)
-//                        .cornerRadius(8)
-//                        .overlay(ColorOverlay(picColor: Color.gray))
+                    if let imageURL = item.image?.url {
+                        AsyncImage(
+                            url: URL(string: imageURL)!,
+                            cache: self.cache,
+                            placeholder: Text("Loading ..."),
+                            configuration: { $0.resizable() }
+                        )
+                        .scaledToFill()
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(8)
+                        .clipped()
+                        .overlay(ColorOverlay(picColor: Color.gray))
+                    } else {
+                        Image("NoImage")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(8)
+                            .clipped()
+                            .overlay(ColorOverlay(picColor: Color.gray))
+                    }
                 }
             }
         }

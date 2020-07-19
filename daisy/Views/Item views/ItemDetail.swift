@@ -60,60 +60,60 @@ struct ItemDetail: View {
         ZStack {
             Color.dBackground.edgesIgnoringSafeArea(.all)
             VStack {
+                HStack {
+                    Spacer()
+                    ZStack(alignment: .top) {
+                        Image("test")//turtlerock
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: DaisyService.shared.mainWidth / 2 - 20, height: DaisyService.shared.mainWidth / 2 - 20)
+                            //.aspectRatio(CGSize(width: 16, height: 9), contentMode: .fit)
+                            .cornerRadius(8)
+                            .clipped()
+                        if item.status == 2 {
+                            Rectangle()
+                                .trim(from: 0, to: 1)
+                                .foregroundColor(Color("Reserved"))
+                                .aspectRatio(CGSize(width: 200, height: 35), contentMode: .fit)
+                                .opacity(0.8)
+                                .cornerRadius(8)
+                        } else if item.status == 3 {
+                            Rectangle()
+                                .trim(from: 0, to: 1)
+                                .foregroundColor(Color("Taken"))
+                                .aspectRatio(CGSize(width: 200, height: 35), contentMode: .fit)
+                                .opacity(0.8)
+                                .cornerRadius(8)
+                        }
+                        if item.status != 1 {
+                            Text(Item.getRawStatus(status: item.status))
+                                .font(.headline)
+                                .padding()
+                        }
+                    }
+                    Spacer()
+                }
+                HStack(spacing: 2) {
+                    Text(Item.getPriceString(price: item.price) + " ")
+                    Image(systemName: "dollarsign.circle")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 20, height: 20)
+                }
+                Divider()
                 Text(item.title)
-//                HStack {
-//                    Spacer()
-//                    ZStack(alignment: .top) {
-//                        Image("turtlerock")
-//                            .resizable()
-//                            .scaledToFill()
-//                            .frame(width: 200, height: 200)
-//                            .cornerRadius(8)
-//                            .clipped()
-//                        if item.status == 2 {
-//                            Rectangle()
-//                                .trim(from: 0, to: 1)
-//                                .foregroundColor(Color("Reserved"))
-//                                .frame(width: 200, height: 50, alignment: .center)
-//                                .opacity(0.8)
-//                                .cornerRadius(8)
-//                        } else if item.status == 3 {
-//                            Rectangle()
-//                                .trim(from: 0, to: 1)
-//                                .foregroundColor(Color("Taken"))
-//                                .frame(width: 200, height: 50, alignment: .center)
-//                                .opacity(0.8)
-//                                .cornerRadius(8)
-//                        }
-//                        if item.status != 1 {
-//                            Text(Item.getRawStatus(status: item.status))
-//                                .font(.headline)
-//                                .padding()
-//                        }
-//                    }
-//                    Spacer()
-//                }
-//                HStack(spacing: 2) {
-//                    Text(Item.getPriceString(price: item.price) + " ")
-//                    Image(systemName: "dollarsign.circle")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(width: 20, height: 20)
-//                }
-//                Divider()
-//                Text(item.title)
-//                    .font(.title)
-//                HStack(spacing: 2) {
-//                    Image(systemName: "link")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(width: 15, height: 15)
-//                    Link(item.url ?? "/", destination: URL(string: item.url ?? "/")!)
-//                        .font(.footnote)
-//                        .lineLimit(1)
-//                        .truncationMode(.tail)
-//                }
-//                .foregroundColor(.dDarkBlueColor)
+                    .font(.title)
+                HStack(spacing: 2) {
+                    Image(systemName: "link")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 15, height: 15)
+                    Link(item.url ?? "/", destination: URL(string: item.url ?? "/")!)
+                        .font(.footnote)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                }
+                .foregroundColor(.dDarkBlueColor)
 //                ScrollView {
 //                    Text(item.description)
 //                        .font(.subheadline)

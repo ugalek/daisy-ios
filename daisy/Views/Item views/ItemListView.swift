@@ -17,20 +17,20 @@ struct ItemListView: View {
     
     var list: UserList
     
-//    var currentItems: [Item] = [staticItem,
-//                                staticTakenItem,
-//                                staticReservedItem]
-    var currentItems: [Item] {
-        get {
-            if !itemViewModel.searchText.isEmpty {
-                return itemViewModel.searchResults
-            } else if itemViewModel.sort != nil {
-                return itemViewModel.sortedItems
-            } else {
-                return itemViewModel.items
-            }
-        }
-    }
+    var currentItems: [Item] = [staticItem,
+                                staticTakenItem,
+                                staticReservedItem]
+//    var currentItems: [Item] {
+//        get {
+//            if !itemViewModel.searchText.isEmpty {
+//                return itemViewModel.searchResults
+//            } else if itemViewModel.sort != nil {
+//                return itemViewModel.sortedItems
+//            } else {
+//                return itemViewModel.items
+//            }
+//        }
+//    }
 
     private var editButton: some View {
         HStack {
@@ -171,6 +171,7 @@ struct itemLargeView: View {
     @Environment(\.imageCache) var cache: ImageCache
     
     var item: Item
+    var imageSize = DaisyService.shared.mainWidth / 2 - 40
     
     var body: some View {
         VStack {
@@ -182,20 +183,15 @@ struct itemLargeView: View {
                     configuration: { $0.resizable() }
                 )
                 .scaledToFill()
+                .frame(width: imageSize, height: imageSize)
                 .cornerRadius(8)
                 .clipped()
                 .overlay(PriceOverlay(item: item))
-                
-                //                        Image(item.image)
-                //                            .resizable()
-                //                            .scaledToFill()
-                //                            .cornerRadius(8)
-                //                            .clipped()
-                //                            .overlay(PriceOverlay(item: item))
             } else {
-                Image("turtlerock")
+                Image("NoImage")
                     .resizable()
                     .scaledToFill()
+                    .frame(width: imageSize, height: imageSize)
                     .cornerRadius(8)
                     .clipped()
                     .overlay(PriceOverlay(item: item))
@@ -261,10 +257,10 @@ struct makeCircle: ViewModifier {
 struct ItemListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            NavigationView {
-                ItemListView(itemViewModel: ItemsViewModel(list: staticList), list: staticList)
-            }
-            .environment(\.colorScheme, .dark)
+//            NavigationView {
+//                ItemListView(itemViewModel: ItemsViewModel(list: staticList), list: staticList)
+//            }
+//            .environment(\.colorScheme, .dark)
             NavigationView {
                 ItemListView(itemViewModel: ItemsViewModel(list: staticList), list: staticList)
             }

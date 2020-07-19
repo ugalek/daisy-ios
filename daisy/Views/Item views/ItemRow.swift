@@ -10,15 +10,26 @@ import SwiftUI
 
 struct ItemRow: View {
     var item: Item
+    @Environment(\.imageCache) var cache: ImageCache
     
     var body: some View {
         HStack {
             if item.status == 1 {
-                if item.imageID != nil {
-       // item image
+                if let imageURL = item.image?.url {
+                    AsyncImage(
+                        url: URL(string: imageURL)!,
+                        cache: self.cache,
+                        placeholder: Text("Loading ..."),
+                        configuration: { $0.resizable() }
+                    )
+                    .scaledToFill()
+                    .frame(width: 50, height: 50)
+                    .cornerRadius(8)
+                    .clipped()
                 } else {
-                    Image("turtlerock")
+                    Image("NoImage")
                         .resizable()
+                        .scaledToFill()
                         .frame(width: 50, height: 50)
                         .cornerRadius(8)
                 }

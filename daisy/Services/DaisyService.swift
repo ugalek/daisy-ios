@@ -45,6 +45,9 @@ public enum Endpoint {
 final public class DaisyService {
     public static let shared: DaisyService = DaisyService()
     
+    let mainWidth = UIScreen.main.bounds.size.width
+    let mainHeight = UIScreen.main.bounds.size.height
+    
     let apiUrl = URL(string: UserDefaults.standard.string(forKey: "apiLink") ?? "/")!
     let token: String = UserDefaults.standard.string(forKey: "token") ?? ""
     
