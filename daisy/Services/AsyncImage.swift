@@ -9,14 +9,12 @@
 import SwiftUI
 
 // See www.vadimbulavin.com/asynchronous-swiftui-image-loading-from-url-with-combine-and-swift/
-struct AsyncImage<Placeholder: View>: View {
+struct AsyncImage: View {
     @ObservedObject private var loader: ImageLoader
-    private let placeholder: Placeholder?
     private let configuration: (Image) -> Image
     
-    init(url: URL, cache: ImageCache? = nil, placeholder: Placeholder? = nil, configuration: @escaping (Image) -> Image = { $0 }) {
+    init(url: URL, cache: ImageCache? = nil, configuration: @escaping (Image) -> Image = { $0 }) {
         loader = ImageLoader(url: url, cache: cache)
-        self.placeholder = placeholder
         self.configuration = configuration
     }
 
@@ -31,7 +29,8 @@ struct AsyncImage<Placeholder: View>: View {
             if loader.image != nil {
                 configuration(Image(uiImage: loader.image!))
             } else {
-                placeholder
+                Image(systemName: "hourglass")
+                    .foregroundColor(.dSecondaryBackground)
             }
         }
     }

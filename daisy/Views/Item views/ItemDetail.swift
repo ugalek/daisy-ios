@@ -62,44 +62,10 @@ struct ItemDetail: View {
             VStack {
                 HStack {
                     Spacer()
-                    ZStack(alignment: .top) {
-                        Image("test")//turtlerock
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: DaisyService.shared.mainWidth / 2 - 20, height: DaisyService.shared.mainWidth / 2 - 20)
-                            //.aspectRatio(CGSize(width: 16, height: 9), contentMode: .fit)
-                            .cornerRadius(8)
-                            .clipped()
-                        if item.status == 2 {
-                            Rectangle()
-                                .trim(from: 0, to: 1)
-                                .foregroundColor(Color("Reserved"))
-                                .aspectRatio(CGSize(width: 200, height: 35), contentMode: .fit)
-                                .opacity(0.8)
-                                .cornerRadius(8)
-                        } else if item.status == 3 {
-                            Rectangle()
-                                .trim(from: 0, to: 1)
-                                .foregroundColor(Color("Taken"))
-                                .aspectRatio(CGSize(width: 200, height: 35), contentMode: .fit)
-                                .opacity(0.8)
-                                .cornerRadius(8)
-                        }
-                        if item.status != 1 {
-                            Text(Item.getRawStatus(status: item.status))
-                                .font(.headline)
-                                .padding()
-                        }
-                    }
+                    ItemImage(item: item, imageSize: ImageSize.itemDetail)
                     Spacer()
                 }
-                HStack(spacing: 2) {
-                    Text(Item.getPriceString(price: item.price) + " ")
-                    Image(systemName: "dollarsign.circle")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 20, height: 20)
-                }
+                ItemPrice(item: item)
                 Divider()
                 Text(item.title)
                     .font(.title)

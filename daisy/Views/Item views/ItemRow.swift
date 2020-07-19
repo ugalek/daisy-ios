@@ -10,66 +10,22 @@ import SwiftUI
 
 struct ItemRow: View {
     var item: Item
-    @Environment(\.imageCache) var cache: ImageCache
     
     var body: some View {
         HStack {
-            if item.status == 1 {
-                if let imageURL = item.image?.url {
-                    AsyncImage(
-                        url: URL(string: imageURL)!,
-                        cache: self.cache,
-                        placeholder: Text("Loading ..."),
-                        configuration: { $0.resizable() }
-                    )
-                    .scaledToFill()
-                    .frame(width: 50, height: 50)
-                    .cornerRadius(8)
-                    .clipped()
-                } else {
-                    Image("NoImage")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(8)
-                }
-
+            ItemImage(item: item, imageSize: ImageSize.itemRow)
+            VStack(alignment: .leading, spacing: 6) {
                 Text(item.title)
-                Spacer()
-                HStack(spacing: 2) {
-                    Text(Item.getPriceString(price: item.price) + " ")
-                    Image(systemName: "dollarsign.circle")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 18, height: 18)
-                    
-                }
-            } else if item.status == 2 {
-                GiftImage(item: item)
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(item.title)
+                    .foregroundColor(item.status == 3 ? .gray : .dFontColor)
+                if item.status != 1 {
                     Text(Item.getRawStatus(status: item.status))
                         .font(.footnote)
                         .foregroundColor(.gray)
                 }
-                Spacer()
-                HStack(spacing: 2) {
-                    Text(Item.getPriceString(price: item.price) + " ")
-                    Image(systemName: "dollarsign.circle")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 18, height: 18)
-                }
-            } else {
-                GiftImage(item: item)
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(item.title)
-                        .foregroundColor(.gray)
-                    Text(Item.getRawStatus(status: item.status))
-                        .font(.footnote)
-                        .foregroundColor(.gray)
-                }
-                Spacer()
+            }
+            Spacer()
+            if item.status != 3 {
+                ItemPrice(item: item)
             }
         }
     }

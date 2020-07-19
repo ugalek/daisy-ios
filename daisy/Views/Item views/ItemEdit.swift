@@ -134,35 +134,23 @@ struct ItemEdit: View {
         }
     }
     
+    var imageSize = DaisyService.shared.mainWidth / 1.8
+    
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text(list.title)) {
                     VStack {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                .fill(Color.dSurpriseColor)
-                                .frame(width: 200, height: 200, alignment: .center)
-                            if itemFields.imageF != nil {
-                                itemFields.imageF?
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 200, height: 200)
-                                    .cornerRadius(8)
-                                    .clipped()
-                            } else {
-                                VStack {
-                                    Image(systemName: "camera")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 22, height: 22)
-                                    Text("Tap to select a picture")
-                                        .font(.headline)
-                                }.foregroundColor(.dSecondaryBackground)
-                            }
-                        }
-                        .onTapGesture {
-                            showingImagePicker = true
+                        if itemFields.imageF != nil {
+                            ItemImage(imageFile: itemFields.imageF, imageSize: ImageSize.itemEdit)
+                                .onTapGesture {
+                                    showingImagePicker = true
+                                }
+                        } else {
+                            ItemImage(imageSize: ImageSize.itemEdit)
+                                .onTapGesture {
+                                    showingImagePicker = true
+                                }
                         }
                         itemForm
                     }.listRowBackground(Color.dBackground)

@@ -29,8 +29,13 @@ extension Color {
     public static var dSurpriseColor: Color {
         Color("dSurpriseColor")
     }
+    
     public static var dDarkBlueColor: Color {
         Color("dDarkBlueColor")
+    }
+    
+    public static var dFontColor: Color {
+        Color("dFontColor")
     }
     
     public static var dBorderColor: Color {

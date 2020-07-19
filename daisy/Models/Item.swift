@@ -121,6 +121,28 @@ extension Item {
         }
     }
     
+    static func getIconColor(status: uint) -> Color? {
+        switch status {
+        case 2:
+            return Color.dSecondaryButton
+        case 3:
+            return Color.gray
+        default:
+            return nil
+        }
+    }
+    
+    static func getBandColor(status: uint) -> Color? {
+        switch status {
+        case 2:
+            return Color("Reserved")
+        case 3:
+            return Color("Taken")
+        default:
+            return nil
+        }
+    }
+    
     static func getPriceString(price: Float64?) -> String {
         if let price = price {
             return String(format: "%.2f", price)

@@ -17,20 +17,20 @@ struct ItemListView: View {
     
     var list: UserList
     
-    var currentItems: [Item] = [staticItem,
-                                staticTakenItem,
-                                staticReservedItem]
-//    var currentItems: [Item] {
-//        get {
-//            if !itemViewModel.searchText.isEmpty {
-//                return itemViewModel.searchResults
-//            } else if itemViewModel.sort != nil {
-//                return itemViewModel.sortedItems
-//            } else {
-//                return itemViewModel.items
-//            }
-//        }
-//    }
+//    var currentItems: [Item] = [staticItem,
+//                                staticTakenItem,
+//                                staticReservedItem]
+    var currentItems: [Item] {
+        get {
+            if !itemViewModel.searchText.isEmpty {
+                return itemViewModel.searchResults
+            } else if itemViewModel.sort != nil {
+                return itemViewModel.sortedItems
+            } else {
+                return itemViewModel.items
+            }
+        }
+    }
 
     private var editButton: some View {
         HStack {
@@ -175,27 +175,7 @@ struct itemLargeView: View {
     
     var body: some View {
         VStack {
-            if let imageURL = item.image?.url {
-                AsyncImage(
-                    url: URL(string: imageURL)!,
-                    cache: self.cache,
-                    placeholder: Text("Loading ..."),
-                    configuration: { $0.resizable() }
-                )
-                .scaledToFill()
-                .frame(width: imageSize, height: imageSize)
-                .cornerRadius(8)
-                .clipped()
-                .overlay(PriceOverlay(item: item))
-            } else {
-                Image("NoImage")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: imageSize, height: imageSize)
-                    .cornerRadius(8)
-                    .clipped()
-                    .overlay(PriceOverlay(item: item))
-            }
+            ItemImage(item: item, imageSize: ImageSize.itemLargeRow)
             HStack {
                 if item.status == 2 {
                     // reserved
