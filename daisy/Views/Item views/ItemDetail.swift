@@ -80,10 +80,11 @@ struct ItemDetail: View {
                         .truncationMode(.tail)
                 }
                 .foregroundColor(.dDarkBlueColor)
-//                ScrollView {
-//                    Text(item.description)
-//                        .font(.subheadline)
-//                }
+                ScrollView {
+                    Text(item.description ?? "")
+                        .font(.subheadline)
+                }
+                Spacer()
             }
             .padding()
         }
@@ -119,7 +120,8 @@ struct ItemDetail: View {
                 itemViewModel: itemViewModel,
                 showAddItem: $showAddItem,
                 list: list,
-                item: item
+                item: item,
+                editMode: true
             )
         }
         .modifier(DismissingKeyboardOnSwipe())
@@ -135,10 +137,10 @@ struct ItemDetail_Previews: PreviewProvider {
             }
             .environment(\.colorScheme, .light)
             
-            NavigationView {
-                ItemDetail(list: staticList, item: staticTakenItem)
-            }
-            .environment(\.colorScheme, .dark)
+//            NavigationView {
+//                ItemDetail(list: staticList, item: staticTakenItem)
+//            }
+//            .environment(\.colorScheme, .dark)
         }
     }
 }

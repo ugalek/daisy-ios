@@ -9,47 +9,6 @@
 import Combine
 import SwiftUI
 
-class ItemFields: ObservableObject, Codable {
-    enum CodingKeys: String, CodingKey {
-        case title
-    }
-    
-    let objectWillChange = PassthroughSubject<Void, Never>()
-    
-    var title: String = "" {
-        didSet {
-            self.titleIsValid = Validators.titleIsValid(title: self.title)
-            update()
-        }
-    }
- //   var image: String = "turtlerock" { didSet { update() } }
-    var imageF: Image? = nil { didSet { update() } }
-    var url: String = "http://ugalek.com" { didSet { update() } }
-    var price: String = "" { didSet {
-        if let value = price.double {
-            if value.fractionalDigits > 2 {
-                price = oldValue
-            }
-        } else {
-            price = oldValue
-        }
-        update()
-    } }
-    var description: String = "Description" { didSet { update() } }
-    var titleIsValid: Bool = true { didSet { update() } }
-    
-    var isValid: Bool {
-        if title.isEmpty || url.isEmpty || !titleIsValid {
-            return false
-        }
-        return true
-    }
-    
-    func update() {
-        objectWillChange.send(())
-    }
-}
-
 struct ItemEdit: View {
     @Environment(\.presentationMode) var presentationMode
     
@@ -57,14 +16,14 @@ struct ItemEdit: View {
     @ObservedObject var imageViewModel = ImageViewModel()
     @ObservedObject var itemFields = ItemFields()
 
-    //@State private var image: Image?
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
     
     @Binding var showAddItem: Bool
-    
+        
     let list: UserList
     var item: Item?
+    var editMode: Bool = false
     
     var imageID: String? {
         get {
@@ -72,6 +31,16 @@ struct ItemEdit: View {
                 return nil
             } else {
                 return imageViewModel.images[imageViewModel.images.count-1].id
+            }
+        }
+    }
+    
+    private var viewTitle: String {
+        get {
+            if editMode {
+                return "Edit item"
+            } else {
+                return "Add new item"
             }
         }
     }
@@ -106,7 +75,7 @@ struct ItemEdit: View {
             TextField("Title", text: $itemFields.title)
                 .font(.caption)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .overlay(NotValidImage(isValid: self.itemFields.titleIsValid), alignment: .trailing)
+                .overlay(FieldNotValidImage(isValid: self.itemFields.titleIsValid), alignment: .trailing)
             
             Text("URL")
                 .font(.subheadline)
@@ -134,20 +103,18 @@ struct ItemEdit: View {
         }
     }
     
-    var imageSize = DaisyService.shared.mainWidth / 1.8
-    
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text(list.title)) {
                     VStack {
-                        if itemFields.imageF != nil {
-                            ItemImage(imageFile: itemFields.imageF, imageSize: ImageSize.itemEdit)
+                        if itemFields.image != nil {
+                            ItemImage(imageFile: itemFields.image, imageSize: ImageSize.itemEdit)
                                 .onTapGesture {
                                     showingImagePicker = true
                                 }
                         } else {
-                            ItemImage(imageSize: ImageSize.itemEdit)
+                            ItemImage(item: item, imageSize: ImageSize.itemEdit)
                                 .onTapGesture {
                                     showingImagePicker = true
                                 }
@@ -156,7 +123,7 @@ struct ItemEdit: View {
                     }.listRowBackground(Color.dBackground)
                 }
             } // Form
-            .navigationBarTitle(Text("Add new Item"), displayMode: .inline)
+            .navigationBarTitle(Text(viewTitle), displayMode: .inline)
             .navigationBarItems(leading: cancelButton,
                                 trailing: doneButton
                                     .disabled(!itemFields.isValid)
@@ -193,18 +160,29 @@ struct ItemEdit: View {
     }
     
     func addItem(withImage: Bool) {
-        self.itemViewModel.addItem(
-            listID: self.list.id,
-            title: self.itemFields.title,
-            imageID: withImage ? self.imageID : nil,
-            url: self.itemFields.url,
-            price: Double(self.itemFields.price) ?? 0,
-            description: self.itemFields.description)
+        if editMode {
+            self.itemViewModel.editItem(
+                oldItem: item!,
+                listID: self.list.id,
+                title: self.itemFields.title,
+                imageID: withImage ? self.imageID : nil,
+                url: self.itemFields.url,
+                price: Double(self.itemFields.price) ?? 0,
+                description: self.itemFields.description)
+        } else {
+            self.itemViewModel.addItem(
+                listID: self.list.id,
+                title: self.itemFields.title,
+                imageID: withImage ? self.imageID : nil,
+                url: self.itemFields.url,
+                price: Double(self.itemFields.price) ?? 0,
+                description: self.itemFields.description)
+        }
     }
     
     func loadImage() {
         guard let inputImage = inputImage else { return }
-        self.itemFields.imageF = Image(uiImage: inputImage)
+        self.itemFields.image = Image(uiImage: inputImage)
     }
 }
 
@@ -216,33 +194,19 @@ struct ItemEdit_Previews: PreviewProvider {
                 itemViewModel: ItemsViewModel(list: staticList),
                 showAddItem: .constant(false),
                 list: staticList,
-                item: nil)
+                item: nil,
+                editMode: false)
             .environment(\.colorScheme, .light)
             
-            ItemEdit(
-                itemViewModel: ItemsViewModel(list: staticList),
-                showAddItem: .constant(false),
-                list: staticList,
-                item: staticItem)
-            .environment(\.colorScheme, .light)
+//            ItemEdit(
+//                itemViewModel: ItemsViewModel(list: staticList),
+//                showAddItem: .constant(false),
+//                list: staticList,
+//                item: staticItem,
+//                editMode: false)
+//            .environment(\.colorScheme, .light)
         }
         
     }
 }
 #endif
-
-struct NotValidImage: View {
-    var isValid: Bool
-    
-    var body: some View {
-        HStack {
-            if !isValid {
-                Image(systemName: "exclamationmark.shield")
-                    .foregroundColor(.red)
-                    .padding()
-            } else {
-                EmptyView()
-            }
-        }
-    }
-}

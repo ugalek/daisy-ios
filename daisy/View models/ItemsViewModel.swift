@@ -78,6 +78,33 @@ class ItemsViewModel: ObservableObject {
         }
     }
     
+    func editItem(oldItem: Item, listID: String, title: String, imageID: String?, url: String, price: Float64, description: String) {
+        var body: [String: Any?] = [
+            "title": title,
+            "image_id": nil,
+            "url": url,
+            "price": price,
+            "description": description,
+            "status": 1]
+        
+        if let image = imageID {
+            body.updateValue(image, forKey: "image_id")
+        }
+        
+        DaisyService.shared.editItem(listID: list.id, body: body) { response in
+            if response.isSuccess {
+                if let responseItems = response.model {
+                    if let index = self.items.firstIndex(of: oldItem) {
+                        self.items.remove(at: index)
+                    }
+                    self.items.append(contentsOf: responseItems)
+                }
+            } else {
+             //   errorMsg = response.errorMsg ?? ""
+            }
+        }
+    }
+    
     func addItem(listID: String, title: String, imageID: String?, url: String, price: Float64, description: String) {
         var body: [String: Any?] = [
             "title": title,
@@ -96,7 +123,7 @@ class ItemsViewModel: ObservableObject {
             .sink(receiveCompletion: { _ in },
                   receiveValue: {
                     self.items.append($0)
-                })
+                  })
             .store(in: &disposables)
     }
     

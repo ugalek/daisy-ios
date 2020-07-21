@@ -10,12 +10,6 @@ import Foundation
 import Combine
 import SwiftUI
 
-public struct Response<T> {
-    var model: [T]?
-    var isSuccess: Bool = false
-    var errorMsg: String?
-}
-
 public enum Endpoint {
     case image
     case images(userID: String)
@@ -136,6 +130,53 @@ final public class DaisyService {
             .eraseToAnyPublisher()
     }
     
+    private func patchRequest<T: Codable>(type: T.Type, endpoint: Endpoint, body: Any, completion: @escaping (Response<T>) -> Void) {
+        let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
+                                      resolvingAgainstBaseURL: false)!
+        
+        var finalBody: Data?
+        
+        // make sure this JSON is in the format we expect
+        do {
+            finalBody = try JSONSerialization.data(withJSONObject: body)
+        } catch let error as NSError {
+            print("Failed to load: \(error.localizedDescription)")
+        }
+        
+        var request = URLRequest(url: component.url!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+        request.httpMethod = "PATCH"
+        request.httpBody = finalBody
+        
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                let response = Response<T>(model: nil, isSuccess: false, errorMsg: error.localizedDescription)
+                completion(response)
+                return
+            }
+            
+            guard let data = data else {
+                let response = Response<T>(model: nil, isSuccess: false, errorMsg: "Unable to unwrap data")
+                completion(response)
+                return
+            }
+            
+            do {
+                let value: [T] = try self.decoder.decode([T].self, from: data)
+                DispatchQueue.main.async {
+                    let response = Response<T>(model: value, isSuccess: true, errorMsg: nil)
+                    completion(response)
+                }
+            } catch {
+                let response = Response<T>(model: nil, isSuccess: false, errorMsg: error.localizedDescription)
+                completion(response)
+            }
+        }.resume()
+    }
+    
     public func uploadImageRequest<T: Codable>(endpoint: Endpoint, image: UIImage) -> AnyPublisher<T, APIError> {
         let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
                                       resolvingAgainstBaseURL: false)!
@@ -198,6 +239,10 @@ final public class DaisyService {
 extension DaisyService {
     public func searchItems(listID: String, completion: @escaping (Response<Item>) -> Void) {
         DaisyService.shared.getRequest(type: Item.self, endpoint: .items(listID: listID), completion: completion)
+    }
+    
+    public func editItem(listID: String, body: Any, completion: @escaping (Response<Item>) -> Void) {
+        DaisyService.shared.patchRequest(type: Item.self, endpoint: .items(listID: listID), body: body, completion: completion)
     }
     
     public func searchList(completion: @escaping (Response<UserList>) -> Void) {
