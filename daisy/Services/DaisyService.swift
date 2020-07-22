@@ -47,7 +47,7 @@ final public class DaisyService {
     
     private let decoder = JSONDecoder()
     
-    private func getRequest<T: Codable>(type: T.Type, endpoint: Endpoint, completion: @escaping (Response<T>) -> Void) {
+    private func getRequest<T: Codable>(type: T.Type, endpoint: Endpoint, completion: @escaping (ResponseArray<T>) -> Void) {
         let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
                                       resolvingAgainstBaseURL: false)!
         
@@ -59,13 +59,13 @@ final public class DaisyService {
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
-                let response = Response<T>(model: nil, isSuccess: false, errorMsg: error.localizedDescription)
+                let response = ResponseArray<T>(model: nil, isSuccess: false, errorMsg: error.localizedDescription)
                 completion(response)
                 return
             }
             
             guard let data = data else {
-                let response = Response<T>(model: nil, isSuccess: false, errorMsg: "Unable to unwrap data")
+                let response = ResponseArray<T>(model: nil, isSuccess: false, errorMsg: "Unable to unwrap data")
                 completion(response)
                 return
             }
@@ -73,11 +73,11 @@ final public class DaisyService {
             do {
                 let value: [T] = try self.decoder.decode([T].self, from: data)
                 DispatchQueue.main.async {
-                    let response = Response<T>(model: value, isSuccess: true, errorMsg: nil)
+                    let response = ResponseArray<T>(model: value, isSuccess: true, errorMsg: nil)
                     completion(response)
                 }
             } catch {
-                let response = Response<T>(model: nil, isSuccess: false, errorMsg: error.localizedDescription)
+                let response = ResponseArray<T>(model: nil, isSuccess: false, errorMsg: error.localizedDescription)
                 completion(response)
             }
         }.resume()
@@ -165,13 +165,14 @@ final public class DaisyService {
             }
             
             do {
-                let value: [T] = try self.decoder.decode([T].self, from: data)
+                let value: T = try self.decoder.decode(T.self, from: data)
                 DispatchQueue.main.async {
                     let response = Response<T>(model: value, isSuccess: true, errorMsg: nil)
                     completion(response)
                 }
             } catch {
                 let response = Response<T>(model: nil, isSuccess: false, errorMsg: error.localizedDescription)
+                print(error.localizedDescription)
                 completion(response)
             }
         }.resume()
@@ -237,15 +238,15 @@ final public class DaisyService {
 }
 
 extension DaisyService {
-    public func searchItems(listID: String, completion: @escaping (Response<Item>) -> Void) {
+    public func searchItems(listID: String, completion: @escaping (ResponseArray<Item>) -> Void) {
         DaisyService.shared.getRequest(type: Item.self, endpoint: .items(listID: listID), completion: completion)
     }
     
-    public func editItem(listID: String, body: Any, completion: @escaping (Response<Item>) -> Void) {
-        DaisyService.shared.patchRequest(type: Item.self, endpoint: .items(listID: listID), body: body, completion: completion)
+    public func editItem(listID: String, itemID: String, body: Any, completion: @escaping (Response<Item>) -> Void) {
+        DaisyService.shared.patchRequest(type: Item.self, endpoint: .item(listID: listID, id: itemID), body: body, completion: completion)
     }
     
-    public func searchList(completion: @escaping (Response<UserList>) -> Void) {
+    public func searchList(completion: @escaping (ResponseArray<UserList>) -> Void) {
         DaisyService.shared.getRequest(type: UserList.self, endpoint: .lists, completion: completion)
     }
 }

@@ -13,3 +13,9 @@ public struct ResponseArray<T> {
     var isSuccess: Bool = false
     var errorMsg: String?
 }
+
+public struct Response<T> {
+    var model: T?
+    var isSuccess: Bool = false
+    var errorMsg: String?
+}

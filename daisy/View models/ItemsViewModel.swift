@@ -92,13 +92,13 @@ class ItemsViewModel: ObservableObject {
             body.updateValue(image, forKey: "image_id")
         }
         
-        DaisyService.shared.editItem(listID: list.id, body: body) { response in
+        DaisyService.shared.editItem(listID: list.id, itemID: oldItem.id, body: body) { response in
             if response.isSuccess {
                 if let responseItems = response.model {
                     if let index = self.items.firstIndex(of: oldItem) {
                         self.items.remove(at: index)
                     }
-                    self.items.append(contentsOf: responseItems)
+                    self.items.append(responseItems)
                 }
                 completion(false)
             } else {
