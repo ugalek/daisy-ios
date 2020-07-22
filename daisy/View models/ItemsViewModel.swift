@@ -14,6 +14,7 @@ class ItemsViewModel: ObservableObject {
     @Published var sortedItems: [Item] = []
     @Published var searchResults: [Item] = []
     @Published var searchText = ""
+    @Published var errorMessage = ""
     
     public let list: UserList
     
@@ -78,7 +79,7 @@ class ItemsViewModel: ObservableObject {
         }
     }
     
-    func editItem(oldItem: Item, listID: String, title: String, imageID: String?, url: String, price: Float64, description: String) {
+    func editItem(oldItem: Item, listID: String, title: String, imageID: String?, url: String, price: Float64, description: String, completion: @escaping(Bool) -> ()) {
         var body: [String: Any?] = [
             "title": title,
             "image_id": nil,
@@ -99,8 +100,12 @@ class ItemsViewModel: ObservableObject {
                     }
                     self.items.append(contentsOf: responseItems)
                 }
+                completion(false)
             } else {
-             //   errorMsg = response.errorMsg ?? ""
+                DispatchQueue.main.async {
+                    self.errorMessage = response.errorMsg ?? "Something is wrong"
+                    completion(true)
+                }
             }
         }
     }

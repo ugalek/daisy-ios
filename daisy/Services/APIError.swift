@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum APIError: Error {
+public enum APIError: Error, LocalizedError {
     case unknown
     case message(reason: String), parseError(reason: String), networkError(reason: String)
 
@@ -33,5 +33,4 @@ public enum APIError: Error {
         }
         return data
     }
-
 }

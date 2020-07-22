@@ -9,7 +9,7 @@
 import Combine
 import SwiftUI
 
-struct ItemEdit: View {
+struct ItemEdit: View, Alerting {
     @Environment(\.presentationMode) var presentationMode
     
     @ObservedObject var itemViewModel: ItemsViewModel
@@ -18,6 +18,7 @@ struct ItemEdit: View {
 
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
+    @State private var showAlert = false
     
     @Binding var showAddItem: Bool
         
@@ -140,6 +141,9 @@ struct ItemEdit: View {
                 self.itemFields.description = itemToEdit.description ?? ""
             }
         }
+        .alert(isPresented: $showAlert, content: {
+            errorAlert(message: itemViewModel.errorMessage)
+        })
     }
     
     func doneAction() {
@@ -154,7 +158,6 @@ struct ItemEdit: View {
             }
         } else {
             addItem(withImage: false)
-            self.showAddItem = false
         }
         
     }
@@ -168,7 +171,10 @@ struct ItemEdit: View {
                 imageID: withImage ? self.imageID : nil,
                 url: self.itemFields.url,
                 price: Double(self.itemFields.price) ?? 0,
-                description: self.itemFields.description)
+                description: self.itemFields.description) { result in
+                self.showAlert = result
+                self.showAddItem = result
+            }
         } else {
             self.itemViewModel.addItem(
                 listID: self.list.id,
