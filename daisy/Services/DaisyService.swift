@@ -11,8 +11,8 @@ import Combine
 import SwiftUI
 
 public enum Endpoint {
-    case image
-    case images(userID: String)
+    case images
+    case image(imageID: String)
     case lists
     case list(id: String)
     case items(listID: String)
@@ -20,10 +20,10 @@ public enum Endpoint {
     
     public func path() -> String {
         switch self {
-        case .image:
+        case .images:
             return "images/"
-        case let .images(userID):
-            return "images/\(userID)"
+        case let .image(imageID):
+            return "images/\(imageID)"
         case .lists:
             return "lists/"
         case let .list(id):

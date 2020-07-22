@@ -95,6 +95,9 @@ class ItemsViewModel: ObservableObject {
         DaisyService.shared.editItem(listID: list.id, itemID: oldItem.id, body: body) { response in
             if response.isSuccess {
                 if let responseItems = response.model {
+                    if let oldImageID = oldItem.imageID {
+                        self.deleteImage(imageID: oldImageID)
+                    }
                     if let index = self.items.firstIndex(of: oldItem) {
                         self.items.remove(at: index)
                     }
@@ -138,5 +141,9 @@ class ItemsViewModel: ObservableObject {
                 self.items.remove(at: index)
             }
         }
+    }
+    
+    func deleteImage(imageID: String) {
+        DaisyService.shared.deleteRequest(endpoint: .image(imageID: imageID)) { _ in }
     }
 }

@@ -17,7 +17,7 @@ class ImageViewModel: ObservableObject {
     
     func uploadImage(image: UIImage?, completionHandler: @escaping (_ imageUploaded: Bool) -> Void) {
         if let image = image {
-            DaisyService.shared.uploadImageRequest(endpoint: .image, image: image)
+            DaisyService.shared.uploadImageRequest(endpoint: .images, image: image)
                 .receive(on: DispatchQueue.main)
                 .sink(receiveCompletion: { (completion) in
                     switch completion {
