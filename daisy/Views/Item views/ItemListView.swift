@@ -17,20 +17,20 @@ struct ItemListView: View {
     
     var list: UserList
     
-//    var currentItems: [Item] = [staticItem,
-//                                staticTakenItem,
-//                                staticReservedItem]
-    var currentItems: [Item] {
-        get {
-            if !itemViewModel.searchText.isEmpty {
-                return itemViewModel.searchResults
-            } else if itemViewModel.sort != nil {
-                return itemViewModel.sortedItems
-            } else {
-                return itemViewModel.items
-            }
-        }
-    }
+    var currentItems: [Item] = [staticItem,
+                                staticTakenItem,
+                                staticReservedItem]
+//    var currentItems: [Item] {
+//        get {
+//            if !itemViewModel.searchText.isEmpty {
+//                return itemViewModel.searchResults
+//            } else if itemViewModel.sort != nil {
+//                return itemViewModel.sortedItems
+//            } else {
+//                return itemViewModel.items
+//            }
+//        }
+//    }
 
     private let columns = [
         GridItem(.adaptive(minimum: 130), spacing: 10)
@@ -154,7 +154,10 @@ extension ItemListView {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(currentItems, id: \.self) { item in
-                    ItemLargeView(item: item)
+                    NavigationLink(destination: ItemDetail(list: list, item: item)
+                                    .environmentObject(itemViewModel)) {
+                        ItemLargeView(item: item)
+                    }
                 }.onDelete(perform: deleteItems) // ForEach
             }
         }

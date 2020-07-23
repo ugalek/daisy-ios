@@ -102,8 +102,8 @@ class ItemsViewModel: ObservableObject {
                         self.items.remove(at: index)
                     }
                     self.items.append(responseItems)
+                    completion(false)
                 }
-                completion(false)
             } else {
                 DispatchQueue.main.async {
                     self.errorMessage = response.errorMsg ?? "Something is wrong"
@@ -138,6 +138,9 @@ class ItemsViewModel: ObservableObject {
     func deleteItem(listID: String, at index: Int) {
         DaisyService.shared.deleteRequest(endpoint: .item(listID: listID, id: items[index].id)) { result in
             if result {
+                if let oldImageID = self.items[index].imageID {
+                    self.deleteImage(imageID: oldImageID)
+                }
                 self.items.remove(at: index)
             }
         }

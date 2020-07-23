@@ -3,68 +3,21 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "closure #1 in static DaisyService.getRequest&lt;A&gt;(endpoint:):DaisyService.swift">
-      </ContextState>
-      <ContextState
-         contextName = "ItemsViewModel.UpdateItems():ItemsViewModel.swift">
+         contextName = "closure #1 in ItemImage.body.getter:ItemImage.swift">
          <PersistentStrings>
             <PersistentString
-               value = "items">
+               value = "item?.image">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ItemListView.compactView.getter:ItemListView.swift">
+         contextName = "closure #1 in ItemsViewModel.editItem(oldItem:listID:title:imageID:url:price:description:completion:):ItemsViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "DaisyService.patchRequest&lt;A&gt;(type:endpoint:body:completion:):DaisyService.swift">
          <PersistentStrings>
             <PersistentString
-               value = "currentItems">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #2 in ItemsViewModel.fetchData():ItemsViewModel.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in NetworkManager.updateItemsFromDB(urlString:):NetworkManager.swift">
-      </ContextState>
-      <ContextState
-         contextName = "Alert.init(localizedError:):DaisyService.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "localizedError">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "NetworkManager.addItem2(listID:title:image:url:price:description:):NetworkManager.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "items">
-            </PersistentString>
-            <PersistentString
-               value = "$0">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "UserListDetailViewModel.saveItems():UserListDetailViewModel.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "list.id">
-            </PersistentString>
-            <PersistentString
-               value = "self.items">
-            </PersistentString>
-            <PersistentString
-               value = "NetworkManager.shared.$publicItems.count()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "static DaisyService.fetchItems(listID:):DaisyService.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "ItemContainer">
+               value = "component.url">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -80,10 +33,122 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #3 in static DaisyService.getRequest&lt;A&gt;(endpoint:):DaisyService.swift">
+      </ContextState>
+      <ContextState
          contextName = "ItemsViewModel.init(list:):ItemsViewModel.swift">
       </ContextState>
       <ContextState
-         contextName = "closure #1 in Alert.init(nsError:):DaisyService.swift">
+         contextName = "ItemListView.compactView.getter:ItemListView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "currentItems">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "NetworkManager.addItem2(listID:title:image:url:price:description:):NetworkManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "items">
+            </PersistentString>
+            <PersistentString
+               value = "$0">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in ListView.body.getter:ListView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "currentLists">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #3 in ItemDetail.body.getter:ItemDetail.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "item">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in ItemsViewModel.fetchData():ItemsViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in ItemListView.body.getter:ItemListView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.networkManager.items">
+            </PersistentString>
+            <PersistentString
+               value = "self.networkManager.urlString">
+            </PersistentString>
+            <PersistentString
+               value = "self.networkManager.updateItems">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "AsyncImage.init(url:cache:configuration:):AsyncImage.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "url.absoluteString">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in static DaisyService.getRequest&lt;A&gt;(endpoint:):DaisyService.swift">
+      </ContextState>
+      <ContextState
+         contextName = "getGridItemData(items:):Data.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "item.title">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ItemsViewModel.UpdateItems():ItemsViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "items">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UserListDetailViewModel.saveItems():UserListDetailViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "list.id">
+            </PersistentString>
+            <PersistentString
+               value = "NetworkManager.shared.$publicItems.count()">
+            </PersistentString>
+            <PersistentString
+               value = "self.items">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ItemEdit.addItem(withImage:):ItemEdit.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.item">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ItemFields.getPoint(value:):ItemEdit.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "beginning.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ListViewModel.fetchData():ListViewModel.swift">
       </ContextState>
       <ContextState
          contextName = "ItemsViewModel.fetchData():ItemsViewModel.swift">
@@ -100,38 +165,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ItemListView.currentItems.getter:ItemListView.swift">
+         contextName = "closure #1 in closure #1 in closure #1 in ItemDetail.body.getter:ItemDetail.swift">
          <PersistentStrings>
             <PersistentString
-               value = "currentItems">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "static DaisyService.postRequest&lt;A&gt;(endpoint:body:):DaisyService.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in DaisyService.patchRequest&lt;A&gt;(type:endpoint:body:completion:):DaisyService.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #3 in static DaisyService.getRequest&lt;A&gt;(endpoint:):DaisyService.swift">
-      </ContextState>
-      <ContextState
-         contextName = "getGridItemData(items:):Data.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "item.title">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in ItemsViewModel.fetchData():ItemsViewModel.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in closure #1 in ItemListView.body.getter:ItemListView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "currentItems">
+               value = "item">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -144,45 +181,49 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ItemFields.getPoint(value:):ItemEdit.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "beginning.count">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in closure #1 in closure #1 in ListView.body.getter:ListView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "currentLists">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "DaisyService.patchRequest&lt;A&gt;(type:endpoint:body:completion:):DaisyService.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "component.url">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ListViewModel.fetchData():ListViewModel.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #3 in ItemDetail.body.getter:ItemDetail.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "item">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "closure #1 in NetworkManager.updateItemsFromDB(urlString:):NetworkManager.swift">
       </ContextState>
       <ContextState
          contextName = "closure #3 in ItemsViewModel.init(list:):ItemsViewModel.swift">
          <PersistentStrings>
             <PersistentString
                value = "self.items">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in AsyncImage.image.getter:AsyncImage.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "loader.image">
+            </PersistentString>
+            <PersistentString
+               value = "loader">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in DaisyService.patchRequest&lt;A&gt;(type:endpoint:body:completion:):DaisyService.swift">
+      </ContextState>
+      <ContextState
+         contextName = "static DaisyService.fetchItems(listID:):DaisyService.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "ItemContainer">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in Alert.init(nsError:):DaisyService.swift">
+      </ContextState>
+      <ContextState
+         contextName = "static DaisyService.postRequest&lt;A&gt;(endpoint:body:):DaisyService.swift">
+      </ContextState>
+      <ContextState
+         contextName = "Alert.init(localizedError:):DaisyService.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "localizedError">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -195,16 +236,21 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #2 in ItemListView.body.getter:ItemListView.swift">
+         contextName = "ItemListView.currentItems.getter:ItemListView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.networkManager.items">
+               value = "currentItems">
             </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ItemsViewModel.fetchData():ItemsViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in ItemListView.body.getter:ItemListView.swift">
+         <PersistentStrings>
             <PersistentString
-               value = "self.networkManager.urlString">
-            </PersistentString>
-            <PersistentString
-               value = "self.networkManager.updateItems">
+               value = "currentItems">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
