@@ -71,7 +71,7 @@ struct welcomeView: View {
     }
 }
 
-struct loginForm: View {
+struct loginForm: View, Alerting {
     @EnvironmentObject var authManager: HttpAuth
     
     @State private var email: String = "admin@example.com"
@@ -113,6 +113,9 @@ struct loginForm: View {
                     .cornerRadius(15.0)
             }
         }
+        .alert(isPresented: $authManager.showAlert, content: {
+            errorAlert(message: authManager.errorMessage)
+        })
     }
 }
 

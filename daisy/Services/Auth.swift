@@ -15,6 +15,8 @@ struct ServerMessage: Decodable {
 
 class HttpAuth: ObservableObject {
     @Published var authenticated = false
+    @Published var errorMessage = ""
+    @Published var showAlert = false
     
     func login(email: String, password: String) {
         let apiUrl = URL(string: UserDefaults.standard.string(forKey: "apiLink") ?? "/")!
@@ -35,6 +37,13 @@ class HttpAuth: ObservableObject {
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             
             URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.errorMessage = error.localizedDescription
+                        self.showAlert = true
+                    }
+                    return
+                }
                 guard let data = data else { return }
                 if let httpResponse = response as? HTTPURLResponse {
                     if httpResponse.statusCode == 200 {
@@ -43,13 +52,17 @@ class HttpAuth: ObservableObject {
                             DispatchQueue.main.async {
                                 self.authenticated = true
                                 UserDefaults.standard.set(finalData.token, forKey: "token")
+                                print(finalData.token)
                             }
                         } catch {
-                            print("Cannot decode server message")
+                            DispatchQueue.main.async {
+                                self.errorMessage = "Cannot decode server message"
+                            }
                         }
                     } else {
-                        print("Unauthorized")
-                        print("statusCode: \(httpResponse.statusCode)")
+                        DispatchQueue.main.async {
+                            self.errorMessage = "Unauthorized. StatusCode: \(httpResponse.statusCode)"
+                        }
                     }
                     
                 }

@@ -42,18 +42,11 @@ struct PriceOverlay: View {
                 Rectangle().fill(gradient)
                     .cornerRadius(8)
                 if item.status != 3 {
-                    HStack(spacing: 2) {
+                    HStack {
                         Spacer()
-                        Text(Item.getPriceString(price: item.price) + " ")
-                        Image(systemName: "dollarsign.circle")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20, height: 20)
+                        ItemPrice(item: item)
                     }
                     .padding()
-//                    .overlay(Rectangle().fill(Color.red)
-//                                .cornerRadius(8)
-//                                .opacity(0.8))
                 }
             }
         }

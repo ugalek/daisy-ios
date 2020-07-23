@@ -16,12 +16,42 @@ struct ListView: View {
     @State var loggedOut = false
     @State private var showingDeleteAlert = false
     @State var offsets: IndexSet?
+    @State private var showAddList: Bool = false
     
     var profileButton: some View {
         NavigationLink(destination: UserView().environmentObject(self.authManager)) {
            Image(systemName: "person.crop.circle")
             .imageScale(.large)
             .accessibility(label: Text("User Profile"))
+        }
+    }
+    
+    @State private var title: String = ""
+    
+    var addButton: some View {
+        Button(action: { self.showAddList.toggle() }) {
+            Image(systemName: "plus")
+                .imageScale(.large)
+                .accessibility(label: Text("Add new"))
+        }.popover(
+            isPresented: self.$showAddList,
+            arrowEdge: .bottom
+        ) {
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("Title")
+                        .font(.subheadline)
+                        .foregroundColor(.dDarkBlueColor)
+                    Spacer()
+                }
+                TextField("Title", text: $title)
+                    .font(.caption)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                Button(action: { self.doneAction() }) {
+                    Text("Done").bold()
+                }
+                Spacer()
+            }
         }
     }
     
@@ -54,7 +84,10 @@ struct ListView: View {
             }
             .listStyle(GroupedListStyle())
             .navigationBarTitle("Lists", displayMode: .automatic)
-            .navigationBarItems(trailing: profileButton)
+            .navigationBarItems(trailing: HStack(spacing: 15) {
+                addButton
+                profileButton
+            })
             .alert(isPresented: self.$showingDeleteAlert) {
                 Alert(title: Text("Delete list"), message: Text("Delete list and all items inside?"), primaryButton: .destructive(Text("Delete")) {
                     if let first = self.offsets?.first {
@@ -63,6 +96,12 @@ struct ListView: View {
                 }, secondaryButton: .cancel())}
             .modifier(DismissingKeyboardOnSwipe())
         }
+    }
+    
+    func doneAction() {
+        self.listViewModel.addList(
+            title: self.title)
+        self.showAddList = false
     }
     
     func deleteList(at offsets: IndexSet) {

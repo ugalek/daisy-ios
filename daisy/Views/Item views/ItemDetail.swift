@@ -9,6 +9,10 @@
 import SwiftUI
 
 struct ItemDetail: View {
+    @State var showAddItem = false
+    @EnvironmentObject var itemViewModel: ItemsViewModel
+    
+    let list: UserList
     var item: Item
     var reserveButton: some View {
         Button(action: {
@@ -58,33 +62,13 @@ struct ItemDetail: View {
             VStack {
                 HStack {
                     Spacer()
-                    ZStack(alignment: .top) {
-                        Image(item.image)
-                            .resizable()
-                            .frame(width: 200, height: 200)
-                            .scaledToFit()
-                            .cornerRadius(8)
-                        if item.status != 1 {
-                            Rectangle()
-                                .trim(from: 0, to: 1)
-                                .foregroundColor(Color.dBackground)
-                                .frame(height: 50, alignment: .center)
-                                .opacity(0.2)
-                            Text(Item.getRawStatus(status: item.status))
-                                .font(.headline)
-                                .padding()
-                        }
-                    }
+                    ItemImage(item: item, imageSize: ImageSize.itemDetail)
                     Spacer()
                 }
-                HStack(spacing: 2) {
-                    Text(Item.getPriceString(price: item.price) + " ")
-                    Image(systemName: "dollarsign.circle")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 20, height: 20)
-                }
+                ItemPrice(item: item)
                 Divider()
+                Text(item.title)
+                    .font(.title)
                 HStack(spacing: 2) {
                     Image(systemName: "link")
                         .resizable()
@@ -97,15 +81,23 @@ struct ItemDetail: View {
                 }
                 .foregroundColor(.dDarkBlueColor)
                 ScrollView {
-                    Text(item.description)
+                    Text(item.description ?? "")
                         .font(.subheadline)
                 }
+                Spacer()
             }
             .padding()
         }
         .listStyle(GroupedListStyle())
-        .navigationBarTitle(Text(item.title), displayMode: .inline)
+        .navigationBarTitle("", displayMode: .inline)
         .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: { self.showAddItem = true }) {
+                    Image(systemName: "square.and.pencil")
+                        .foregroundColor(.dDarkBlueColor)
+                    Text("Edit")
+                }.foregroundColor(.dDarkBlueColor)
+            }
             ToolbarItem(placement: .bottomBar) {
                 HStack(spacing: 2) {
                     Button(action: { print("reserve") }) {
@@ -123,6 +115,15 @@ struct ItemDetail: View {
                 .foregroundColor(.dDarkBlueColor)
             }
         }
+        .sheet(isPresented: $showAddItem) {
+            ItemEdit(
+                itemViewModel: itemViewModel,
+                showAddItem: $showAddItem,
+                list: list,
+                item: item,
+                editMode: true
+            )
+        }
         .modifier(DismissingKeyboardOnSwipe())
     }
 }
@@ -132,14 +133,14 @@ struct ItemDetail_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                ItemDetail(item: staticTakenItem)
+                ItemDetail(list: staticList, item: staticTakenItem)
             }
             .environment(\.colorScheme, .light)
             
-            NavigationView {
-                ItemDetail(item: staticTakenItem)
-            }
-            .environment(\.colorScheme, .dark)
+//            NavigationView {
+//                ItemDetail(list: staticList, item: staticTakenItem)
+//            }
+//            .environment(\.colorScheme, .dark)
         }
     }
 }

@@ -14,6 +14,7 @@ class ItemsViewModel: ObservableObject {
     @Published var sortedItems: [Item] = []
     @Published var searchResults: [Item] = []
     @Published var searchText = ""
+    @Published var errorMessage = ""
     
     public let list: UserList
     
@@ -63,13 +64,13 @@ class ItemsViewModel: ObservableObject {
     }
     
     private func fetchData() {
-        DaisyService.getRequest(endpoint: .items(listID: list.id))
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in },
-                  receiveValue: { response in
-                    self.items.append(contentsOf: response)
-            })
-            .store(in: &disposables)
+        DaisyService.shared.searchItems(listID: list.id) { response in
+            if response.isSuccess {
+                if let responseItems = response.model {
+                    self.items = responseItems
+                }
+            }
+        }
     }
     
     private func items(with string: String) -> [Item] {
@@ -78,29 +79,74 @@ class ItemsViewModel: ObservableObject {
         }
     }
     
-    func addItem(listID: String, title: String, image: String, url: String, price: String, description: String) {
-        let body: [String: Any] = [
+    func editItem(oldItem: Item, listID: String, title: String, imageID: String?, url: String, price: Float64, description: String, completion: @escaping(Bool) -> ()) {
+        var body: [String: Any?] = [
             "title": title,
-            "image": image,
+            "image_id": nil,
             "url": url,
-            "price": Double(price) ?? 0,
+            "price": price,
             "description": description,
             "status": 1]
         
-        DaisyService.postRequest(endpoint: .items(listID: listID), body: body)
+        if let image = imageID {
+            body.updateValue(image, forKey: "image_id")
+        }
+        
+        DaisyService.shared.editItem(listID: list.id, itemID: oldItem.id, body: body) { response in
+            if response.isSuccess {
+                if let responseItems = response.model {
+                    if let oldImageID = oldItem.imageID {
+                        self.deleteImage(imageID: oldImageID)
+                    }
+                    if let index = self.items.firstIndex(of: oldItem) {
+                        self.items.remove(at: index)
+                    }
+                    self.items.append(responseItems)
+                    completion(false)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.errorMessage = response.errorMsg ?? "Something is wrong"
+                    completion(true)
+                }
+            }
+        }
+    }
+    
+    func addItem(listID: String, title: String, imageID: String?, url: String, price: Float64, description: String) {
+        var body: [String: Any?] = [
+            "title": title,
+            "image_id": nil,
+            "url": url,
+            "price": price,
+            "description": description,
+            "status": 1]
+        
+        if let image = imageID {
+            body.updateValue(image, forKey: "image_id")
+        }
+        
+        DaisyService.shared.postRequest(endpoint: .items(listID: listID), body: body)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in },
                   receiveValue: {
                     self.items.append($0)
-                })
+                  })
             .store(in: &disposables)
     }
     
     func deleteItem(listID: String, at index: Int) {
-        DaisyService.deleteRequest(endpoint: .item(listID: listID, id: items[index].id)) { result in
+        DaisyService.shared.deleteRequest(endpoint: .item(listID: listID, id: items[index].id)) { result in
             if result {
+                if let oldImageID = self.items[index].imageID {
+                    self.deleteImage(imageID: oldImageID)
+                }
                 self.items.remove(at: index)
             }
         }
+    }
+    
+    func deleteImage(imageID: String) {
+        DaisyService.shared.deleteRequest(endpoint: .image(imageID: imageID)) { _ in }
     }
 }
