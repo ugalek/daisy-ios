@@ -47,6 +47,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ItemEdit.addItem(withImage:):ItemEdit.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.imageID">
+            </PersistentString>
+            <PersistentString
+               value = "item?.imageID">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "NetworkManager.addItem2(listID:title:image:url:price:description:):NetworkManager.swift">
          <PersistentStrings>
             <PersistentString
@@ -54,6 +65,14 @@
             </PersistentString>
             <PersistentString
                value = "$0">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "AsyncImage.init(url:cache:configuration:):AsyncImage.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "url.absoluteString">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -66,15 +85,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #2 in ItemsViewModel.fetchData():ItemsViewModel.swift">
+      </ContextState>
+      <ContextState
          contextName = "closure #3 in ItemDetail.body.getter:ItemDetail.swift">
          <PersistentStrings>
             <PersistentString
                value = "item">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #2 in ItemsViewModel.fetchData():ItemsViewModel.swift">
       </ContextState>
       <ContextState
          contextName = "closure #2 in ItemListView.body.getter:ItemListView.swift">
@@ -87,14 +106,6 @@
             </PersistentString>
             <PersistentString
                value = "self.networkManager.updateItems">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "AsyncImage.init(url:cache:configuration:):AsyncImage.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "url.absoluteString">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -124,10 +135,10 @@
                value = "list.id">
             </PersistentString>
             <PersistentString
-               value = "NetworkManager.shared.$publicItems.count()">
+               value = "self.items">
             </PersistentString>
             <PersistentString
-               value = "self.items">
+               value = "NetworkManager.shared.$publicItems.count()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -165,12 +176,26 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #1 in AsyncImage.image.getter:AsyncImage.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "loader.image">
+            </PersistentString>
+            <PersistentString
+               value = "loader">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in closure #1 in closure #1 in ItemDetail.body.getter:ItemDetail.swift">
          <PersistentStrings>
             <PersistentString
                value = "item">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in NetworkManager.updateItemsFromDB(urlString:):NetworkManager.swift">
       </ContextState>
       <ContextState
          contextName = "Alert.init(nsError:):DaisyService.swift">
@@ -181,24 +206,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in NetworkManager.updateItemsFromDB(urlString:):NetworkManager.swift">
-      </ContextState>
-      <ContextState
          contextName = "closure #3 in ItemsViewModel.init(list:):ItemsViewModel.swift">
          <PersistentStrings>
             <PersistentString
                value = "self.items">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in AsyncImage.image.getter:AsyncImage.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "loader.image">
-            </PersistentString>
-            <PersistentString
-               value = "loader">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -214,10 +225,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in Alert.init(nsError:):DaisyService.swift">
+         contextName = "closure #2 in ListViewModel.fetchData():ListViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.rlists">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "static DaisyService.postRequest&lt;A&gt;(endpoint:body:):DaisyService.swift">
+         contextName = "closure #1 in Alert.init(nsError:):DaisyService.swift">
       </ContextState>
       <ContextState
          contextName = "Alert.init(localizedError:):DaisyService.swift">
@@ -228,12 +244,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #2 in ListViewModel.fetchData():ListViewModel.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.rlists">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "static DaisyService.postRequest&lt;A&gt;(endpoint:body:):DaisyService.swift">
       </ContextState>
       <ContextState
          contextName = "ItemListView.currentItems.getter:ItemListView.swift">

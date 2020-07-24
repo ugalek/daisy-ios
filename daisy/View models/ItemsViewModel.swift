@@ -96,7 +96,9 @@ class ItemsViewModel: ObservableObject {
             if response.isSuccess {
                 if let responseItems = response.model {
                     if let oldImageID = oldItem.imageID {
-                        self.deleteImage(imageID: oldImageID)
+                        if oldImageID != imageID {
+                            self.deleteImage(imageID: oldImageID)
+                        }
                     }
                     if let index = self.items.firstIndex(of: oldItem) {
                         self.items.remove(at: index)
