@@ -13,6 +13,7 @@ class ListViewModel: ObservableObject {
     @Published var lists: [UserList] = []
     @Published var searchResults: [UserList] = []
     @Published var searchText = ""
+    @Published var errorMessage = ""
     
     private var searchCancellable: AnyCancellable?
     private var disposables = Set<AnyCancellable>()

@@ -26,8 +26,6 @@ struct ListView: View {
         }
     }
     
-    @State private var title: String = ""
-    
     var addButton: some View {
         Button(action: { self.showAddList.toggle() }) {
             Image(systemName: "plus")
@@ -37,33 +35,20 @@ struct ListView: View {
             isPresented: self.$showAddList,
             arrowEdge: .bottom
         ) {
-            VStack(alignment: .leading) {
-                HStack {
-                    Text("Title")
-                        .font(.subheadline)
-                        .foregroundColor(.dDarkBlueColor)
-                    Spacer()
-                }
-                TextField("Title", text: $title)
-                    .font(.caption)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                Button(action: { self.doneAction() }) {
-                    Text("Done").bold()
-                }
-                Spacer()
-            }
+            ListEdit(listViewModel: listViewModel, showAddList: self.$showAddList)
         }
     }
     
-    var currentLists: [UserList] {
-        get {
-            if !listViewModel.searchText.isEmpty {
-                return listViewModel.searchResults
-            } else {
-                return listViewModel.lists
-            }
-        }
-    }
+    var currentLists: [UserList] = [staticList]
+//    var currentLists: [UserList] {
+//        get {
+//            if !listViewModel.searchText.isEmpty {
+//                return listViewModel.searchResults
+//            } else {
+//                return listViewModel.lists
+//            }
+//        }
+//    }
 
     var body: some View {
         NavigationView {
@@ -98,12 +83,6 @@ struct ListView: View {
         }
     }
     
-    func doneAction() {
-        self.listViewModel.addList(
-            title: self.title)
-        self.showAddList = false
-    }
-    
     func deleteList(at offsets: IndexSet) {
         self.showingDeleteAlert = true
         self.offsets = offsets
@@ -113,9 +92,9 @@ struct ListView: View {
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ListView()
-                .environmentObject(HttpAuth())
-                .environment(\.colorScheme, .dark)
+//            ListView()
+//                .environmentObject(HttpAuth())
+//                .environment(\.colorScheme, .dark)
             ListView()
                 .environmentObject(HttpAuth())
                 .environment(\.colorScheme, .light)

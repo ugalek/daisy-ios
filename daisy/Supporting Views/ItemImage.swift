@@ -32,8 +32,21 @@ struct ItemImage: View {
     @Environment(\.imageCache) var cache: ImageCache
     
     var item: Item?
+    var list: UserList?
     var imageFile: Image?
     var imageSize: ImageSize
+    
+    var imageURL: String {
+        get {
+            if let imageURL = item?.image?.url {
+                return imageURL
+            } else if let imageURL = list?.image?.url {
+                return imageURL
+            } else {
+                return "/"
+            }
+        }
+    }
     
     var body: some View {
         ZStack {

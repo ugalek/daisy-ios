@@ -150,24 +150,7 @@ extension ItemListView {
         .listRowBackground(Color.dBackground)
     }
     
-    private var largeView: some View {
-//        ScrollView {
-//            LazyVGrid(columns: columns, spacing: 20) {
-//                ForEach(currentItems, id: \.self) { item in
-//                    NavigationLink(destination: Text("test")) {
-//                        Image("test")
-//                            .renderingMode(.original)
-//                        .scaledToFill()
-//                        .frame(width: 100, height: 100)
-//                        .cornerRadius(8)
-//                        .clipped()
-//                    }
-//                }.onDelete(perform: deleteItems) // ForEach
-//            }
-//        }
-//        .padding(.horizontal)
-//        .listRowBackground(Color.dBackground)
-        
+    private var largeView: some View {   
         ScrollView {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(currentItems, id: \.self) { item in
