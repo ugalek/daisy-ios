@@ -178,7 +178,7 @@ struct ItemEdit: View, Alerting {
                 oldItem: item!,
                 listID: self.list.id,
                 title: self.itemFields.title,
-                imageID: withImage ? self.imageID : nil,
+                imageID: withImage ? self.imageID : item?.imageID,
                 url: self.itemFields.url,
                 price: Double(self.itemFields.price) ?? 0,
                 description: self.itemFields.description) { result in
