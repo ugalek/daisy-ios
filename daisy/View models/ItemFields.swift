@@ -37,7 +37,7 @@ class ItemFields: ObservableObject, Codable {
             update()
         }
     }
-    var description: String = "Description" { didSet { update() } }
+    var description: String = "Description  dshjhgf sdgf hdgs sjhfdg sdhf jhsdg fhj gsdhfg hsdg fhdgsfhdshfg hdsgf  dgsfhgsdf" { didSet { update() } }
     var titleIsValid: Bool = true { didSet { update() } }
     
     var isValid: Bool {

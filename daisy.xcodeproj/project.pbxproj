@@ -31,7 +31,6 @@
 		055219D1249A85F3009ACC91 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055219D0249A85F3009ACC91 /* ListViewModel.swift */; };
 		055A10AB24C5DB3B0050FEFF /* ItemLargeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055A10AA24C5DB3B0050FEFF /* ItemLargeView.swift */; };
 		055A10AD24C5DDBE0050FEFF /* ItemFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055A10AC24C5DDBE0050FEFF /* ItemFields.swift */; };
-		055A10AF24C5DE580050FEFF /* FieldNotValidImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055A10AE24C5DE580050FEFF /* FieldNotValidImage.swift */; };
 		055A10B124C61AD00050FEFF /* ResponseArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055A10B024C61AD00050FEFF /* ResponseArray.swift */; };
 		055A10B524C626910050FEFF /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055A10B424C626910050FEFF /* Notification.swift */; };
 		055BC679243B7D52006DE7B3 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055BC678243B7D52006DE7B3 /* PageViewController.swift */; };
@@ -104,7 +103,6 @@
 		055219D0249A85F3009ACC91 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		055A10AA24C5DB3B0050FEFF /* ItemLargeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemLargeView.swift; sourceTree = "<group>"; };
 		055A10AC24C5DDBE0050FEFF /* ItemFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemFields.swift; sourceTree = "<group>"; };
-		055A10AE24C5DE580050FEFF /* FieldNotValidImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldNotValidImage.swift; sourceTree = "<group>"; };
 		055A10B024C61AD00050FEFF /* ResponseArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseArray.swift; sourceTree = "<group>"; };
 		055A10B424C626910050FEFF /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		055BC678243B7D52006DE7B3 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
@@ -326,7 +324,6 @@
 			children = (
 				05C8738B24C494D1004DE992 /* ItemPrice.swift */,
 				05C8738924C44223004DE992 /* ItemImage.swift */,
-				055A10AE24C5DE580050FEFF /* FieldNotValidImage.swift */,
 				055A10AA24C5DB3B0050FEFF /* ItemLargeView.swift */,
 				0523D75524B209AC00E8C4D2 /* ImagePicker.swift */,
 				051A44EF2498C9A900F4667B /* ViewModifiers.swift */,
@@ -524,7 +521,6 @@
 				05832F46249772700092A25D /* APIError.swift in Sources */,
 				053BB3BF24489C54008E16F2 /* Auth.swift in Sources */,
 				05DECB9E243337A70088B58D /* ContentView.swift in Sources */,
-				055A10AF24C5DE580050FEFF /* FieldNotValidImage.swift in Sources */,
 				050414122449AECF00AE8835 /* FormatedTextField.swift in Sources */,
 				056812A3244B522A00B1533D /* Validators.swift in Sources */,
 				0534AC6824BC7CA4006895A0 /* UIImage.swift in Sources */,
