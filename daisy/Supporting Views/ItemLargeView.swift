@@ -29,6 +29,7 @@ struct ItemLargeView: View {
                 Text(item.title)
                     .font(.footnote)
                     .lineLimit(1)
+                    .foregroundColor(.primary)
             }
         }
     }

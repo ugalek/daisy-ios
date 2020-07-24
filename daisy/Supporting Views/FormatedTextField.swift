@@ -39,7 +39,7 @@ struct FormatedTextField: View {
                     .font(.footnote)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .overlay(
-                        Image(systemName: iconName)
+                        Image(systemName: !isValid ? "exclamationmark.shield" : iconName)
                             .padding(.horizontal)
                             .foregroundColor(!isValid ? .red : Color.dBorderColor),
                         alignment: .trailing)
@@ -51,7 +51,7 @@ struct FormatedTextField: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .foregroundColor(!isValid ? .red : .primary)
                     .overlay(
-                        Image(systemName: iconName)
+                        Image(systemName: !isValid ? "exclamationmark.shield" : iconName)
                             .padding(.horizontal)
                             .foregroundColor(!isValid ? .red : Color.dBorderColor),
                         alignment: .trailing)

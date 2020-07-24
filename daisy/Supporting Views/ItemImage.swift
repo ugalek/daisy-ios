@@ -44,7 +44,9 @@ struct ItemImage: View {
                 AsyncImage(
                     url: URL(string: imageURL)!,
                     cache: self.cache,
-                    configuration: { $0.resizable() }
+                    configuration: { $0
+                        .resizable()
+                        .renderingMode(.original) }
                 )
                 .scaledToFill()
                 .frame(width: imageSize.size(), height: imageSize.size())
@@ -52,6 +54,7 @@ struct ItemImage: View {
                 .clipped()
             } else if imageFile != nil {
                 imageFile?
+                    .renderingMode(.original)
                     .resizable()
                     .scaledToFill()
                     .frame(width: imageSize.size(), height: imageSize.size())

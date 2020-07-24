@@ -16,21 +16,21 @@ struct ItemListView: View {
     @State private var editMode: EditMode = .inactive
     
     var list: UserList
-    
-    var currentItems: [Item] = [staticItem,
-                                staticTakenItem,
-                                staticReservedItem]
-//    var currentItems: [Item] {
-//        get {
-//            if !itemViewModel.searchText.isEmpty {
-//                return itemViewModel.searchResults
-//            } else if itemViewModel.sort != nil {
-//                return itemViewModel.sortedItems
-//            } else {
-//                return itemViewModel.items
-//            }
-//        }
-//    }
+
+//    var currentItems: [Item] = [staticItem,
+//                                staticTakenItem,
+//                                staticReservedItem]
+    var currentItems: [Item] {
+        get {
+            if !itemViewModel.searchText.isEmpty {
+                return itemViewModel.searchResults
+            } else if itemViewModel.sort != nil {
+                return itemViewModel.sortedItems
+            } else {
+                return itemViewModel.items
+            }
+        }
+    }
 
     private let columns = [
         GridItem(.adaptive(minimum: 130), spacing: 10)
@@ -151,6 +151,23 @@ extension ItemListView {
     }
     
     private var largeView: some View {
+//        ScrollView {
+//            LazyVGrid(columns: columns, spacing: 20) {
+//                ForEach(currentItems, id: \.self) { item in
+//                    NavigationLink(destination: Text("test")) {
+//                        Image("test")
+//                            .renderingMode(.original)
+//                        .scaledToFill()
+//                        .frame(width: 100, height: 100)
+//                        .cornerRadius(8)
+//                        .clipped()
+//                    }
+//                }.onDelete(perform: deleteItems) // ForEach
+//            }
+//        }
+//        .padding(.horizontal)
+//        .listRowBackground(Color.dBackground)
+        
         ScrollView {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(currentItems, id: \.self) { item in

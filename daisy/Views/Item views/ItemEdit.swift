@@ -73,34 +73,44 @@ struct ItemEdit: View, Alerting {
                         .foregroundColor(.red)
                 }
             }
-            TextField("Title", text: $itemFields.title)
-                .font(.caption)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .overlay(FieldNotValidImage(isValid: self.itemFields.titleIsValid), alignment: .trailing)
             
+            FormatedTextField(
+                placeholder: "Title",
+                iconName: "t.bubble",
+                text: $itemFields.title,
+                isValid: self.itemFields.titleIsValid
+            )
+ 
             Text("URL")
                 .font(.subheadline)
                 .foregroundColor(.dDarkBlueColor)
-            TextField("URL (http://example.com)", text: $itemFields.url)
-                .font(.caption)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+            
+            FormatedTextField(
+                placeholder: "URL (http://example.com)",
+                iconName: "network",
+                text: $itemFields.url
+            )
             
             Text("Price")
                 .font(.subheadline)
                 .foregroundColor(.dDarkBlueColor)
             
-            TextField("Price", text: $itemFields.price)
-                .font(.caption)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .keyboardType(.decimalPad)
+            FormatedTextField(
+                placeholder: "Price",
+                iconName: "dollarsign.circle",
+                text: $itemFields.price,
+                keyboardType: .decimalPad
+            )
             
             Text("Description")
                 .font(.subheadline)
                 .foregroundColor(.dDarkBlueColor)
-            
-            TextField("Description", text: $itemFields.description)
-                .font(.caption)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+            Section {
+                TextEditor(text: $itemFields.description)
+                    .font(.footnote)
+                    .lineSpacing(5)
+            }
+            .frame(height: 150)
         }
     }
     
