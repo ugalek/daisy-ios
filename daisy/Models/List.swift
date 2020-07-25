@@ -30,7 +30,7 @@ public struct UserList: Codable, Identifiable, Hashable {
     let createdAt: Date?
     let updatedAt: Date?
     let title: String
-    let image: String?
+    let image: ImageResponse?
     let imageID: String?
     let surprise: Bool
 }
@@ -40,14 +40,14 @@ public let staticList = UserList(id: "0",
                                       createdAt: Date(),
                                       updatedAt: Date(),
                                       title: "Static list",
-                                      image: "turtlerock",
-                                      imageID: "turtlerock",
+                                      image: nil,
+                                      imageID: "1",
                                       surprise: false)
 public let staticSurpriseList = UserList(id: "1",
                                  userID: "1",
                                  createdAt: Date(),
                                  updatedAt: Date(),
                                  title: "Static surprise list",
-                                 image: "silversalmoncreek",
-                                 imageID: "turtlerock",
+                                 image: nil,
+                                 imageID: "1",
                                  surprise: true)

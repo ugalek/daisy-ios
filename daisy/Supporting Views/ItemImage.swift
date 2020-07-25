@@ -32,15 +32,28 @@ struct ItemImage: View {
     @Environment(\.imageCache) var cache: ImageCache
     
     var item: Item?
+    var list: UserList?
     var imageFile: Image?
     var imageSize: ImageSize
+    
+    var imageURL: String? {
+        get {
+            if let imageURL = item?.image?.url {
+                return imageURL
+            } else if let imageURL = list?.image?.url {
+                return imageURL
+            } else {
+                return nil
+            }
+        }
+    }
     
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(Color.dSurpriseColor)
                 .frame(width: imageSize.size(), height: imageSize.size(), alignment: .center)
-            if let imageURL = item?.image?.url {
+            if let imageURL = imageURL {
                 AsyncImage(
                     url: URL(string: imageURL)!,
                     cache: self.cache,
@@ -91,22 +104,23 @@ struct ItemImageOverlay: View {
     
     private var itemRowView: some View {
         VStack {
-            if item?.status != 1 {
-                ZStack(alignment: .bottomLeading) {
-                    Rectangle().fill(gradient)
-                        .cornerRadius(8)
-                    HStack {
-                        Spacer()
-                        VStack(alignment: .leading) {
-                            Image(systemName: "gift.fill")
-                                .imageScale(.medium)
-                                .foregroundColor(Item.getIconColor(status: item?.status ?? 1))
+            if let item = item {
+                if item.status != 1 {
+                    ZStack(alignment: .bottomLeading) {
+                        Rectangle().fill(gradient)
+                            .cornerRadius(8)
+                        HStack {
+                            Spacer()
+                            VStack(alignment: .leading) {
+                                Image(systemName: "gift.fill")
+                                    .imageScale(.medium)
+                                    .foregroundColor(Item.getIconColor(status: item.status))
+                            }
                         }
                     }
+                    .foregroundColor(.white)
                 }
-                .foregroundColor(.white)
-            }
-        }
+            }}
     }
     
     private var itemLargeRowView: some View {
