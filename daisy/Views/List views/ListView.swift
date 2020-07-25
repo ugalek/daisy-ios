@@ -39,16 +39,16 @@ struct ListView: View {
         }
     }
     
-    var currentLists: [UserList] = [staticList]
-//    var currentLists: [UserList] {
-//        get {
-//            if !listViewModel.searchText.isEmpty {
-//                return listViewModel.searchResults
-//            } else {
-//                return listViewModel.lists
-//            }
-//        }
-//    }
+//    var currentLists: [UserList] = [staticList]
+    var currentLists: [UserList] {
+        get {
+            if !listViewModel.searchText.isEmpty {
+                return listViewModel.searchResults
+            } else {
+                return listViewModel.lists
+            }
+        }
+    }
 
     var body: some View {
         NavigationView {

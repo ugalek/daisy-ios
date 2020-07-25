@@ -12,6 +12,7 @@ struct ListEdit: View, Alerting {
     @Environment(\.presentationMode) var presentationMode
     
     @ObservedObject var listViewModel: ListViewModel
+    @ObservedObject var imageViewModel = ImageViewModel()
     @ObservedObject var listFields = ListFields()
     
     @State private var showingImagePicker = false
@@ -23,6 +24,15 @@ struct ListEdit: View, Alerting {
     
     var list: UserList?
     var editMode: Bool = false
+    var imageID: String? {
+        get {
+            if imageViewModel.images.count == 0 {
+                return nil
+            } else {
+                return imageViewModel.images[imageViewModel.images.count-1].id
+            }
+        }
+    }
     
     private var doneButton: some View {
         Button(action: { self.doneAction() }) {
@@ -101,6 +111,7 @@ struct ListEdit: View, Alerting {
         .onAppear {
             if let listToEdit = list {
                 self.listFields.title = listToEdit.title
+                self.listFields.surprise = listToEdit.surprise
             }
         }
         .alert(isPresented: $showAlert, content: {
@@ -109,9 +120,36 @@ struct ListEdit: View, Alerting {
     }
     
     func doneAction() {
-        self.listViewModel.addList(
-            title: self.title)
-        self.showAddList = false
+        if let imageForUpload = inputImage {
+            self.imageViewModel.uploadImage(image: imageForUpload) { imageUploaded in
+                if imageUploaded {
+                    addlist(withImage: true)
+                    self.showAddList = false
+                } else {
+                    print("Sorry we cannot upload picture")
+                }
+            }
+        } else {
+            addlist(withImage: false)
+        }
+    }
+    
+    func addlist(withImage: Bool) {
+        if editMode {
+            self.listViewModel.editList(
+                oldList: list!,
+                title: self.listFields.title,
+                imageID: withImage ? self.imageID : list?.imageID,
+                surprise: self.listFields.surprise) { result in
+                self.showAlert = result
+                self.showAddList = result
+            }
+        } else {
+            self.listViewModel.addList(
+                title: self.listFields.title,
+                imageID: withImage ? self.imageID : nil,
+                surprise: self.listFields.surprise)
+        }
     }
     
     func loadImage() {

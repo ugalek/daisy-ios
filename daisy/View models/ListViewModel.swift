@@ -49,10 +49,17 @@ class ListViewModel: ObservableObject {
         }
     }
     
-    func addList(title: String) {
-        let body: [String: Any] = [
-            "user_id": "1",
-            "title": title]
+    func addList(title: String, imageID: String?, surprise: Bool) {
+        var body: [String: Any?] = [
+        //    "user_id": "1",
+            "title": title,
+            "surprise": surprise,
+            "image_id": nil
+        ]
+        
+        if let image = imageID {
+            body.updateValue(image, forKey: "image_id")
+        }
         
         DaisyService.shared.postRequest(endpoint: .lists, body: body)
             .receive(on: DispatchQueue.main)
@@ -61,6 +68,39 @@ class ListViewModel: ObservableObject {
                     self.lists.append($0)
                 })
             .store(in: &disposables)
+    }
+    
+    func editList(oldList: UserList, title: String, imageID: String?, surprise: Bool, completion: @escaping(Bool) -> ()) {
+        var body: [String: Any?] = [
+            "title": title,
+            "image_id": nil,
+            "surprise": surprise]
+        
+        if let image = imageID {
+            body.updateValue(image, forKey: "image_id")
+        }
+        
+//        DaisyService.shared.editItem(listID: list.id, itemID: oldItem.id, body: body) { response in
+//            if response.isSuccess {
+//                if let responseItems = response.model {
+//                    if let oldImageID = oldItem.imageID {
+//                        if oldImageID != imageID {
+//                            self.deleteImage(imageID: oldImageID)
+//                        }
+//                    }
+//                    if let index = self.items.firstIndex(of: oldItem) {
+//                        self.items.remove(at: index)
+//                    }
+//                    self.items.append(responseItems)
+//                    completion(false)
+//                }
+//            } else {
+//                DispatchQueue.main.async {
+//                    self.errorMessage = response.errorMsg ?? "Something is wrong"
+//                    completion(true)
+//                }
+//            }
+//        }
     }
     
     func deleteList(at index: Int) {
