@@ -9,12 +9,13 @@
 import SwiftUI
 
 struct ItemDetail: View {
-    @State var showAddItem = false
     @EnvironmentObject var itemViewModel: ItemsViewModel
+    @Binding var isPresented: Bool
     
     let list: UserList
     var item: Item
-    var reserveButton: some View {
+    
+    private var reserveButton: some View {
         Button(action: {
             print("reserve")
         }) {
@@ -28,7 +29,7 @@ struct ItemDetail: View {
         }
     }
     
-    var takeButton: some View {
+    private var takeButton: some View {
         Button(action: {
             print("taken")
         }) {
@@ -42,16 +43,25 @@ struct ItemDetail: View {
         }
     }
     
-    var seeButton: some View {
-        Button(action: {
-            print("See")
-        }) {
+    @State var showingDeleteAlert = false
+    private var trashButton: some View {
+        Button(action: { self.showingDeleteAlert = true }) {
             HStack{
-                Text(item.url ?? "")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .background(Color.dPrimaryButton)
-                    .cornerRadius(15.0)
+                Image(systemName: "trash")
+                    .imageScale(.large)
+                    .accessibility(label: Text("Delete item"))
+            }
+        }
+    }
+
+    @State var showAddItem = false
+    private var editButton: some View {
+        Button(action: { self.showAddItem = true }) {
+            HStack{
+                Image(systemName: "square.and.pencil")
+                    .imageScale(.large)
+                    .accessibility(label: Text("Edit item"))
+                Text("Edit")
             }
         }
     }
@@ -90,14 +100,12 @@ struct ItemDetail: View {
         }
         .listStyle(GroupedListStyle())
         .navigationBarTitle("", displayMode: .inline)
+        .navigationBarItems(trailing:
+                                HStack(spacing: 15){
+                                    editButton
+                                    trashButton
+                                }.foregroundColor(.dDarkBlueColor))
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: { self.showAddItem = true }) {
-                    Image(systemName: "square.and.pencil")
-                        .foregroundColor(.dDarkBlueColor)
-                    Text("Edit")
-                }.foregroundColor(.dDarkBlueColor)
-            }
             ToolbarItem(placement: .bottomBar) {
                 HStack(spacing: 2) {
                     Button(action: { print("reserve") }) {
@@ -124,7 +132,21 @@ struct ItemDetail: View {
                 editMode: true
             )
         }
+        .alert(isPresented: self.$showingDeleteAlert) {
+            Alert(title: Text("Delete item"),
+                  message: Text("Are you sure?"),
+                  primaryButton: .destructive(Text("Delete")) {
+                deleteItem()
+            }, secondaryButton: .cancel())}
         .modifier(DismissingKeyboardOnSwipe())
+    }
+    
+    func deleteItem() {
+        itemViewModel.deleteItemByID(
+            listID: list.id,
+            itemID: item.id,
+            imageID: item.imageID)
+        self.isPresented = false
     }
 }
 
@@ -133,7 +155,7 @@ struct ItemDetail_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                ItemDetail(list: staticList, item: staticTakenItem)
+                ItemDetail(isPresented: .constant(true), list: staticList, item: staticTakenItem)
             }
             .environment(\.colorScheme, .light)
             

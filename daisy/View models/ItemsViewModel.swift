@@ -148,6 +148,17 @@ class ItemsViewModel: ObservableObject {
         }
     }
     
+    func deleteItemByID(listID: String, itemID: String, imageID: String?) {
+        DaisyService.shared.deleteRequest(endpoint: .item(listID: listID, id: itemID)) { result in
+            if result {
+                if let oldImageID = imageID {
+                    self.deleteImage(imageID: oldImageID)
+                }
+                self.items.removeAll(where: { $0.id == itemID })
+            }
+        }
+    }
+    
     func deleteImage(imageID: String) {
         DaisyService.shared.deleteRequest(endpoint: .image(imageID: imageID)) { _ in }
     }

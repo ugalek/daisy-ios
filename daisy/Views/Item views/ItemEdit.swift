@@ -10,7 +10,6 @@ import Combine
 import SwiftUI
 
 struct ItemEdit: View, Alerting {
-    @Environment(\.presentationMode) var presentationMode
     
     @ObservedObject var itemViewModel: ItemsViewModel
     @ObservedObject var imageViewModel = ImageViewModel()
@@ -55,7 +54,6 @@ struct ItemEdit: View, Alerting {
     private var cancelButton: some View {
         Button(action: {
             self.showAddItem = false
-            self.presentationMode.wrappedValue.dismiss()
         })
         { Text("Cancel") }
     }
@@ -193,6 +191,7 @@ struct ItemEdit: View, Alerting {
                 url: self.itemFields.url,
                 price: Double(self.itemFields.price) ?? 0,
                 description: self.itemFields.description)
+            self.showAddItem = false
         }
     }
     

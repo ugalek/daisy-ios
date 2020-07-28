@@ -13,7 +13,9 @@ struct ItemListView: View {
     
     @State private var showSortSheet = false
     @State private var itemRowsDisplayMode: ItemsViewModel.DisplayMode = .compact
-    @State private var editMode: EditMode = .inactive
+    
+    @State var showDetailView = false
+    @State var showAddItem = false
     
     var list: UserList
 
@@ -36,18 +38,6 @@ struct ItemListView: View {
         GridItem(.adaptive(minimum: 130), spacing: 10)
     ]
     
-    private var editButton: some View {
-        HStack {
-            if itemRowsDisplayMode == .compact {
-                EditButton()
-                    .modifier(trashBackground(editMode: editMode, cornerRadius: 12))
-            } else {
-                EmptyView()
-            }
-        }
-    }
-    
-    @State var showAddItem = false
     private var addButton: some View {
         Button(action: { self.showAddItem.toggle() }) {
             Image(systemName: "plus")
@@ -90,13 +80,11 @@ struct ItemListView: View {
         .navigationBarTitle(Text(itemViewModel.list.title), displayMode: .automatic)
         .navigationBarItems(trailing:
                                 HStack(spacing: 15){
-                                    editButton
                                     addButton
                                     sortButton
                                     layoutButton
                                 }.foregroundColor(.dDarkBlueColor))
         .modifier(DismissingKeyboardOnSwipe())
-        .environment(\.editMode, $editMode)
         .actionSheet(isPresented: $showSortSheet, content: { self.sortSheet })
         .sheet(isPresented: $showAddItem) {
             ItemEdit(
@@ -141,7 +129,7 @@ extension ItemListView {
     
     private var compactView: some View {
         ForEach(currentItems) { item in
-            NavigationLink(destination: ItemDetail(list: list, item: item)
+            NavigationLink(destination: ItemDetail(isPresented: $showDetailView, list: list, item: item)
                             .environmentObject(itemViewModel)) {
                 ItemRow(item: item)
             }
@@ -154,11 +142,11 @@ extension ItemListView {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(currentItems, id: \.self) { item in
-                    NavigationLink(destination: ItemDetail(list: list, item: item)
+                    NavigationLink(destination: ItemDetail(isPresented: $showDetailView, list: list, item: item)
                                     .environmentObject(itemViewModel)) {
                         ItemLargeView(item: item)
                     }
-                }.onDelete(perform: deleteItems) // ForEach
+                } // ForEach
             }
         }
         .padding(.horizontal)
