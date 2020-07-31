@@ -58,7 +58,7 @@ struct ListView: View {
                 {
                     ForEach(currentLists) { list in
                         NavigationLink(
-                            destination: ItemListView(itemViewModel: ItemsViewModel(list: list), list: list)
+                            destination: ItemListView(listViewModel: listViewModel, itemViewModel: ItemsViewModel(list: list), list: list)
                         ) {
                             ListRow(list: list)
                         }

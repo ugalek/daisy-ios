@@ -33,4 +33,8 @@ class ImageViewModel: ObservableObject {
                 .store(in: &disposables)
         }
     }
+    
+    func deleteImage(imageID: String) {
+        DaisyService.shared.deleteRequest(endpoint: .image(imageID: imageID)) { _ in }
+    }
 }

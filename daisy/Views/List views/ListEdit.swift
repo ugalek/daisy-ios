@@ -149,6 +149,7 @@ struct ListEdit: View, Alerting {
                 title: self.listFields.title,
                 imageID: withImage ? self.imageID : nil,
                 surprise: self.listFields.surprise)
+            self.showAddList = false
         }
     }
     

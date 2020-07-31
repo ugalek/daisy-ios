@@ -11,6 +11,7 @@ import Combine
 
 class ListViewModel: ObservableObject {
     @Published var lists: [UserList] = []
+    @Published var addedlist: UserList?
     @Published var searchResults: [UserList] = []
     @Published var searchText = ""
     @Published var errorMessage = ""
@@ -80,27 +81,28 @@ class ListViewModel: ObservableObject {
             body.updateValue(image, forKey: "image_id")
         }
         
-//        DaisyService.shared.editItem(listID: list.id, itemID: oldItem.id, body: body) { response in
-//            if response.isSuccess {
-//                if let responseItems = response.model {
-//                    if let oldImageID = oldItem.imageID {
-//                        if oldImageID != imageID {
-//                            self.deleteImage(imageID: oldImageID)
-//                        }
-//                    }
-//                    if let index = self.items.firstIndex(of: oldItem) {
-//                        self.items.remove(at: index)
-//                    }
-//                    self.items.append(responseItems)
-//                    completion(false)
-//                }
-//            } else {
-//                DispatchQueue.main.async {
-//                    self.errorMessage = response.errorMsg ?? "Something is wrong"
-//                    completion(true)
-//                }
-//            }
-//        }
+        DaisyService.shared.editList(listID: oldList.id, body: body) { response in
+            if response.isSuccess {
+                if let responseLists = response.model {
+                    if let oldImageID = oldList.imageID {
+                        if oldImageID != imageID {
+                            ImageViewModel().deleteImage(imageID: oldImageID)
+                        }
+                    }
+                    if let index = self.lists.firstIndex(of: oldList) {
+                        self.lists.remove(at: index)
+                    }
+                    self.lists.append(responseLists)
+                    self.addedlist = responseLists
+                    completion(false)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.errorMessage = response.errorMsg ?? "Something is wrong"
+                    completion(true)
+                }
+            }
+        }
     }
     
     func deleteList(at index: Int) {
