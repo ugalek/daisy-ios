@@ -33,3 +33,17 @@ struct DismissingKeyboardOnSwipe: ViewModifier {
             .first?.endEditing(true)
     }
 }
+
+struct DismissingKeyboardOnTapGesture: ViewModifier {
+    func body(content: Content) -> some View {
+        #if os(macOS)
+        return content
+        #else
+        return content.gesture(tapGesture)
+        #endif
+    }
+    
+    private var tapGesture: some Gesture {
+        TapGesture().onEnded(self.hideKeyboard)
+    }
+}

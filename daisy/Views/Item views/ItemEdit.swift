@@ -138,6 +138,7 @@ struct ItemEdit: View, Alerting {
                                     .disabled(!itemFields.isValid)
             )
         }
+        .modifier(DismissingKeyboardOnTapGesture())
         .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
             ImagePicker(image: self.$inputImage)
         }

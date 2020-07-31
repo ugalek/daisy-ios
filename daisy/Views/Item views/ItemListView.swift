@@ -35,20 +35,20 @@ struct ItemListView: View {
         }
     }
 
-    var currentItems: [Item] = [staticItem,
-                                staticTakenItem,
-                                staticReservedItem]
-//    var currentItems: [Item] {
-//        get {
-//            if !itemViewModel.searchText.isEmpty {
-//                return itemViewModel.searchResults
-//            } else if itemViewModel.sort != nil {
-//                return itemViewModel.sortedItems
-//            } else {
-//                return itemViewModel.items
-//            }
-//        }
-//    }
+//    var currentItems: [Item] = [staticItem,
+//                                staticTakenItem,
+//                                staticReservedItem]
+    var currentItems: [Item] {
+        get {
+            if !itemViewModel.searchText.isEmpty {
+                return itemViewModel.searchResults
+            } else if itemViewModel.sort != nil {
+                return itemViewModel.sortedItems
+            } else {
+                return itemViewModel.items
+            }
+        }
+    }
 
     private let columns = [
         GridItem(.adaptive(minimum: 130), spacing: 10)
