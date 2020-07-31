@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ItemListView: View {
+    @ObservedObject var listViewModel: ListViewModel
     @ObservedObject var itemViewModel: ItemsViewModel
     
     @State private var showSortSheet = false
@@ -16,8 +17,19 @@ struct ItemListView: View {
     
     @State var showDetailView = false
     @State var showAddItem = false
+    @State var showEditItem = false
     
     var list: UserList
+    
+    var currentList: UserList {
+        get {
+            if listViewModel.addedlist != nil {
+                return listViewModel.addedlist ?? list
+            } else {
+                return list
+            }
+        }
+    }
 
 //    var currentItems: [Item] = [staticItem,
 //                                staticTakenItem,
@@ -43,6 +55,14 @@ struct ItemListView: View {
             Image(systemName: "plus")
                 .imageScale(.large)
                 .accessibility(label: Text("Add new"))
+        }
+    }
+    
+    private var editButton: some View {
+        Button(action: { self.showEditItem.toggle() }) {
+            Image(systemName: "pencil")
+                .imageScale(.large)
+                .accessibility(label: Text("Edit list"))
         }
     }
     
@@ -77,10 +97,11 @@ struct ItemListView: View {
         }
         .id(itemViewModel.sort)
         .listStyle(GroupedListStyle())
-        .navigationBarTitle(Text(itemViewModel.list.title), displayMode: .automatic)
+        .navigationBarTitle(Text(currentList.title), displayMode: .automatic)
         .navigationBarItems(trailing:
                                 HStack(spacing: 15){
                                     addButton
+                                    editButton
                                     sortButton
                                     layoutButton
                                 }.foregroundColor(.dDarkBlueColor))
@@ -93,6 +114,12 @@ struct ItemListView: View {
                 list: self.list,
                 editMode: false
             )
+        }
+        .sheet(isPresented: $showEditItem) {
+            ListEdit(listViewModel: self.listViewModel,
+                     showAddList: self.$showEditItem,
+                     list: self.list,
+                     editMode: true)
         }
     }
 }
@@ -169,7 +196,7 @@ struct ItemListView_Previews: PreviewProvider {
 //            }
 //            .environment(\.colorScheme, .dark)
             NavigationView {
-                ItemListView(itemViewModel: ItemsViewModel(list: staticList), list: staticList)
+                ItemListView(listViewModel: ListViewModel(), itemViewModel: ItemsViewModel(list: staticList), list: staticList)
             }
             .environment(\.colorScheme, .light)
         }

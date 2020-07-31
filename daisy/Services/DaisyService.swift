@@ -249,4 +249,8 @@ extension DaisyService {
     public func searchList(completion: @escaping (ResponseArray<UserList>) -> Void) {
         DaisyService.shared.getRequest(type: UserList.self, endpoint: .lists, completion: completion)
     }
+    
+    public func editList(listID: String, body: Any, completion: @escaping (Response<UserList>) -> Void) {
+        DaisyService.shared.patchRequest(type: UserList.self, endpoint: .list(id: listID), body: body, completion: completion)
+    }
 }
