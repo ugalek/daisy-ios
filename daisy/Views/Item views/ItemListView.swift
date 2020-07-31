@@ -8,6 +8,10 @@
 
 import SwiftUI
 
+enum ActiveItemsViewSheet {
+    case list, item
+}
+
 struct ItemListView: View {
     @ObservedObject var listViewModel: ListViewModel
     @ObservedObject var itemViewModel: ItemsViewModel
@@ -16,8 +20,8 @@ struct ItemListView: View {
     @State private var itemRowsDisplayMode: ItemsViewModel.DisplayMode = .compact
     
     @State var showDetailView = false
-    @State var showAddItem = false
-    @State var showEditItem = false
+    @State private var showSheet = false
+    @State private var activeSheet: ActiveItemsViewSheet = .item
     
     var list: UserList
     
@@ -51,7 +55,10 @@ struct ItemListView: View {
     ]
     
     private var addButton: some View {
-        Button(action: { self.showAddItem.toggle() }) {
+        Button(action: {
+            self.showSheet.toggle()
+            self.activeSheet = .item
+        }) {
             Image(systemName: "plus")
                 .imageScale(.large)
                 .accessibility(label: Text("Add new"))
@@ -59,7 +66,10 @@ struct ItemListView: View {
     }
     
     private var editButton: some View {
-        Button(action: { self.showEditItem.toggle() }) {
+        Button(action: {
+            self.showSheet.toggle()
+            self.activeSheet = .list
+        }) {
             Image(systemName: "pencil")
                 .imageScale(.large)
                 .accessibility(label: Text("Edit list"))
@@ -107,19 +117,21 @@ struct ItemListView: View {
                                 }.foregroundColor(.dDarkBlueColor))
         .modifier(DismissingKeyboardOnSwipe())
         .actionSheet(isPresented: $showSortSheet, content: { self.sortSheet })
-        .sheet(isPresented: $showAddItem) {
-            ItemEdit(
-                itemViewModel: self.itemViewModel,
-                showAddItem: self.$showAddItem,
-                list: self.list,
-                editMode: false
-            )
-        }
-        .sheet(isPresented: $showEditItem) {
-            ListEdit(listViewModel: self.listViewModel,
-                     showAddList: self.$showEditItem,
-                     list: self.list,
-                     editMode: true)
+        .sheet(isPresented: $showSheet) {
+            if self.activeSheet == .item {
+                ItemEdit(
+                    itemViewModel: self.itemViewModel,
+                    showAddItem: self.$showSheet,
+                    list: self.list,
+                    editMode: false
+                )
+            } else {
+                ListEdit(listViewModel: self.listViewModel,
+                         showAddList: self.$showSheet,
+                         list: self.list,
+                         editMode: true)
+            }
+            
         }
     }
 }

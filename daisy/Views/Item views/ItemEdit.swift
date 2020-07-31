@@ -18,6 +18,7 @@ struct ItemEdit: View, Alerting {
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
     @State private var showAlert = false
+    @State private var value: CGFloat = 0
     
     @Binding var showAddItem: Bool
         
@@ -132,16 +133,32 @@ struct ItemEdit: View, Alerting {
                     }.listRowBackground(Color.dBackground)
                 }
             } // Form
+            .offset(y: -self.value)
+            .animation(.spring())
             .navigationBarTitle(Text(viewTitle), displayMode: .inline)
             .navigationBarItems(leading: cancelButton,
                                 trailing: doneButton
                                     .disabled(!itemFields.isValid)
             )
         }
+        .modifier(DismissingKeyboardOnTapGesture())
         .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
             ImagePicker(image: self.$inputImage)
         }
         .onAppear {
+            //Move view whn keyboard is active
+            NotificationCenter.default.addObserver(
+                forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti) in
+                let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+                let height = value.height
+                self.value = height
+            }
+            
+            NotificationCenter.default.addObserver(
+                forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti) in
+                self.value = 0
+            }
+            
             if let itemToEdit = item {
                 self.itemFields.title = itemToEdit.title
                 self.itemFields.url = itemToEdit.url ?? "/"
