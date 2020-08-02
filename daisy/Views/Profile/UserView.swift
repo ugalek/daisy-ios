@@ -10,6 +10,11 @@ import SwiftUI
 
 struct UserView: View {
     @EnvironmentObject var authManager: HttpAuth
+    @ObservedObject var userViewModel: UserViewModel
+    
+    var curentUser: User {
+        get { return userViewModel.user }
+    }
     
     var body: some View {
         ZStack {
@@ -19,7 +24,7 @@ struct UserView: View {
                     .frame(width: 150, height: 150)
                     .padding(20)
                 
-                UserInfo(userName: "Joe Doe", email: "joe@example.com", city: "California")
+                UserInfo(userName: curentUser.name, email: curentUser.email, birthday: curentUser.birthday)
                 Button(action: {
                     UserDefaults().removeObject(forKey: "token")
                     self.authManager.authenticated = false
@@ -42,9 +47,9 @@ struct UserView: View {
 struct UserView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            UserView()
-                .environment(\.colorScheme, .dark)
-            UserView()
+//            UserView()
+//                .environment(\.colorScheme, .dark)
+            UserView(userViewModel: UserViewModel(userID: ""))
                 .environment(\.colorScheme, .light)
         }
     }
@@ -53,7 +58,7 @@ struct UserView_Previews: PreviewProvider {
 struct UserInfo: View {
     let userName: String
     let email: String
-    let city: String
+    let birthday: String
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -73,7 +78,7 @@ struct UserInfo: View {
                 Text(email)
                     .font(.subheadline)
                 Spacer()
-                Text(city)
+                Text(birthday)
                     .font(.subheadline)
             }
         }

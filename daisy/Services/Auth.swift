@@ -10,7 +10,7 @@ import Foundation
 import Combine
 
 struct ServerMessage: Decodable {
-    let expired_at, token: String
+    let expired_at, token, user_id: String
 }
 
 class HttpAuth: ObservableObject {
@@ -52,6 +52,7 @@ class HttpAuth: ObservableObject {
                             DispatchQueue.main.async {
                                 self.authenticated = true
                                 UserDefaults.standard.set(finalData.token, forKey: "token")
+                                UserDefaults.standard.set(finalData.user_id, forKey: "userID")
                                 print(finalData.token)
                             }
                         } catch {

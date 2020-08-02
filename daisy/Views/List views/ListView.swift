@@ -19,7 +19,7 @@ struct ListView: View {
     @State private var showAddList: Bool = false
     
     var profileButton: some View {
-        NavigationLink(destination: UserView().environmentObject(self.authManager)) {
+        NavigationLink(destination: UserView(userViewModel: UserViewModel(userID: DaisyService.shared.userID)).environmentObject(self.authManager)) {
            Image(systemName: "person.crop.circle")
             .imageScale(.large)
             .accessibility(label: Text("User Profile"))
