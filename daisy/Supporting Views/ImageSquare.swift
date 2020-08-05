@@ -1,5 +1,5 @@
 //
-//  ItemImage.swift
+//  ImageSquare.swift
 //  daisy
 //
 //  Created by Galina on 19/07/2020.
@@ -28,7 +28,7 @@ public enum ImageSize {
     }
 }
 
-struct ItemImage: View {
+struct ImageSquare: View {
     @Environment(\.imageCache) var cache: ImageCache
     
     var item: Item?
@@ -164,8 +164,9 @@ struct ItemImageOverlay: View {
     }
 }
 
-struct ItemImage_Previews: PreviewProvider {
+struct ImageSquare_Previews: PreviewProvider {
     static var previews: some View {
-        ItemImage(imageSize: .itemEdit)
+        ImageSquare(imageSize: .itemEdit)
+            .previewLayout(.sizeThatFits)
     }
 }

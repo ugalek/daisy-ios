@@ -27,13 +27,17 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    func editUser(oldUser: User, name: String, email: String, password: String, birthday: String, imageID: String?, completion: @escaping(Bool) -> ()) {
+    func editUser(oldUser: User, name: String, email: String, password: String, birthday: Date, imageID: String?, completion: @escaping(Bool) -> ()) {
         var body: [String: Any?] = [
             "name": name,
             "email": email,
-            "password": password,
-            "birthday": birthday,
+            "password": nil,
+            "birthday": birthday.toDateString(),
             "image_id": nil]
+        
+        if password != "" {
+            body.updateValue(password, forKey: "password")
+        }
         
         if let image = imageID {
             body.updateValue(image, forKey: "image_id")

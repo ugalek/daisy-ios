@@ -64,9 +64,9 @@ struct welcomeView: View {
                 .font(.largeTitle)
                 .fontWeight(.semibold)
                 .padding(.bottom, 20)
-            CircleImage(image: Image("turtlerock"))
-                .frame(width: 150, height: 150)
-                .padding(.bottom, 20)
+//            ImageCircle(image: Image("turtlerock"))
+//                .frame(width: 150, height: 150)
+//                .padding(.bottom, 20)
         }
     }
 }

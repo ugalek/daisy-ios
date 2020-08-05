@@ -20,6 +20,7 @@ public struct User: Codable, Identifiable, Hashable {
         case updatedAt = "updated_at"
         case name
         case birthday
+        case birthdayDate
         case email
         case role
         case image
@@ -31,10 +32,13 @@ public struct User: Codable, Identifiable, Hashable {
     let updatedAt: Date?
     let name: String
     let birthday: String
+    let birthdayDate: Date
     let email: String
     let role: uint
     let image: ImageResponse?
     let imageID: String?
+    
+    private let dateFormatter = DateFormatter()
     
     init(id: String = "", createdAt: Date? = nil, updatedAt: Date? = nil,
          name: String = "", birthday: String = "", email: String = "", role: uint = 1, imageID: String? = "", image: ImageResponse? = nil) {
@@ -47,6 +51,7 @@ public struct User: Codable, Identifiable, Hashable {
         self.role = role
         self.imageID = imageID
         self.image = image
+        self.birthdayDate = birthday.toDate()
     }
     
     public init(from decoder: Decoder) throws {
@@ -61,6 +66,7 @@ public struct User: Codable, Identifiable, Hashable {
         role = try values.decode(uint.self, forKey: .role)
         imageID = try? values.decodeIfPresent(String.self, forKey: .imageID)
         image = try values.decodeIfPresent(ImageResponse.self, forKey: .image)
+        birthdayDate = birthday.toDate()
      }
 }
 

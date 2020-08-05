@@ -27,7 +27,7 @@ class ListFields: ObservableObject, Codable {
     var titleIsValid: Bool = true { didSet { update() } }
     
     var isValid: Bool {
-        if title.isEmpty || !titleIsValid {
+        if title.isEmpty && !titleIsValid {
             return false
         }
         return true

@@ -13,7 +13,7 @@ struct ItemRow: View {
     
     var body: some View {
         HStack {
-            ItemImage(item: item, imageSize: ImageSize.itemRow)
+            ImageSquare(item: item, imageSize: ImageSize.itemRow)
             VStack(alignment: .leading, spacing: 6) {
                 Text(item.title)
                     .foregroundColor(item.status == 3 ? .gray : .dFontColor)

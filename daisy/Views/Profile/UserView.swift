@@ -10,21 +10,57 @@ import SwiftUI
 
 struct UserView: View {
     @EnvironmentObject var authManager: HttpAuth
-    @ObservedObject var userViewModel: UserViewModel
+    @EnvironmentObject var userViewModel: UserViewModel
     
+//    var curentUser = staticUser
     var curentUser: User {
         get { return userViewModel.user }
+    }
+    
+    @State var showEditUser = false
+    private var editButton: some View {
+        Button(action: { self.showEditUser = true }) {
+            HStack{
+                Image(systemName: "pencil")
+                    .imageScale(.large)
+                    .accessibility(label: Text("Edit user"))
+            }
+            .foregroundColor(.dDarkBlueColor)
+        }
     }
     
     var body: some View {
         ZStack {
             Color.dBackground.edgesIgnoringSafeArea(.all)
             VStack {
-                CircleImage(image: Image("turtlerock"))
-                    .frame(width: 150, height: 150)
+                ImageCircle(user: curentUser, imageSize: ImageSize.itemDetail)
                     .padding(20)
                 
-                UserInfo(userName: curentUser.name, email: curentUser.email, birthday: curentUser.birthday)
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(curentUser.name)
+                            .font(.title)
+                            .fontWeight(.thin)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
+                        Spacer()
+                        editButton
+                    }
+                    HStack(alignment: .top) {
+                        Text(curentUser.email)
+                            .font(.subheadline)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
+                        Spacer()
+                        Text(curentUser.birthday)
+                            .font(.subheadline)
+                    }
+                }
+                .padding()
+                .sheet(isPresented: $showEditUser) {
+                    UserEdit(userViewModel: userViewModel, showEditUser: $showEditUser, user: curentUser)
+                }
+                
                 Button(action: {
                     UserDefaults().removeObject(forKey: "token")
                     self.authManager.authenticated = false
@@ -49,39 +85,8 @@ struct UserView_Previews: PreviewProvider {
         Group {
 //            UserView()
 //                .environment(\.colorScheme, .dark)
-            UserView(userViewModel: UserViewModel(userID: ""))
+            UserView()
                 .environment(\.colorScheme, .light)
         }
-    }
-}
-
-struct UserInfo: View {
-    let userName: String
-    let email: String
-    let birthday: String
-    var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Text(userName)
-                    .font(.title)
-                    .fontWeight(.thin)
-                Spacer()
-                Button(action: {
-                    print("Edit tapped!")
-                }) {
-                    Image(systemName: "pencil")
-                        .font(.title)
-                        .foregroundColor(Color.dPrimaryButton)
-                }
-            }
-            HStack(alignment: .top) {
-                Text(email)
-                    .font(.subheadline)
-                Spacer()
-                Text(birthday)
-                    .font(.subheadline)
-            }
-        }
-        .padding()
     }
 }
