@@ -72,7 +72,7 @@ struct ItemDetail: View {
             VStack {
                 HStack {
                     Spacer()
-                    ItemImage(item: item, imageSize: ImageSize.itemDetail)
+                    ImageSquare(item: item, imageSize: ImageSize.itemDetail)
                     Spacer()
                 }
                 ItemPrice(item: item)

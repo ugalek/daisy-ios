@@ -17,7 +17,15 @@ struct Validators {
     }
     
     static func titleIsValid(title: String) -> Bool {
-        if title.count < 3 || title.count > 255 {
+        if title.count < 3 && title.count > 255 {
+            return false
+        }
+        
+        return true
+    }
+    
+    static func nameIsValid(name: String) -> Bool {
+        if name.count > 200 {
             return false
         }
         

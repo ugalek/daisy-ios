@@ -13,7 +13,7 @@ struct ItemLargeView: View {
     
     var body: some View {
         VStack {
-            ItemImage(item: item, imageSize: ImageSize.itemLargeRow)
+            ImageSquare(item: item, imageSize: ImageSize.itemLargeRow)
             HStack {
                 if item.status == 2 {
                     // reserved

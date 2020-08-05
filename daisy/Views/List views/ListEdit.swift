@@ -63,12 +63,12 @@ struct ListEdit: View, Alerting {
             Form {
                 VStack {
                     if listFields.image != nil {
-                        ItemImage(imageFile: listFields.image, imageSize: ImageSize.itemEdit)
+                        ImageSquare(imageFile: listFields.image, imageSize: ImageSize.itemEdit)
                             .onTapGesture {
                                 showingImagePicker = true
                             }
                     } else {
-                        ItemImage(list: list, imageSize: ImageSize.itemEdit)
+                        ImageSquare(list: list, imageSize: ImageSize.itemEdit)
                             .onTapGesture {
                                 showingImagePicker = true
                             }

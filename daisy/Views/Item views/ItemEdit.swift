@@ -119,12 +119,12 @@ struct ItemEdit: View, Alerting {
                 Section(header: Text(list.title)) {
                     VStack {
                         if itemFields.image != nil {
-                            ItemImage(imageFile: itemFields.image, imageSize: ImageSize.itemEdit)
+                            ImageSquare(imageFile: itemFields.image, imageSize: ImageSize.itemEdit)
                                 .onTapGesture {
                                     showingImagePicker = true
                                 }
                         } else {
-                            ItemImage(item: item, imageSize: ImageSize.itemEdit)
+                            ImageSquare(item: item, imageSize: ImageSize.itemEdit)
                                 .onTapGesture {
                                     showingImagePicker = true
                                 }

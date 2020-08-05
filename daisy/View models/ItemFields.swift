@@ -41,7 +41,7 @@ class ItemFields: ObservableObject, Codable {
     var titleIsValid: Bool = true { didSet { update() } }
     
     var isValid: Bool {
-        if title.isEmpty || url.isEmpty || !titleIsValid {
+        if title.isEmpty && url.isEmpty && !titleIsValid {
             return false
         }
         return true

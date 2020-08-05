@@ -43,6 +43,7 @@ public let staticList = UserList(id: "0",
                                       image: nil,
                                       imageID: "1",
                                       surprise: false)
+
 public let staticSurpriseList = UserList(id: "1",
                                  userID: "1",
                                  createdAt: Date(),

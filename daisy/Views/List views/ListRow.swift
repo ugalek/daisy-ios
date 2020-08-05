@@ -13,7 +13,7 @@ struct ListRow: View {
     
     var body: some View {
         HStack {
-            ItemImage(list: list, imageSize: ImageSize.itemRow)
+            ImageSquare(list: list, imageSize: ImageSize.itemRow)
 //            Image("turtlerock")
 //                .resizable()
 //                .frame(width: 50, height: 50)

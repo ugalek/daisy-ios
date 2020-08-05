@@ -13,6 +13,7 @@ import SwiftUI
 public enum Endpoint {
     case images
     case image(imageID: String)
+    case user(id: String)
     case lists
     case list(id: String)
     case items(listID: String)
@@ -24,6 +25,8 @@ public enum Endpoint {
             return "images/"
         case let .image(imageID):
             return "images/\(imageID)"
+        case let .user(id):
+            return "users/\(id)"
         case .lists:
             return "lists/"
         case let .list(id):
@@ -44,10 +47,47 @@ final public class DaisyService {
     
     let apiUrl = URL(string: UserDefaults.standard.string(forKey: "apiLink") ?? "/")!
     let token: String = UserDefaults.standard.string(forKey: "token") ?? ""
+    let userID: String = UserDefaults.standard.string(forKey: "userID") ?? ""
     
     private let decoder = JSONDecoder()
     
-    private func getRequest<T: Codable>(type: T.Type, endpoint: Endpoint, completion: @escaping (ResponseArray<T>) -> Void) {
+    private func getRequest<T: Codable>(type: T.Type, endpoint: Endpoint, completion: @escaping (Response<T>) -> Void) {
+        let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
+                                      resolvingAgainstBaseURL: false)!
+        
+        var request = URLRequest(url: component.url!)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+        
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                let response = Response<T>(model: nil, isSuccess: false, errorMsg: error.localizedDescription)
+                completion(response)
+                return
+            }
+            
+            guard let data = data else {
+                let response = Response<T>(model: nil, isSuccess: false, errorMsg: "Unable to unwrap data")
+                completion(response)
+                return
+            }
+            
+            do {
+                let value: T = try self.decoder.decode(T.self, from: data)
+                DispatchQueue.main.async {
+                    let response = Response<T>(model: value, isSuccess: true, errorMsg: nil)
+                    completion(response)
+                }
+            } catch {
+                let response = Response<T>(model: nil, isSuccess: false, errorMsg: error.localizedDescription)
+                completion(response)
+            }
+        }.resume()
+    }
+    
+    private func getRequestArray<T: Codable>(type: T.Type, endpoint: Endpoint, completion: @escaping (ResponseArray<T>) -> Void) {
         let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
                                       resolvingAgainstBaseURL: false)!
         
@@ -238,19 +278,27 @@ final public class DaisyService {
 }
 
 extension DaisyService {
-    public func searchItems(listID: String, completion: @escaping (ResponseArray<Item>) -> Void) {
-        DaisyService.shared.getRequest(type: Item.self, endpoint: .items(listID: listID), completion: completion)
+    public func searchUser(userID: String, completion: @escaping (Response<User>) -> Void) {
+        DaisyService.shared.getRequest(type: User.self, endpoint: .user(id: userID), completion: completion)
     }
     
-    public func editItem(listID: String, itemID: String, body: Any, completion: @escaping (Response<Item>) -> Void) {
-        DaisyService.shared.patchRequest(type: Item.self, endpoint: .item(listID: listID, id: itemID), body: body, completion: completion)
+    public func editUser(userID: String, body: Any, completion: @escaping (Response<User>) -> Void) {
+        DaisyService.shared.patchRequest(type: User.self, endpoint: .user(id: userID), body: body, completion: completion)
     }
     
     public func searchList(completion: @escaping (ResponseArray<UserList>) -> Void) {
-        DaisyService.shared.getRequest(type: UserList.self, endpoint: .lists, completion: completion)
+        DaisyService.shared.getRequestArray(type: UserList.self, endpoint: .lists, completion: completion)
     }
     
     public func editList(listID: String, body: Any, completion: @escaping (Response<UserList>) -> Void) {
         DaisyService.shared.patchRequest(type: UserList.self, endpoint: .list(id: listID), body: body, completion: completion)
+    }
+    
+    public func searchItems(listID: String, completion: @escaping (ResponseArray<Item>) -> Void) {
+        DaisyService.shared.getRequestArray(type: Item.self, endpoint: .items(listID: listID), completion: completion)
+    }
+    
+    public func editItem(listID: String, itemID: String, body: Any, completion: @escaping (Response<Item>) -> Void) {
+        DaisyService.shared.patchRequest(type: Item.self, endpoint: .item(listID: listID, id: itemID), body: body, completion: completion)
     }
 }
