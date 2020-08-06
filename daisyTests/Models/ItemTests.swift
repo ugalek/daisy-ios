@@ -1,30 +1,30 @@
 //
-//  daisyTests.swift
+//  ItemTests.swift
 //  daisyTests
 //
-//  Created by Galina on 31/03/2020.
+//  Created by Galina on 06/08/2020.
 //  Copyright © 2020 Galina FABIO. All rights reserved.
 //
 
 import XCTest
 @testable import daisy
 
-class daisyTests: XCTestCase {
+class ItemModelTests: XCTestCase {
 
-    override func setUp() {
+    override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
-    override func tearDown() {
+    override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() {
+    func testExample() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
 
-    func testPerformanceExample() {
+    func testPerformanceExample() throws {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.

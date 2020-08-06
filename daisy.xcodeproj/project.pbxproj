@@ -54,6 +54,8 @@
 		05C23D3D24D6EFFE002B82EC /* UserFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C23D3C24D6EFFE002B82EC /* UserFields.swift */; };
 		05C8738A24C44223004DE992 /* ImageSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C8738924C44223004DE992 /* ImageSquare.swift */; };
 		05C8738C24C494D1004DE992 /* ItemPrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C8738B24C494D1004DE992 /* ItemPrice.swift */; };
+		05CCF68C24DC081D0059FD8E /* ItemModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05CCF68B24DC081D0059FD8E /* ItemModelTests.swift */; };
+		05CCF68E24DC381F0059FD8E /* UserModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05CCF68D24DC381F0059FD8E /* UserModelTests.swift */; };
 		05D42DE324C8BD9E00337A8B /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D42DE224C8BD9E00337A8B /* Alert.swift */; };
 		05D4A430249D449000929375 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D4A42F249D449000929375 /* Color.swift */; };
 		05DECB9A243337A70088B58D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DECB99243337A70088B58D /* AppDelegate.swift */; };
@@ -62,7 +64,6 @@
 		05DECBA0243337A80088B58D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05DECB9F243337A80088B58D /* Assets.xcassets */; };
 		05DECBA3243337A80088B58D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05DECBA2243337A80088B58D /* Preview Assets.xcassets */; };
 		05DECBA6243337A80088B58D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05DECBA4243337A80088B58D /* LaunchScreen.storyboard */; };
-		05DECBB1243337A80088B58D /* daisyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DECBB0243337A80088B58D /* daisyTests.swift */; };
 		05DECBBC243337A80088B58D /* daisyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DECBBB243337A80088B58D /* daisyUITests.swift */; };
 		05DECBCA243343300088B58D /* ImageCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DECBC9243343300088B58D /* ImageCircle.swift */; };
 		05DECBCC24336CB10088B58D /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DECBCB24336CB10088B58D /* UserView.swift */; };
@@ -133,6 +134,8 @@
 		05C23D3C24D6EFFE002B82EC /* UserFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFields.swift; sourceTree = "<group>"; };
 		05C8738924C44223004DE992 /* ImageSquare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSquare.swift; sourceTree = "<group>"; };
 		05C8738B24C494D1004DE992 /* ItemPrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPrice.swift; sourceTree = "<group>"; };
+		05CCF68B24DC081D0059FD8E /* ItemModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModelTests.swift; sourceTree = "<group>"; };
+		05CCF68D24DC381F0059FD8E /* UserModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelTests.swift; sourceTree = "<group>"; };
 		05D42DE224C8BD9E00337A8B /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		05D4A42F249D449000929375 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		05DECB96243337A70088B58D /* daisy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = daisy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,7 +147,6 @@
 		05DECBA5243337A80088B58D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		05DECBA7243337A80088B58D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05DECBAC243337A80088B58D /* daisyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = daisyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		05DECBB0243337A80088B58D /* daisyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = daisyTests.swift; sourceTree = "<group>"; };
 		05DECBB2243337A80088B58D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05DECBB7243337A80088B58D /* daisyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = daisyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		05DECBBB243337A80088B58D /* daisyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = daisyUITests.swift; sourceTree = "<group>"; };
@@ -232,6 +234,15 @@
 				0591F1EF2450A78D00291913 /* ItemDetail.swift */,
 			);
 			path = "Item views";
+			sourceTree = "<group>";
+		};
+		05CCF68A24DC07F00059FD8E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				05CCF68B24DC081D0059FD8E /* ItemModelTests.swift */,
+				05CCF68D24DC381F0059FD8E /* UserModelTests.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		05CF55FB245094C00063345A /* Services */ = {
@@ -325,7 +336,7 @@
 		05DECBAF243337A80088B58D /* daisyTests */ = {
 			isa = PBXGroup;
 			children = (
-				05DECBB0243337A80088B58D /* daisyTests.swift */,
+				05CCF68A24DC07F00059FD8E /* Models */,
 				05DECBB2243337A80088B58D /* Info.plist */,
 			);
 			path = daisyTests;
@@ -561,7 +572,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05DECBB1243337A80088B58D /* daisyTests.swift in Sources */,
+				05CCF68E24DC381F0059FD8E /* UserModelTests.swift in Sources */,
+				05CCF68C24DC081D0059FD8E /* ItemModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -764,7 +776,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZYZ35SK6ZC;
 				INFOPLIST_FILE = daisyTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -786,7 +798,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZYZ35SK6ZC;
 				INFOPLIST_FILE = daisyTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
