@@ -101,7 +101,7 @@ struct loginForm: View, Alerting {
             
             Button(action: {
                 print("\(self.email) and \(self.password)")
-                self.authManager.login(email: self.email, password: self.password)
+                self.authManager.login(email: self.email, password: self.password) { _, _ in }
             }
             ) {
                 Text("Login")
