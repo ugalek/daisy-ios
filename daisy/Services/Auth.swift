@@ -13,12 +13,20 @@ struct ServerMessage: Decodable {
     let expired_at, token, user_id: String
 }
 
+typealias DataTaskResult = (Data?, URLResponse?, Error?) -> Void
+
 class HttpAuth: ObservableObject {
     @Published var authenticated = false
     @Published var errorMessage = ""
     @Published var showAlert = false
     
-    func login(email: String, password: String) {
+    private let session: URLSession
+    
+    init(session: URLSession = URLSession.shared) {
+        self.session = session
+    }
+    
+    func login(email: String, password: String, completion: @escaping (String?, APIError?) -> Void) {
         let apiUrl = URL(string: UserDefaults.standard.string(forKey: "apiLink") ?? "/")!
         let component = URLComponents(url: apiUrl.appendingPathComponent("auth"),
                                              resolvingAgainstBaseURL: false)!
@@ -36,8 +44,9 @@ class HttpAuth: ObservableObject {
             request.httpBody = finalBody
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
+            session.dataTask(with: request) { (data, response, error) in
                 if let error = error {
+                    completion(nil, APIError.networkError(reason: error.localizedDescription))
                     DispatchQueue.main.async {
                         self.errorMessage = error.localizedDescription
                         self.showAlert = true
@@ -45,24 +54,42 @@ class HttpAuth: ObservableObject {
                     return
                 }
                 guard let data = data else { return }
+                
                 if let httpResponse = response as? HTTPURLResponse {
                     if httpResponse.statusCode == 200 {
                         do {
                             let finalData = try JSONDecoder().decode(ServerMessage.self, from: data)
                             DispatchQueue.main.async {
                                 self.authenticated = true
+                                completion(finalData.user_id, nil)
                                 UserDefaults.standard.set(finalData.token, forKey: "token")
                                 UserDefaults.standard.set(finalData.user_id, forKey: "userID")
                                 print(finalData.token)
                             }
                         } catch {
                             DispatchQueue.main.async {
+                                completion(nil, APIError.message(reason: "Cannot decode server message"))
                                 self.errorMessage = "Cannot decode server message"
+                                self.showAlert = true
                             }
+                        }
+                    } else if httpResponse.statusCode == 404 {
+                        DispatchQueue.main.async {
+                            completion(nil, APIError.message(reason: "Not found"))
+                            self.errorMessage = "Not found"
+                            self.showAlert = true
+                        }
+                    } else if httpResponse.statusCode == 401 {
+                        DispatchQueue.main.async {
+                            completion(nil, APIError.message(reason: "Unauthorized. Please verify your email and password"))
+                            self.errorMessage = "Unauthorized. Please verify your email and password"
+                            self.showAlert = true
                         }
                     } else {
                         DispatchQueue.main.async {
-                            self.errorMessage = "Unauthorized. StatusCode: \(httpResponse.statusCode)"
+                            completion(nil, APIError.unknown)
+                            self.errorMessage = "Unknown error."
+                            self.showAlert = true
                         }
                     }
                     
