@@ -35,7 +35,7 @@ class ListViewModel: ObservableObject {
     }
     
     private func fetchData() {
-        DaisyService.shared.searchList { response in
+        DaisyService.shared.searchLists { response in
             if response.isSuccess {
                 if let responseLists = response.model {
                     self.lists = responseLists

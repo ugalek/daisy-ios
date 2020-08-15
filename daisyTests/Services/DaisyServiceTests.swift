@@ -23,20 +23,33 @@ class DaisyServiceTests: XCTestCase {
         mockSession = nil
     }
     
-    fileprivate func assertIsSuccessTrue<T: Codable>(_ response: Response<T>) {
+    fileprivate func assertIsSuccessTrueForResponse<T: Codable>(_ response: Response<T>) {
         XCTAssertNotNil(response)
         XCTAssert(response.isSuccess)
         XCTAssertNotNil(response.model)
     }
     
-    fileprivate func assertIsSuccessFalse<T: Codable>(_ response: Response<T>) {
+    fileprivate func assertIsSuccessFalseForResponse<T: Codable>(_ response: Response<T>) {
         XCTAssertNotNil(response)
         XCTAssertFalse(response.isSuccess)
         XCTAssertNotNil(response.errorMsg)
         XCTAssertNil(response.model)
     }
     
-    fileprivate func makeMockRask(endpoint: Endpoint, statusCode: Int, data: Data?, error: Error? = nil) -> MockURLSessionDataTask {
+    fileprivate func assertIsSuccessTrueForResponseArray<T: Codable>(_ response: ResponseArray<T>) {
+        XCTAssertNotNil(response)
+        XCTAssert(response.isSuccess)
+        XCTAssertNotNil(response.model)
+    }
+    
+    fileprivate func assertIsSuccessFalseForResponseArray<T: Codable>(_ response: ResponseArray<T>) {
+        XCTAssertNotNil(response)
+        XCTAssertFalse(response.isSuccess)
+        XCTAssertNotNil(response.errorMsg)
+        XCTAssertNil(response.model)
+    }
+    
+    fileprivate func makeMockTask(endpoint: Endpoint, statusCode: Int, data: Data?, error: Error? = nil) -> MockURLSessionDataTask {
         let task = MockTaskMaker().makeTask(for: endpoint.path(),
                                             statusCode: statusCode,
                                             data: data,
@@ -60,9 +73,9 @@ class DaisyServiceTests: XCTestCase {
         XCTAssertEqual(Endpoint.item(listID: "1", id: "2").path(), "lists/1/items/2")
     }
     
-    func testDaisyService_getRequest_resumeWasCalled() {
+    func testDaisyService_getUser_resumeWasCalled() {
         // Arrange
-        let fakeTask = makeMockRask(endpoint: Endpoint.user(id: "test"), statusCode: 200, data: "{}".data(using: .utf8))
+        let fakeTask = makeMockTask(endpoint: Endpoint.user(id: "test"), statusCode: 200, data: "{}".data(using: .utf8))
 
         // Act
         sut.searchUser(userID: "test") { _ in }
@@ -71,7 +84,18 @@ class DaisyServiceTests: XCTestCase {
         XCTAssert(fakeTask.isResumeCalled)
     }
     
-    func testDaisyService_getRequest_WithResponseData_ReturnsSuccessful() {
+    func testDaisyService_getLists_resumeWasCalled() {
+        // Arrange
+        let fakeTask = makeMockTask(endpoint: Endpoint.lists, statusCode: 200, data: "{}".data(using: .utf8))
+
+        // Act
+        sut.searchLists() { _ in }
+
+        // Assert
+        XCTAssert(fakeTask.isResumeCalled)
+    }
+    
+    func testDaisyService_getUser_WithResponseData_ReturnsSuccessful() {
         // Arrange
         let expect = expectation(description: "Should call daisy service search user get request, response expectation")
         let expectedData = """
@@ -88,12 +112,12 @@ class DaisyServiceTests: XCTestCase {
         }
         """.data(using: .utf8)
         
-        _ = makeMockRask(endpoint: Endpoint.user(id: "test"), statusCode: 200, data: expectedData)
+        _ = makeMockTask(endpoint: Endpoint.user(id: "test"), statusCode: 200, data: expectedData)
         
         // Act
         sut.searchUser(userID: "test") { response in
             // Assert
-            self.assertIsSuccessTrue(response)
+            self.assertIsSuccessTrueForResponse(response)
             XCTAssertEqual(response.model?.id, "test")
             XCTAssertEqual(response.model?.email, "test@example.com")
             
@@ -103,15 +127,50 @@ class DaisyServiceTests: XCTestCase {
         waitForExpectations(timeout: 5, handler: nil)
     }
     
-    func testDaisyService_getRequest_WithResponseData_ReturnsNotFound() {
+    func testDaisyService_getLists_WithResponseData_ReturnsSuccessful() {
+        // Arrange
+        let expect = expectation(description: "Should call daisy service search lists get request, response expectation")
+        let expectedData = """
+            [
+                {
+                                        \"created_at\": \"2020-08-02T11:31:39.442296+02:00\",
+                                        \"id\": \"test_list\",
+                                        \"image\": null,
+                                        \"image_id\": null,
+                                        \"surprise\": false,
+                                        \"title\": \"List of items\",
+                                        \"updated_at\": \"2020-08-02T11:31:39.442296+02:00\",
+                                        \"user_id\": \"test_user\"
+                }
+            ]
+        """.data(using: .utf8)
+        
+        _ = makeMockTask(endpoint: Endpoint.lists, statusCode: 200, data: expectedData)
+        
+        // Act
+        sut.searchLists { response in
+            // Assert
+            self.assertIsSuccessTrueForResponseArray(response)
+            
+            XCTAssertEqual(response.model?[0].id, "test_list")
+            XCTAssertEqual(response.model?[0].title, "List of items")
+            XCTAssertEqual(response.model?[0].userID, "test_user")
+            
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5, handler: nil)
+    }
+    
+    func testDaisyService_getUser_WithResponseData_ReturnsNotFound() {
         // Arrange
         let expect = expectation(description: "Should call daisy service search user get request with error and no result when task return status 404")
-        _ = makeMockRask(endpoint: Endpoint.user(id: "test"), statusCode: 404, data: "{}".data(using: .utf8))
+        _ = makeMockTask(endpoint: Endpoint.user(id: "test"), statusCode: 404, data: "{}".data(using: .utf8))
         
         // Act
         sut.searchUser(userID: "test") { response in
             // Assert
-            self.assertIsSuccessFalse(response)
+            self.assertIsSuccessFalseForResponse(response)
             XCTAssertEqual(response.errorMsg, "Resource not found")
             
             expect.fulfill()
@@ -120,15 +179,32 @@ class DaisyServiceTests: XCTestCase {
         waitForExpectations(timeout: 5, handler: nil)
     }
     
-    func testDaisyService_getRequest_WithResponseData_ReturnsUnauthorized() {
+    func testDaisyService_getLists_WithResponseData_ReturnsNotFound() {
+        // Arrange
+        let expect = expectation(description: "Should call daisy service search lists get request with error and no result when task return status 404")
+        _ = makeMockTask(endpoint: Endpoint.lists, statusCode: 404, data: "{}".data(using: .utf8))
+        
+        // Act
+        sut.searchLists { response in
+            // Assert
+            self.assertIsSuccessFalseForResponseArray(response)
+            XCTAssertEqual(response.errorMsg, "Resource not found")
+            
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5, handler: nil)
+    }
+    
+    func testDaisyService_getUser_WithResponseData_ReturnsUnauthorized() {
         // Arrange
         let expect = expectation(description: "Should call daisy service search user get request with unauthorized error and no result when task return status 401")
-        _ = makeMockRask(endpoint: Endpoint.user(id: "test"), statusCode: 401, data: "{}".data(using: .utf8))
+        _ = makeMockTask(endpoint: Endpoint.user(id: "test"), statusCode: 401, data: "{}".data(using: .utf8))
         
         // Act
         sut.searchUser(userID: "test") { response in
             // Assert
-            self.assertIsSuccessFalse(response)
+            self.assertIsSuccessFalseForResponse(response)
             XCTAssertEqual(response.errorMsg, "Unauthorized")
             
             expect.fulfill()
@@ -137,10 +213,27 @@ class DaisyServiceTests: XCTestCase {
         waitForExpectations(timeout: 5, handler: nil)
     }
     
-    func testAuthService_getRequest_WithResponseData_ReturnsANetworkError() {
+    func testDaisyService_getLists_WithResponseData_ReturnsUnauthorized() {
+        // Arrange
+        let expect = expectation(description: "Should call daisy service search lists get request with unauthorized error and no result when task return status 401")
+        _ = makeMockTask(endpoint: Endpoint.lists, statusCode: 401, data: "{}".data(using: .utf8))
+        
+        // Act
+        sut.searchLists { response in
+            // Assert
+            self.assertIsSuccessFalseForResponseArray(response)
+            XCTAssertEqual(response.errorMsg, "Unauthorized")
+            
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5, handler: nil)
+    }
+    
+    func testAuthService_getUser_WithResponseData_ReturnsANetworkError() {
         // Arrange
         let expect = expectation(description: "Should call daisy service getRequest with network error")
-        _ = makeMockRask(
+        _ = makeMockTask(
             endpoint: Endpoint.user(id: "test"),
             statusCode: 0,
             data: "{}".data(using: .utf8),
@@ -149,7 +242,7 @@ class DaisyServiceTests: XCTestCase {
         // Act
         sut.searchUser(userID: "test") { response in
             // Assert
-            self.assertIsSuccessFalse(response)
+            self.assertIsSuccessFalseForResponse(response)
                   
             expect.fulfill()
         }
@@ -157,30 +250,65 @@ class DaisyServiceTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
     
-    func testAuthService_getRequest_login_WithResponseData_ReturnsAUnknownError() {
+    func testAuthService_getLists_WithResponseData_ReturnsANetworkError() {
         // Arrange
-        let expect = expectation(description: "Should call daisy service getRequest with unknown error")
-
-        _ = makeMockRask(endpoint: Endpoint.user(id: "test"), statusCode: 0, data: "{}".data(using: .utf8))
-
+        let expect = expectation(description: "Should call daisy service getRequest with network error")
+        _ = makeMockTask(
+            endpoint: Endpoint.lists,
+            statusCode: 0,
+            data: "{}".data(using: .utf8),
+            error: APIError.networkError(reason: "A network error"))
+        
         // Act
-        sut.searchUser(userID: "test") { response in
+        sut.searchLists { response in
             // Assert
-            self.assertIsSuccessFalse(response)
-            XCTAssertEqual(response.errorMsg, "Unknown error")
+            self.assertIsSuccessFalseForResponseArray(response)
+                  
             expect.fulfill()
         }
-        
-     
         
         waitForExpectations(timeout: 1, handler: nil)
     }
     
-    func testDaisyService_getRequest_WithoutResponseData_ReturnsUnsuccessful() {
+    func testAuthService_getUser_WithResponseData_ReturnsAUnknownError() {
+        // Arrange
+        let expect = expectation(description: "Should call daisy service getRequest with unknown error")
+
+        _ = makeMockTask(endpoint: Endpoint.user(id: "test"), statusCode: 0, data: "{}".data(using: .utf8))
+
+        // Act
+        sut.searchUser(userID: "test") { response in
+            // Assert
+            self.assertIsSuccessFalseForResponse(response)
+            XCTAssertEqual(response.errorMsg, "Unknown error")
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testAuthService_getLists_WithResponseData_ReturnsAUnknownError() {
+        // Arrange
+        let expect = expectation(description: "Should call daisy service getRequest with unknown error")
+
+        _ = makeMockTask(endpoint: Endpoint.lists, statusCode: 0, data: "{}".data(using: .utf8))
+
+        // Act
+        sut.searchLists { response in
+            // Assert
+            self.assertIsSuccessFalseForResponseArray(response)
+            XCTAssertEqual(response.errorMsg, "Unknown error")
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testDaisyService_getUser_WithoutResponseData_ReturnsUnsuccessful() {
         // Arrange
         let expect = expectation(description: "Should call daisy service search get request without data with error and no result")
         
-        _ = makeMockRask(
+        _ = makeMockTask(
             endpoint: Endpoint.user(id: "test"),
             statusCode: 0,
             data: nil)
@@ -188,7 +316,28 @@ class DaisyServiceTests: XCTestCase {
         // Act
         sut.searchUser(userID: "test") { response in
             // Assert
-            self.assertIsSuccessFalse(response)
+            self.assertIsSuccessFalseForResponse(response)
+            XCTAssertEqual(response.errorMsg, "Unable to unwrap data")
+            
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5, handler: nil)
+    }
+    
+    func testDaisyService_getlists_WithoutResponseData_ReturnsUnsuccessful() {
+        // Arrange
+        let expect = expectation(description: "Should call daisy service search get request without data with error and no result")
+        
+        _ = makeMockTask(
+            endpoint: Endpoint.lists,
+            statusCode: 0,
+            data: nil)
+        
+        // Act
+        sut.searchLists { response in
+            // Assert
+            self.assertIsSuccessFalseForResponseArray(response)
             XCTAssertEqual(response.errorMsg, "Unable to unwrap data")
             
             expect.fulfill()

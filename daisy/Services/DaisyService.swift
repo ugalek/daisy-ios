@@ -116,7 +116,7 @@ final public class DaisyService {
         
         decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
         
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
+        session.dataTask(with: request) { (data, resp, error) in
             if let error = error {
                 let response = ResponseArray<T>(model: nil, isSuccess: false, errorMsg: error.localizedDescription)
                 completion(response)
@@ -129,15 +129,29 @@ final public class DaisyService {
                 return
             }
             
-            do {
-                let value: [T] = try self.decoder.decode([T].self, from: data)
-                DispatchQueue.main.async {
-                    let response = ResponseArray<T>(model: value, isSuccess: true, errorMsg: nil)
-                    completion(response)
+            if let httpResponse = resp as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    do {
+                        let value: [T] = try self.decoder.decode([T].self, from: data)
+                        DispatchQueue.main.async {
+                            let response = ResponseArray<T>(model: value, isSuccess: true, errorMsg: nil)
+                            completion(response)
+                        }
+                    } catch {
+                        let response = ResponseArray<T>(model: nil, isSuccess: false, errorMsg: error.localizedDescription)
+                        completion(response)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        if let message = APIError.processResponse(response: resp) {
+                            let response = ResponseArray<T>(model: nil, isSuccess: false, errorMsg: message)
+                            completion(response)
+                        } else {
+                            let response = ResponseArray<T>(model: nil, isSuccess: false, errorMsg: "Unknown error")
+                            completion(response)
+                        }
+                    }
                 }
-            } catch {
-                let response = ResponseArray<T>(model: nil, isSuccess: false, errorMsg: error.localizedDescription)
-                completion(response)
             }
         }.resume()
     }
@@ -305,7 +319,7 @@ extension DaisyService {
         patchRequest(type: User.self, endpoint: .user(id: userID), body: body, completion: completion)
     }
     
-    public func searchList(completion: @escaping (ResponseArray<UserList>) -> Void) {
+    public func searchLists(completion: @escaping (ResponseArray<UserList>) -> Void) {
         getRequestArray(type: UserList.self, endpoint: .lists, completion: completion)
     }
     
