@@ -162,6 +162,54 @@ class DaisyServiceTests: XCTestCase {
         waitForExpectations(timeout: 5, handler: nil)
     }
     
+    func testDaisyService_getItems_WithResponseData_ReturnsSuccessful() {
+        // Arrange
+        let expect = expectation(description: "Should call daisy service search items get request, response expectation")
+        let expectedData = """
+            [
+                {
+                    \"created_at\": \"2020-08-02T11:31:58.227224+02:00\",
+                    \"description\": \"Description\",
+                    \"id\": \"test_item\",
+                    \"image\": {
+                        \"content_type\": \"image/png\",
+                        \"created_at\": \"2020-08-02T11:31:58.217421+02:00\",
+                        \"extension\": \".png\",
+                        \"id\": \"test_image\",
+                        \"path\": \"upload/test_user/test_image.png\",
+                        \"size\": 496540,
+                        \"url\": \"http://localhost:3000/media/upload/test_user/test_image.png\",
+                        \"user_id\": \"test_user\"
+                    },
+                    \"image_id\": \"test_image\",
+                    \"list_id\": \"test_list\",
+                    \"price\": 25,
+                    \"status\": 1,
+                    \"title\": \"item\",
+                    \"updated_at\": \"2020-08-02T11:31:58.227224+02:00\",
+                    \"url\": \"http://test.com\"
+                }
+            ]
+        """.data(using: .utf8)
+        
+        _ = makeMockTask(endpoint: Endpoint.items(listID: "test_list"), statusCode: 200, data: expectedData)
+        
+        // Act
+        sut.searchItems(listID: "test_list") { response in
+            // Assert
+            self.assertIsSuccessTrueForResponseArray(response)
+            
+            XCTAssertEqual(response.model?[0].id, "test_item")
+            XCTAssertEqual(response.model?[0].description, "Description")
+            XCTAssertEqual(response.model?[0].listID, "test_list")
+            XCTAssertEqual(response.model?[0].image?.id, response.model?[0].imageID)
+            
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5, handler: nil)
+    }
+    
     func testDaisyService_getUser_WithResponseData_ReturnsNotFound() {
         // Arrange
         let expect = expectation(description: "Should call daisy service search user get request with error and no result when task return status 404")
