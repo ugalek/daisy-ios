@@ -128,17 +128,21 @@ class ItemsViewModel: ObservableObject {
             body.updateValue(image, forKey: "image_id")
         }
         
-        DaisyService.shared.postRequest(endpoint: .items(listID: listID), body: body)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in },
-                  receiveValue: {
-                    self.items.append($0)
-                  })
-            .store(in: &disposables)
+        DaisyService.shared.newItem(listID: listID, body: body) { response in
+            if response.isSuccess {
+                if let responseItem = response.model {
+                    self.items.append(responseItem)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.errorMessage = response.errorMsg ?? "Something is wrong"
+                }
+            }
+        }
     }
     
     func deleteItem(listID: String, at index: Int) {
-        DaisyService.shared.deleteRequest(endpoint: .item(listID: listID, id: items[index].id)) { result in
+        DaisyService.shared.deleteRequest(endpoint: .item(listID: listID, id: items[index].id)) { result, _  in
             if result {
                 if let oldImageID = self.items[index].imageID {
                     ImageViewModel().deleteImage(imageID: oldImageID)
@@ -149,7 +153,7 @@ class ItemsViewModel: ObservableObject {
     }
     
     func deleteItemByID(listID: String, itemID: String, imageID: String?) {
-        DaisyService.shared.deleteRequest(endpoint: .item(listID: listID, id: itemID)) { result in
+        DaisyService.shared.deleteRequest(endpoint: .item(listID: listID, id: itemID)) { result, _ in
             if result {
                 if let oldImageID = imageID {
                     ImageViewModel().deleteImage(imageID: oldImageID)

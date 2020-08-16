@@ -12,7 +12,7 @@ public enum APIError: Error, LocalizedError {
     case unknown
     case message(reason: String), parseError(reason: String), networkError(reason: String)
 
-    static func processResponse(response: URLResponse?) -> String? {
+    static func responseError(response: URLResponse?) -> String? {
         
         guard let httpResponse = response as? HTTPURLResponse else {
             return "We've encountered an unknown error. If problem persist then send us feedback."

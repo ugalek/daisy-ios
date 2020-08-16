@@ -31,6 +31,9 @@
 		053BB3BF24489C54008E16F2 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053BB3BE24489C54008E16F2 /* Auth.swift */; };
 		0540689924B23BD900598AB7 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0540689824B23BD900598AB7 /* Image.swift */; };
 		0544C771243CBADE004BD840 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544C770243CBADE004BD840 /* PageControl.swift */; };
+		054C598324E9962E00358F12 /* DaisyServiceUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054C598224E9962E00358F12 /* DaisyServiceUserTests.swift */; };
+		054C598524E996C500358F12 /* DaisyServiceListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054C598424E996C500358F12 /* DaisyServiceListTests.swift */; };
+		054C598724E9972900358F12 /* DaisyServiceItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054C598624E9972900358F12 /* DaisyServiceItemTests.swift */; };
 		054E9A352489881E0045A1D4 /* DaisyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E9A342489881E0045A1D4 /* DaisyService.swift */; };
 		055219D1249A85F3009ACC91 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055219D0249A85F3009ACC91 /* ListViewModel.swift */; };
 		055A10AB24C5DB3B0050FEFF /* ItemLargeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055A10AA24C5DB3B0050FEFF /* ItemLargeView.swift */; };
@@ -114,6 +117,9 @@
 		053BB3BE24489C54008E16F2 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		0540689824B23BD900598AB7 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		0544C770243CBADE004BD840 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
+		054C598224E9962E00358F12 /* DaisyServiceUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaisyServiceUserTests.swift; sourceTree = "<group>"; };
+		054C598424E996C500358F12 /* DaisyServiceListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaisyServiceListTests.swift; sourceTree = "<group>"; };
+		054C598624E9972900358F12 /* DaisyServiceItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaisyServiceItemTests.swift; sourceTree = "<group>"; };
 		054E9A342489881E0045A1D4 /* DaisyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaisyService.swift; sourceTree = "<group>"; };
 		055219D0249A85F3009ACC91 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		055A10AA24C5DB3B0050FEFF /* ItemLargeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemLargeView.swift; sourceTree = "<group>"; };
@@ -201,6 +207,9 @@
 			children = (
 				051B669324E01DF8001A47A0 /* AuthServiceTests.swift */,
 				056D671024E7E3970014DBA2 /* DaisyServiceTests.swift */,
+				054C598624E9972900358F12 /* DaisyServiceItemTests.swift */,
+				054C598224E9962E00358F12 /* DaisyServiceUserTests.swift */,
+				054C598424E996C500358F12 /* DaisyServiceListTests.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -592,8 +601,11 @@
 				05CCF68E24DC381F0059FD8E /* UserModelTests.swift in Sources */,
 				05CCF68C24DC081D0059FD8E /* ItemModelTests.swift in Sources */,
 				05CBB4DD24E436B3004198B9 /* MockURLSession.swift in Sources */,
+				054C598724E9972900358F12 /* DaisyServiceItemTests.swift in Sources */,
+				054C598524E996C500358F12 /* DaisyServiceListTests.swift in Sources */,
 				051B669424E01DF8001A47A0 /* AuthServiceTests.swift in Sources */,
 				056D671124E7E3970014DBA2 /* DaisyServiceTests.swift in Sources */,
+				054C598324E9962E00358F12 /* DaisyServiceUserTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

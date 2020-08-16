@@ -75,7 +75,7 @@ class HttpAuth: ObservableObject {
                         }
                     } else {
                         DispatchQueue.main.async {
-                            if let message = APIError.processResponse(response: response) {
+                            if let message = APIError.responseError(response: response) {
                                 completion(nil, APIError.message(reason: message))
                                 self.errorMessage = message
                             } else {
