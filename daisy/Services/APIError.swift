@@ -12,25 +12,27 @@ public enum APIError: Error, LocalizedError {
     case unknown
     case message(reason: String), parseError(reason: String), networkError(reason: String)
 
-    static func processResponse(data: Data, response: URLResponse) throws -> Data {
+    static func responseError(response: URLResponse?) -> String? {
+        
         guard let httpResponse = response as? HTTPURLResponse else {
-            throw APIError.unknown
+            return "We've encountered an unknown error. If problem persist then send us feedback."
         }
         if (httpResponse.statusCode == 401) {
-            throw APIError.message(reason: "Unauthorized");
+            return "Unauthorized"
         }
         if (httpResponse.statusCode == 403) {
-            throw APIError.message(reason: "Resource forbidden");
+            return "Resource forbidden"
         }
         if (httpResponse.statusCode == 404) {
-            throw APIError.message(reason: "Resource not found");
+            return "Resource not found"
         }
         if (405..<500 ~= httpResponse.statusCode) {
-            throw APIError.message(reason: "Client error");
+            return "Client error"
         }
         if (500..<600 ~= httpResponse.statusCode) {
-            throw APIError.message(reason: "server error");
+            return "Server error"
         }
-        return data
+        
+        return nil
     }
 }

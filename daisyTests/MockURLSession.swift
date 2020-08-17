@@ -9,12 +9,20 @@
 import XCTest
 @testable import daisy
 
+//References:
+//  --: https://www.hackingwithswift.com/articles/153/how-to-test-ios-networking-code-the-easy-way
 class MockURLProtocol: URLProtocol {
-    
-    static var stubResponseData: Data?
+    // this dictionary maps URLs to test data
+    static var testURLs = [URL?: Data]()
+    static var response: URLResponse?
     static var error: Error?
     
+    // say we want to handle all types of request
     override class func canInit(with request: URLRequest) -> Bool {
+        return true
+    }
+    
+    override class func canInit(with task: URLSessionTask) -> Bool {
         return true
     }
     
@@ -23,15 +31,34 @@ class MockURLProtocol: URLProtocol {
     }
     
     override func startLoading() {
-        if let signupError = MockURLProtocol.error {
-            self.client?.urlProtocol(self, didFailWithError: signupError)
-        } else {
-            self.client?.urlProtocol(self, didLoad: MockURLProtocol.stubResponseData ?? Data())
+        // if we have a valid URL…
+        if let url = request.url {
+            // …and if we have test data for that URL…
+            if let data = MockURLProtocol.testURLs[url] {
+                // …load it immediately.
+                self.client?.urlProtocol(self, didLoad: data)
+            }
         }
+        
+        // …and we return our response if defined…
+        if let response = MockURLProtocol.response {
+            self.client?.urlProtocol(self,
+                                     didReceive: response,
+                                     cacheStoragePolicy: .notAllowed)
+        }
+        
+        // …and we return our error if defined…
+        if let error = MockURLProtocol.error {
+            self.client?.urlProtocol(self, didFailWithError: error)
+        }
+        // mark that we've finished
         self.client?.urlProtocolDidFinishLoading(self)
     }
     
-    override func stopLoading() { }
+    // this method is required but doesn't need to do anything
+    override func stopLoading() {
+        
+    }
 }
 
 class MockURLSession: URLSession {

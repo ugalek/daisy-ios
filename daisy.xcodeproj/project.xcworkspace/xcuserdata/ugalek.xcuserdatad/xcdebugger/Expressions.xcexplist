@@ -33,6 +33,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #1 in DaisyService.getRequest&lt;A&gt;(type:endpoint:completion:):DaisyService.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "httpResponse.statusCode">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #3 in static DaisyService.getRequest&lt;A&gt;(endpoint:):DaisyService.swift">
       </ContextState>
       <ContextState
@@ -113,6 +121,17 @@
          contextName = "closure #1 in static DaisyService.getRequest&lt;A&gt;(endpoint:):DaisyService.swift">
       </ContextState>
       <ContextState
+         contextName = "closure #1 in closure #1 in ItemEdit.itemForm.getter:ItemEdit.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.itemFields">
+            </PersistentString>
+            <PersistentString
+               value = "$itemFields.title">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "getGridItemData(items:):Data.swift">
          <PersistentStrings>
             <PersistentString
@@ -129,29 +148,21 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in closure #1 in ItemEdit.itemForm.getter:ItemEdit.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.itemFields">
-            </PersistentString>
-            <PersistentString
-               value = "$itemFields.title">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "UserListDetailViewModel.saveItems():UserListDetailViewModel.swift">
          <PersistentStrings>
             <PersistentString
                value = "list.id">
             </PersistentString>
             <PersistentString
-               value = "NetworkManager.shared.$publicItems.count()">
-            </PersistentString>
-            <PersistentString
                value = "self.items">
             </PersistentString>
+            <PersistentString
+               value = "NetworkManager.shared.$publicItems.count()">
+            </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in DaisyServiceTests.testDaisyService_searchUserGetRequest_WithResponseData_ReturnsSuccessful():DaisyServiceTests.swift">
       </ContextState>
       <ContextState
          contextName = "closure #1 in ItemEdit.addItem(withImage:):ItemEdit.swift">
@@ -173,6 +184,9 @@
          contextName = "ListViewModel.fetchData():ListViewModel.swift">
       </ContextState>
       <ContextState
+         contextName = "DaisyService.getRequest&lt;A&gt;(type:endpoint:completion:):DaisyService.swift">
+      </ContextState>
+      <ContextState
          contextName = "ItemsViewModel.fetchData():ItemsViewModel.swift">
          <PersistentStrings>
             <PersistentString
@@ -181,33 +195,6 @@
             <PersistentString
                value = "response">
             </PersistentString>
-            <PersistentString
-               value = "self.items">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in closure #1 in closure #1 in ItemDetail.body.getter:ItemDetail.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "item">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "Alert.init(nsError:):DaisyService.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "nsError.localizedDescription">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in NetworkManager.updateItemsFromDB(urlString:):NetworkManager.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #3 in ItemsViewModel.init(list:):ItemsViewModel.swift">
-         <PersistentStrings>
             <PersistentString
                value = "self.items">
             </PersistentString>
@@ -228,13 +215,40 @@
          contextName = "closure #3 in ItemEdit.body.getter:ItemEdit.swift">
       </ContextState>
       <ContextState
-         contextName = "closure #1 in DaisyService.patchRequest&lt;A&gt;(type:endpoint:body:completion:):DaisyService.swift">
+         contextName = "closure #1 in NetworkManager.updateItemsFromDB(urlString:):NetworkManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in ItemDetail.body.getter:ItemDetail.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "item">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "closure #1 in ItemEdit.itemForm.getter:ItemEdit.swift">
          <PersistentStrings>
             <PersistentString
                value = "$itemFields.title">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Alert.init(nsError:):DaisyService.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "nsError.localizedDescription">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in DaisyService.patchRequest&lt;A&gt;(type:endpoint:body:completion:):DaisyService.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #3 in ItemsViewModel.init(list:):ItemsViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.items">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

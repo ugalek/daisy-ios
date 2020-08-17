@@ -64,6 +64,6 @@ class UserViewModel: ObservableObject {
     }
     
     func deleteUser(userID: String) {
-        DaisyService.shared.deleteRequest(endpoint: .user(id: userID)) { _ in }
+        DaisyService.shared.deleteRequest(endpoint: .user(id: userID)) { _,_  in }
     }
 }

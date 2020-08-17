@@ -73,26 +73,18 @@ class HttpAuth: ObservableObject {
                                 self.showAlert = true
                             }
                         }
-                    } else if httpResponse.statusCode == 404 {
-                        DispatchQueue.main.async {
-                            completion(nil, APIError.message(reason: "Not found"))
-                            self.errorMessage = "Not found"
-                            self.showAlert = true
-                        }
-                    } else if httpResponse.statusCode == 401 {
-                        DispatchQueue.main.async {
-                            completion(nil, APIError.message(reason: "Unauthorized. Please verify your email and password"))
-                            self.errorMessage = "Unauthorized. Please verify your email and password"
-                            self.showAlert = true
-                        }
                     } else {
                         DispatchQueue.main.async {
-                            completion(nil, APIError.unknown)
-                            self.errorMessage = "Unknown error."
+                            if let message = APIError.responseError(response: response) {
+                                completion(nil, APIError.message(reason: message))
+                                self.errorMessage = message
+                            } else {
+                                completion(nil, APIError.unknown)
+                                self.errorMessage = "Unknown error."
+                            }
                             self.showAlert = true
                         }
                     }
-                    
                 }
             }.resume()
             

@@ -35,7 +35,7 @@ class ListViewModel: ObservableObject {
     }
     
     private func fetchData() {
-        DaisyService.shared.searchList { response in
+        DaisyService.shared.searchLists { response in
             if response.isSuccess {
                 if let responseLists = response.model {
                     self.lists = responseLists
@@ -52,7 +52,6 @@ class ListViewModel: ObservableObject {
     
     func addList(title: String, imageID: String?, surprise: Bool) {
         var body: [String: Any?] = [
-        //    "user_id": "1",
             "title": title,
             "surprise": surprise,
             "image_id": nil
@@ -62,13 +61,17 @@ class ListViewModel: ObservableObject {
             body.updateValue(image, forKey: "image_id")
         }
         
-        DaisyService.shared.postRequest(endpoint: .lists, body: body)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in },
-                  receiveValue: {
-                    self.lists.append($0)
-                })
-            .store(in: &disposables)
+        DaisyService.shared.newList(body: body) { response in
+            if response.isSuccess {
+                if let responseList = response.model {
+                    self.lists.append(responseList)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.errorMessage = response.errorMsg ?? "Something is wrong"
+                }
+            }
+        }
     }
     
     func editList(oldList: UserList, title: String, imageID: String?, surprise: Bool, completion: @escaping(Bool) -> ()) {
@@ -106,7 +109,7 @@ class ListViewModel: ObservableObject {
     }
     
     func deleteList(at index: Int) {
-        DaisyService.shared.deleteRequest(endpoint: .list(id: lists[index].id)) { result in
+        DaisyService.shared.deleteRequest(endpoint: .list(id: lists[index].id)) { result, _ in
             if result {
                 self.lists.remove(at: index)
             }
