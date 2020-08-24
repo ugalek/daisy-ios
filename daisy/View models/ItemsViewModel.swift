@@ -79,14 +79,14 @@ class ItemsViewModel: ObservableObject {
         }
     }
     
-    func editItem(oldItem: Item, listID: String, title: String, imageID: String?, url: String, price: Float64, description: String, completion: @escaping(Bool) -> ()) {
+    func editItem(oldItem: Item, listID: String, title: String, imageID: String?, url: String, price: Float64, description: String, status: uint, completion: @escaping(Bool) -> ()) {
         var body: [String: Any?] = [
             "title": title,
             "image_id": nil,
             "url": url,
             "price": price,
             "description": description,
-            "status": 1]
+            "status": status]
         
         if let image = imageID {
             body.updateValue(image, forKey: "image_id")

@@ -38,12 +38,12 @@ struct ConnectionView: View {
             ZStack {
                 Color.dBackground.edgesIgnoringSafeArea(.all)
                 VStack {
-                    welcomeView()
+                    Text("Welcome!")
+                        .font(.largeTitle)
+                        .fontWeight(.semibold)
+                        .padding(.bottom, 20)
+                    
                     loginForm()
-                    Divider()
-                    Text("or use access to list of items")
-                        .font(.caption)
-                    magicAccess()
                     Spacer()
                     ApiLinkText
                 }
@@ -57,25 +57,11 @@ struct ConnectionView: View {
     }
 }
 
-struct welcomeView: View {
-    var body: some View {
-        VStack {
-            Text("Welcome!")
-                .font(.largeTitle)
-                .fontWeight(.semibold)
-                .padding(.bottom, 20)
-//            ImageCircle(image: Image("turtlerock"))
-//                .frame(width: 150, height: 150)
-//                .padding(.bottom, 20)
-        }
-    }
-}
-
 struct loginForm: View, Alerting {
     @EnvironmentObject var authManager: HttpAuth
     
-    @State private var email: String = "admin@example.com"
-    @State private var password: String = "admin"
+    @State private var email: String = ""
+    @State private var password: String = ""
     
     var body: some View {
         VStack {
@@ -116,33 +102,6 @@ struct loginForm: View, Alerting {
         .alert(isPresented: $authManager.showAlert, content: {
             errorAlert(message: authManager.errorMessage)
         })
-    }
-}
-
-struct magicAccess: View {
-    
-    @State private var accessLink: String = ""
-    
-    var body: some View {
-        VStack {
-            FormatedTextField(
-                placeholder: "Your access link",
-                iconName: "wand.and.stars.inverse",
-                text: $accessLink)
-                      
-            Button(action: {
-                print("magic link")
-            }
-            ) {
-                Text("Start")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(width: 180, height: 40)
-                    .background(Color.dSecondaryButton)
-                    .cornerRadius(15.0)
-            }
-        }
     }
 }
 

@@ -64,7 +64,6 @@ class HttpAuth: ObservableObject {
                                 completion(finalData.user_id, nil)
                                 UserDefaults.standard.set(finalData.token, forKey: "token")
                                 UserDefaults.standard.set(finalData.user_id, forKey: "userID")
-                                print(finalData.token)
                             }
                         } catch {
                             DispatchQueue.main.async {

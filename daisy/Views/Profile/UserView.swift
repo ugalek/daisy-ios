@@ -12,7 +12,6 @@ struct UserView: View {
     @EnvironmentObject var authManager: HttpAuth
     @EnvironmentObject var userViewModel: UserViewModel
     
-//    var curentUser = staticUser
     var curentUser: User {
         get { return userViewModel.user }
     }
@@ -83,8 +82,8 @@ struct UserView: View {
 struct UserView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-//            UserView()
-//                .environment(\.colorScheme, .dark)
+            UserView()
+                .environment(\.colorScheme, .dark)
             UserView()
                 .environment(\.colorScheme, .light)
         }

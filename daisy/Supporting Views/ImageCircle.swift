@@ -69,14 +69,6 @@ struct ImageCircle: View {
                 }.foregroundColor(.dSecondaryBackground)
             }
         }
-        
-//            image
-//                .resizable()
-//                .clipShape(Circle())
-//                .overlay(
-//                    Circle().stroke(Color("dDarkBlueColor"), lineWidth: 2))
-//                .shadow(radius: 10)
-//                .aspectRatio(contentMode: .fit)
     }
 }
 

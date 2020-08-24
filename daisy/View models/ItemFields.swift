@@ -24,7 +24,7 @@ class ItemFields: ObservableObject, Codable {
     }
     var image: Image? = nil { didSet { update() } }
     
-    var url: String = "http://ugalek.com" { didSet { update() } }
+    var url: String = "" { didSet { update() } }
     var price: String = "" {
         didSet {
             if let value = price.double {
@@ -37,7 +37,7 @@ class ItemFields: ObservableObject, Codable {
             update()
         }
     }
-    var description: String = "Description  dshjhgf sdgf hdgs sjhfdg sdhf jhsdg fhj gsdhfg hsdg fhdgsfhdshfg hdsgf  dgsfhgsdf" { didSet { update() } }
+    var description: String = "" { didSet { update() } }
     var titleIsValid: Bool = true { didSet { update() } }
     
     var isValid: Bool {

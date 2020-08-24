@@ -8,17 +8,6 @@
 
 import SwiftUI
 
-//{
-//    "content_type": "image/png",
-//    "created_at": "2020-07-13T20:44:47.876968+02:00",
-//    "extension": ".png",
-//    "id": "01ED4QWT44XDX9KR14RKBBYX2M",
-//    "path": "upload/1/01ED4QWT44XDX9KR14RKBBYX2M.png",
-//    "size": 312400,
-//    "url": "http://localhost:3000/upload/1/01ED4QWT44XDX9KR14RKBBYX2M.png",
-//    "user_id": "1"
-//}
-
 struct ImageResponse: Codable, Hashable {
     enum CodingKeys: String, CodingKey {
         // Map the JSON keys to the Swift property names

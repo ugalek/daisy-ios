@@ -146,7 +146,7 @@ struct ItemEdit: View, Alerting {
             ImagePicker(image: self.$inputImage)
         }
         .onAppear {
-            //Move view whn keyboard is active
+            //Move view when keyboard is active
             NotificationCenter.default.addObserver(
                 forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti) in
                 let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
@@ -196,7 +196,8 @@ struct ItemEdit: View, Alerting {
                 imageID: withImage ? self.imageID : item?.imageID,
                 url: self.itemFields.url,
                 price: Double(self.itemFields.price) ?? 0,
-                description: self.itemFields.description) { result in
+                description: self.itemFields.description,
+                status: item?.status ?? 1) { result in
                 self.showAlert = result
                 self.showAddItem = result
             }
@@ -230,13 +231,13 @@ struct ItemEdit_Previews: PreviewProvider {
                 editMode: false)
             .environment(\.colorScheme, .light)
             
-//            ItemEdit(
-//                itemViewModel: ItemsViewModel(list: staticList),
-//                showAddItem: .constant(false),
-//                list: staticList,
-//                item: staticItem,
-//                editMode: false)
-//            .environment(\.colorScheme, .light)
+            ItemEdit(
+                itemViewModel: ItemsViewModel(list: staticList),
+                showAddItem: .constant(false),
+                list: staticList,
+                item: staticItem,
+                editMode: false)
+            .environment(\.colorScheme, .light)
         }
         
     }

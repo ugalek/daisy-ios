@@ -42,7 +42,6 @@ struct ListView: View {
         }
     }
     
-//    var currentLists: [UserList] = [staticList]
     var currentLists: [UserList] {
         get {
             if !listViewModel.searchText.isEmpty {
@@ -95,9 +94,9 @@ struct ListView: View {
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-//            ListView()
-//                .environmentObject(HttpAuth())
-//                .environment(\.colorScheme, .dark)
+            ListView()
+                .environmentObject(HttpAuth())
+                .environment(\.colorScheme, .dark)
             ListView()
                 .environmentObject(HttpAuth())
                 .environment(\.colorScheme, .light)

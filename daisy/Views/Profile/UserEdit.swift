@@ -159,7 +159,7 @@ struct UserEdit: View, Alerting {
             ImagePicker(image: self.$inputImage)
         }
         .onAppear {
-            //Move view whn keyboard is active
+            //Move view when keyboard is active
             NotificationCenter.default.addObserver(
                 forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti) in
                 let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect

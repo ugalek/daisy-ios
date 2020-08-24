@@ -39,26 +39,8 @@ public enum Endpoint {
     }
 }
 
-protocol APIDataTaskPublisher {
-    func dataTaskPublisher(for request: URLRequest) -> URLSession.DataTaskPublisher
-}
-
-class APISessionDataPublisher: APIDataTaskPublisher {
-    
-    func dataTaskPublisher(for request: URLRequest) -> URLSession.DataTaskPublisher {
-        return session.dataTaskPublisher(for: request)
-    }
-    
-    var session: URLSession
-    
-    init(session: URLSession = URLSession.shared) {
-        self.session = session
-    }
-}
-
 final public class DaisyService {
     public static let shared: DaisyService = DaisyService()
-    static var publisher: APIDataTaskPublisher = APISessionDataPublisher()
     
     let mainWidth = UIScreen.main.bounds.size.width
     let mainHeight = UIScreen.main.bounds.size.height
@@ -69,7 +51,7 @@ final public class DaisyService {
     
     private let decoder = JSONDecoder()
     private let session: URLSession
-    
+
     init(session: URLSession = URLSession.shared) {
         self.session = session
     }
@@ -216,15 +198,12 @@ final public class DaisyService {
         let request = setPostHeaders(endpoint, httpMethod: "PATCH", body: body)
         
         session.dataTask(with: request) { (data, resp, error) in
-            self.processResponse(data, resp, error, statusCode: 201, completion: completion)
+            self.processResponse(data, resp, error, statusCode: 200, completion: completion)
         }.resume()
     }
     
-    internal static func uploadImageDTP(image: UIImage) -> URLSession.DataTaskPublisher {
-        let apiUrl = URL(string: UserDefaults.standard.string(forKey: "apiLink") ?? "/")!
-        let token: String = UserDefaults.standard.string(forKey: "token") ?? ""
-        
-        let component = URLComponents(url: apiUrl.appendingPathComponent(Endpoint.images.path()),
+    func uploadImageRequest(endpoint: Endpoint, image: UIImage) -> AnyPublisher<ImageResponse, APIError> {
+        let component = URLComponents(url: apiUrl.appendingPathComponent(endpoint.path()),
                                       resolvingAgainstBaseURL: false)!
         
         let targetSize = CGSize(width: 100, height: 100)
@@ -242,19 +221,18 @@ final public class DaisyService {
         body.append(Data("Content-Disposition: form-data; name=\"file\"; filename=\"image.png\"\r\n".utf8))
         body.append(Data("Content-Type: image/png\r\n".utf8))
         body.append(Data("\r\n".utf8))
-        body.append(scaledImage.pngData()!)
+        if let pngData = scaledImage.pngData() {
+            body.append(pngData)
+        }
+        
         body.append(Data("\r\n".utf8))
         body.append(Data("--\(boundaryID)--".utf8))
         
         request.httpBody = body
         
-        return publisher.dataTaskPublisher(for: request)
-    }
-    
-    static func uploadImage(image: UIImage) -> AnyPublisher<ImageResponse, APIError> {
-        return uploadImageDTP(image: image)
+        return session.dataTaskPublisher(for: request)
             .map { $0.data } // Extract the Data object from response.
-            .decode(type: ImageResponse.self, decoder: JSONDecoder()) // Decode Data to a model object using JSONDecoder
+            .decode(type: ImageResponse.self, decoder: self.decoder) // Decode Data to a model object using JSONDecoder
             .mapError{ APIError.parseError(reason: $0.localizedDescription) }
             .eraseToAnyPublisher()
     }

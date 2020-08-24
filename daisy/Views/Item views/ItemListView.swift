@@ -35,9 +35,6 @@ struct ItemListView: View {
         }
     }
 
-//    var currentItems: [Item] = [staticItem,
-//                                staticTakenItem,
-//                                staticReservedItem]
     var currentItems: [Item] {
         get {
             if !itemViewModel.searchText.isEmpty {
@@ -203,10 +200,6 @@ extension ItemListView {
 struct ItemListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-//            NavigationView {
-//                ItemListView(itemViewModel: ItemsViewModel(list: staticList), list: staticList)
-//            }
-//            .environment(\.colorScheme, .dark)
             NavigationView {
                 ItemListView(listViewModel: ListViewModel(), itemViewModel: ItemsViewModel(list: staticList), list: staticList)
             }

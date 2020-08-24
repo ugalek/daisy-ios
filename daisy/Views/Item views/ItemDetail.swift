@@ -11,35 +11,25 @@ import SwiftUI
 struct ItemDetail: View {
     @EnvironmentObject var itemViewModel: ItemsViewModel
     @Binding var isPresented: Bool
+    @State var reserve = false
+    @State var take = false
     
     let list: UserList
     var item: Item
     
     private var reserveButton: some View {
-        Button(action: {
-            print("reserve")
-        }) {
-            HStack{
-                Text("Reserve")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .background(Color.dSecondaryButton)
-                    .cornerRadius(15.0)
-            }
+        Button(action: { reserveItem() }) {
+            Image(systemName: "hourglass")
+                .foregroundColor(.dDarkBlueColor)
+            Text("Reserve")
         }
     }
     
     private var takeButton: some View {
-        Button(action: {
-            print("taken")
-        }) {
-            HStack{
-                Text("Take it!")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .background(Color.dPrimaryButton)
-                    .cornerRadius(15.0)
-            }
+        Button(action: { takeItem() }) {
+            Image(systemName: "cart.badge.plus")
+                .foregroundColor(.dDarkBlueColor)
+            Text("Buy")
         }
     }
     
@@ -108,17 +98,11 @@ struct ItemDetail: View {
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
                 HStack(spacing: 2) {
-                    Button(action: { print("reserve") }) {
-                        Image(systemName: "hourglass")
-                            .foregroundColor(.dDarkBlueColor)
-                        Text("Reserve")
-                    }
+                    reserveButton
+                        .disabled(reserve)
                     Spacer()
-                    Button(action: { print("Take it") }) {
-                        Image(systemName: "cart.badge.plus")
-                            .foregroundColor(.dDarkBlueColor)
-                        Text("Buy")
-                    }
+                    takeButton
+                        .disabled(take)
                 }
                 .foregroundColor(.dDarkBlueColor)
             }
@@ -141,6 +125,34 @@ struct ItemDetail: View {
         .modifier(DismissingKeyboardOnSwipe())
     }
     
+    func reserveItem() {
+        self.itemViewModel.editItem(
+            oldItem: item,
+            listID: self.list.id,
+            title: item.title,
+            imageID: item.imageID,
+            url: item.url ?? "",
+            price: Double(item.price ?? 0),
+            description: item.description ?? "",
+            status: 2) { result in
+            self.reserve = result
+        }
+    }
+    
+    func takeItem() {
+        self.itemViewModel.editItem(
+            oldItem: item,
+            listID: self.list.id,
+            title: item.title,
+            imageID: item.imageID,
+            url: item.url ?? "",
+            price: Double(item.price ?? 0),
+            description: item.description ?? "",
+            status: 3) { result in
+            self.take = result
+        }
+    }
+    
     func deleteItem() {
         itemViewModel.deleteItemByID(
             listID: list.id,
@@ -158,11 +170,6 @@ struct ItemDetail_Previews: PreviewProvider {
                 ItemDetail(isPresented: .constant(true), list: staticList, item: staticTakenItem)
             }
             .environment(\.colorScheme, .light)
-            
-//            NavigationView {
-//                ItemDetail(list: staticList, item: staticTakenItem)
-//            }
-//            .environment(\.colorScheme, .dark)
         }
     }
 }
